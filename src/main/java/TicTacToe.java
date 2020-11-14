@@ -12,7 +12,7 @@ public class TicTacToe {
     * 2 - O
     * */
 
-    private byte[][] board = new byte[3][3];
+    public byte[][] board = new byte[3][3];
 
     private Point[] winningPositions = new Point[3];
 

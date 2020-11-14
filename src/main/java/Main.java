@@ -51,12 +51,18 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         TicTacToe game = new TicTacToe();
+        TicTacToeLogic logic = new TicTacToeLogic(game, 1);
+
+//        game.put(1, new Point(1,2));
+
+        logic.minmax(game.board, (byte) 2);
 
 
         int oTurn = 1;
-        boolean play_game = true;
+        boolean play_game = false;
 
         while (play_game){
+            /*
             int x,y;
             do {
                 if (oTurn == 0)
@@ -64,12 +70,12 @@ public class Main {
                 else
                     System.out.println("O Moves");
 
-                x = scanner.nextInt();
-                y = scanner.nextInt();
+//                x = scanner.nextInt();
+//                y = scanner.nextInt();
             }
             while( !game.checkIfFree( new Point(x, y)) );
-
-            game.put(++oTurn, new Point(x, y));
+            */
+            game.put(++oTurn, logic.random());
 
             game.printBoard();
 
@@ -79,7 +85,6 @@ public class Main {
             System.out.println("win="+ a + " tie=" + b + " play_game="+ play_game);
 
             oTurn%=2;
-            System.out.println(oTurn);
         }
         System.out.println(Arrays.toString(game.getWinningPositions()));
         System.out.println(game.getWinnerId());
