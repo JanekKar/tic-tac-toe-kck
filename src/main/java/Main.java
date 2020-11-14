@@ -8,8 +8,11 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import java.awt.*;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Main {
 
@@ -45,20 +48,43 @@ public class Main {
 //        screen.readInput();
 //        screen.startScreen();
 
+        Scanner scanner = new Scanner(System.in);
 
         TicTacToe game = new TicTacToe();
 
-        try {
-            game.put('x', 1,1 );
-            game.put('O', 2,1 );
-            game.put('X', 0,1 );
-            game.put('0', 1,2 );
-        } catch (TicTacToe.WrongCharException e) {
-            System.out.println(e.getMessage());
-        }
-        game.printBoard();
 
+        int oTurn = 1;
+        boolean play_game = true;
+
+        while (play_game){
+            int x,y;
+            do {
+                if (oTurn == 0)
+                    System.out.println("X Moves");
+                else
+                    System.out.println("O Moves");
+
+                x = scanner.nextInt();
+                y = scanner.nextInt();
+            }
+            while( !game.checkIfFree( new Point(x, y)) );
+
+            game.put(++oTurn, new Point(x, y));
+
+            game.printBoard();
+
+            boolean a = game.checkForWin() , b = game.checkForTie();
+
+            play_game = !(a || b);
+            System.out.println("win="+ a + " tie=" + b + " play_game="+ play_game);
+
+            oTurn%=2;
+            System.out.println(oTurn);
+        }
+        System.out.println(Arrays.toString(game.getWinningPositions()));
+        System.out.println(game.getWinnerId());
     }
+
 
 
 }
