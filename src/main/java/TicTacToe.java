@@ -45,11 +45,29 @@ public class TicTacToe {
             }
             System.out.println();
         }
+        System.out.println();
     }
+
+    public void printBoard(byte[][] board){
+        for(byte[] row: board){
+            for (byte cell: row) {
+                if (cell == 1) {
+                    System.out.print("X");
+                } else if (cell == 2) {
+                    System.out.print("O");
+                } else {
+                    System.out.print("_");
+                }
+            }
+            System.out.println();
+        }
+    }
+
 
     public void put(int playerId, Point point){
 
         this.board[point.x][point.y] = (byte)playerId;
+        num_of_available_moves--;
 
 //        if (isInRange(point)){
 //            c = Character.toLowerCase(c);
@@ -76,22 +94,22 @@ public class TicTacToe {
     }
 
     private boolean isInRange(Point point){
-        if (point.x >=0 && point.y <= 2)
+        if (point.x >=0 && point.x <= 2 && point.y >=0 && point.y<=2)
             return true;
         return false;
     }
 
-    public boolean checkForWin(){
+
+    // Return 0 - game on, -1 - tie, 1 - player 1 won, 2 - player 2 won;
+    public int checkForWin(){
+        printBoard();
         for (int i =0; i<board.length; i++){
             if(board[i][0]==board[i][1] && board[i][1]==board[i][2] && board[i][0] != 0){
                 winningPositions[0] = new Point(i,0);
                 winningPositions[1] = new Point(i,1);
                 winningPositions[2] = new Point(i,2);
 
-                winnerId = board[i][0];
-
-                System.out.println(board[i][0] + " won!");
-                return true;
+                return board[i][0];
 
             }
             if(board[0][i]==board[1][i] && board[1][i]==board[2][i] && board[0][i] != 0) {
@@ -99,10 +117,7 @@ public class TicTacToe {
                 winningPositions[1] = new Point(1,i);
                 winningPositions[2] = new Point(2,i);
 
-                winnerId = board[0][i];
-
-                System.out.println(board[0][i] + " won!");
-                return true;
+                return board[0][i];
             }
         }
         if(board[0][0]==board[1][1] && board[1][1]==board[2][2] && board[0][0] != 0){
@@ -110,10 +125,7 @@ public class TicTacToe {
             winningPositions[1] = new Point(1,1);
             winningPositions[2] = new Point(2,2);
 
-            winnerId = board[0][0];
-
-            System.out.println(board[0][0] + " won!");
-            return true;
+            return board[0][0];
         }
 
         if(board[0][2]==board[1][1] && board[1][1]==board[2][0] && board[2][0] != 0){
@@ -121,22 +133,13 @@ public class TicTacToe {
             winningPositions[1] = new Point(1,1);
             winningPositions[2] = new Point(0,2);
 
-            winnerId = board[0][2];
-
-            System.out.println(board[0][2] + " won!");
-            return true;
+            return  board[0][2];
         }
-        return false;
-    }
-
-    public boolean checkForTie(){
         if (num_of_available_moves == 0)
-            return true;
+            return -1;
         else
-            return false;
-
+            return 0;
     }
-
     public Point[] getWinningPositions() {
         return winningPositions;
     }

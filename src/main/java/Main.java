@@ -51,45 +51,80 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
 
         TicTacToe game = new TicTacToe();
-        TicTacToeLogic logic = new TicTacToeLogic(game, 1);
+        TicTacToeLogic logic = new TicTacToeLogic(game);
 
 //        game.put(1, new Point(1,2));
 
-        logic.minmax(game.board, (byte) 2);
 
 
-        int oTurn = 1;
-        boolean play_game = false;
+        boolean play_game = true;
 
         while (play_game){
-            /*
+
             int x,y;
             do {
-                if (oTurn == 0)
-                    System.out.println("X Moves");
-                else
-                    System.out.println("O Moves");
+                System.out.println("O Moves");
 
-//                x = scanner.nextInt();
-//                y = scanner.nextInt();
+                x = scanner.nextInt();
+                y = scanner.nextInt();
             }
             while( !game.checkIfFree( new Point(x, y)) );
-            */
-            game.put(++oTurn, logic.random());
 
+            game.put(2, new Point(x,y));
+            game.printBoard();
+            int i = game.checkForWin();
+            System.out.println(i);
+            switch(i){
+                case 0:
+                    break;
+                case -1:
+                    play_game = false;
+                    break;
+                case 1:
+                    System.out.println("Player 1 won");
+                    play_game = false;
+                    break;
+
+                case 2:
+                    System.out.println("Player 2 won");
+                    play_game = false;
+                    break;
+
+
+            }
+
+//            game.put(++oTurn, logic1.random());
+
+            System.out.println("X Moves");
+            game.put(1, logic.bestMove(game.board));
             game.printBoard();
 
-            boolean a = game.checkForWin() , b = game.checkForTie();
 
-            play_game = !(a || b);
-            System.out.println("win="+ a + " tie=" + b + " play_game="+ play_game);
+            i = game.checkForWin();
+            System.out.println(i);
+            switch(i){
+                case 0:
+                    break;
+                case -1:
+                    play_game = false;
+                    break;
+                case 1:
+                    System.out.println("Player 1 won");
+                    play_game = false;
+                    break;
 
-            oTurn%=2;
+                case 2:
+                    System.out.println("Player 2 won");
+                    play_game = false;
+                    break;
+
+
+            }
         }
         System.out.println(Arrays.toString(game.getWinningPositions()));
         System.out.println(game.getWinnerId());
-    }
 
+    }
 
 
 }

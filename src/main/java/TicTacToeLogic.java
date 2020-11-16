@@ -8,11 +8,12 @@ public class TicTacToeLogic {
     //player_1 =
 
     byte blank = 0;
-    int ai_id;
+    byte ai_id = 1;
+    byte player_id = 2;
 
-    public TicTacToeLogic(TicTacToe game, int players_id){
+
+    public TicTacToeLogic(TicTacToe game){
         this.game = game;
-        this.ai_id = players_id;
     }
 
     public Point random(){
@@ -24,56 +25,67 @@ public class TicTacToeLogic {
     }
 
 
-    public int minmax(byte[][] board, byte player){
-        return this.minmax(board, player, true);
-    }
 
-    public int minmax(byte[][] board, byte player, boolean maximize){
-        if (game.checkForWin()){
-            if (game.getWinnerId() == ai_id){
-                return 1;
-            }else{
-                return -1;
-            }
-        }
-        if (game.checkForTie()){
-            return 0;
-        }
-
-        if(maximize){
-            
-        }
-
+    public Point bestMove(byte[][] board){
+        int bestScore = Integer.MIN_VALUE;
         Point move = null;
-        int score = Integer.MIN_VALUE;
 
         for (int i=0; i<board.length; i++){
             for(int j=0; j<board[i].length; j++){
                 if (board[i][j] == blank){
-                    byte[][] nextMove = copyBoard(board);
-                    nextMove[i][j] = player;
-                    int scoreForMove = minmax(nextMove, (byte)((player%2)+1), !maximize);
-                    if(scoreForMove > score){
-                        score = scoreForMove;
+                    board[i][j] = ai_id;
+                    int score = minmax(board,false);
+                    board[i][j] = blank;
+                    if(score > bestScore){
+                        bestScore = score;
                         move = new Point(i, j);
                     }
                 }
             }
         }
-        if (move == null){
-            return 0;
-        }
-        System.out.println(move);
-        return score;
+        return move;
     }
 
-    public byte[][]copyBoard(byte[][] board){
-        byte[][] temp = new byte[3][3];
-        for(int i = 0; i<board.length; i++){
-            for(int j=0; j<board[i].length; j++){
-                temp[i][j]=board[i][j];
-            }
+    public int minmax(byte[][] board, boolean maximize){
+//        game.printBoard(board);
+        int state = game.checkForWin();
+        if (state!=0){
+            if(state == -1)
+                return 0;
+            else if( state == ai_id){
+                return 10;}
+            else{
+            return -10;}
         }
-        return temp;
+
+        if(maximize){
+            int bestScore = Integer.MIN_VALUE;
+            for (int i=0; i<board.length; i++){
+                for(int j=0; j<board[i].length; j++){
+                    if (board[i][j] == blank){
+                        board[i][j] = ai_id;
+                        int score = minmax(board,false);
+                        board[i][j] = blank;
+                        bestScore = Math.max(bestScore, score);
+                    }
+                }
+            }
+            return bestScore;
+        }else{
+            int bestScore = Integer.MAX_VALUE;
+            for (int i=0; i<board.length; i++){
+                for(int j=0; j<board[i].length; j++){
+                    if (board[i][j] == blank){
+                        board[i][j] = player_id;
+                        int score = minmax(board,true);
+                        board[i][j] = blank;
+                        bestScore = Math.min(bestScore, score);
+                    }
+                }
+            }
+            return bestScore;
+        }
+
     }
+
 }
