@@ -101,8 +101,8 @@ public class TicTacToe {
 
 
     // Return 0 - game on, -1 - tie, 1 - player 1 won, 2 - player 2 won;
-    public int checkForWin(){
-        printBoard();
+    public int checkForWin() {
+
         for (int i =0; i<board.length; i++){
             if(board[i][0]==board[i][1] && board[i][1]==board[i][2] && board[i][0] != 0){
                 winningPositions[0] = new Point(i,0);
@@ -137,8 +137,7 @@ public class TicTacToe {
         }
         if (num_of_available_moves == 0)
             return -1;
-        else
-            return 0;
+        return 0;
     }
     public Point[] getWinningPositions() {
         return winningPositions;

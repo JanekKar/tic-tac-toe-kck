@@ -48,6 +48,7 @@ public class Main {
 //        screen.readInput();
 //        screen.startScreen();
 
+
         Scanner scanner = new Scanner(System.in);
 
         TicTacToe game = new TicTacToe();
@@ -61,16 +62,17 @@ public class Main {
 
         while (play_game){
 
-            int x,y;
-            do {
-                System.out.println("O Moves");
+//            int x,y;
+//            do {
+//                System.out.println("O Moves");
+//
+//                x = scanner.nextInt();
+//                y = scanner.nextInt();
+//            }
+//            while( !game.checkIfFree( new Point(x, y)) );
 
-                x = scanner.nextInt();
-                y = scanner.nextInt();
-            }
-            while( !game.checkIfFree( new Point(x, y)) );
-
-            game.put(2, new Point(x,y));
+//            game.put(2, new Point(x,y));
+            game.put(2, logic.random());
             game.printBoard();
             int i = game.checkForWin();
             System.out.println(i);
@@ -93,10 +95,13 @@ public class Main {
 
             }
 
+            if(!play_game)
+                break;
+
 //            game.put(++oTurn, logic1.random());
 
             System.out.println("X Moves");
-            game.put(1, logic.bestMove(game.board));
+            game.put(1, logic.bestMove());
             game.printBoard();
 
 
@@ -107,6 +112,7 @@ public class Main {
                     break;
                 case -1:
                     play_game = false;
+                    System.out.println("Tie");
                     break;
                 case 1:
                     System.out.println("Player 1 won");
@@ -121,7 +127,6 @@ public class Main {
 
             }
         }
-        System.out.println(Arrays.toString(game.getWinningPositions()));
         System.out.println(game.getWinnerId());
 
     }

@@ -3,6 +3,7 @@ import java.util.Arrays;
 
 public class TicTacToeLogic {
     private TicTacToe game;
+    byte[][] board;
 
     // blank = 0
     //player_1 =
@@ -14,6 +15,7 @@ public class TicTacToeLogic {
 
     public TicTacToeLogic(TicTacToe game){
         this.game = game;
+        this.board = game.board;
     }
 
     public Point random(){
@@ -26,16 +28,16 @@ public class TicTacToeLogic {
 
 
 
-    public Point bestMove(byte[][] board){
+    public Point bestMove(){
         int bestScore = Integer.MIN_VALUE;
         Point move = null;
 
         for (int i=0; i<board.length; i++){
             for(int j=0; j<board[i].length; j++){
                 if (board[i][j] == blank){
-                    board[i][j] = ai_id;
-                    int score = minmax(board,false);
-                    board[i][j] = blank;
+                    game.put(ai_id, new Point(i,j));
+                    int score = minimax(false);
+                    game.put(blank, new Point(i,j));
                     if(score > bestScore){
                         bestScore = score;
                         move = new Point(i, j);
@@ -43,49 +45,53 @@ public class TicTacToeLogic {
                 }
             }
         }
+        System.out.println(bestScore);
         return move;
     }
 
-    public int minmax(byte[][] board, boolean maximize){
-//        game.printBoard(board);
+    public int minimax(boolean ai_turn){
         int state = game.checkForWin();
         if (state!=0){
-            if(state == -1)
+            if(state == -1){
+                System.out.println("TIE");
                 return 0;
-            else if( state == ai_id){
-                return 10;}
-            else{
-            return -10;}
+            }
+            if( state == ai_id){
+                System.out.println("WIN");
+                return 1;
+            }
+            System.out.println("LOSE");
+            return -1;
         }
 
-        if(maximize){
-            int bestScore = Integer.MIN_VALUE;
+        int bestScore = 0;
+
+        if(ai_turn){
+            bestScore = Integer.MIN_VALUE;
             for (int i=0; i<board.length; i++){
                 for(int j=0; j<board[i].length; j++){
                     if (board[i][j] == blank){
-                        board[i][j] = ai_id;
-                        int score = minmax(board,false);
-                        board[i][j] = blank;
-                        bestScore = Math.max(bestScore, score);
+                        game.put(ai_id, new Point(i,j));
+                        int score = minimax(false);
+                        game.put(blank, new Point(i,j));
+                        bestScore = Math.max(score, bestScore);
                     }
                 }
             }
-            return bestScore;
         }else{
-            int bestScore = Integer.MAX_VALUE;
+            bestScore = Integer.MAX_VALUE;
             for (int i=0; i<board.length; i++){
                 for(int j=0; j<board[i].length; j++){
                     if (board[i][j] == blank){
-                        board[i][j] = player_id;
-                        int score = minmax(board,true);
-                        board[i][j] = blank;
-                        bestScore = Math.min(bestScore, score);
+                        game.put(player_id, new Point(i,j));
+                        int score = minimax(true);
+                        game.put(blank, new Point(i,j));
+                        bestScore = Math.min(score, bestScore);
                     }
                 }
             }
-            return bestScore;
         }
-
+        System.out.println("Ai+turn = "+ ai_turn +" " + bestScore);
+        return bestScore;
     }
-
 }
