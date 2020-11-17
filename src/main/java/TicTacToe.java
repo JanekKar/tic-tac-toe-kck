@@ -14,13 +14,9 @@ public class TicTacToe {
 
     public byte[][] board = new byte[3][3];
 
-    private Point[] winningPositions = new Point[3];
+    private Point[] winningPositions;
 
     int num_of_available_moves = 9;
-
-    public byte getWinnerId() {
-        return winnerId;
-    }
 
     private byte winnerId = 0;
 
@@ -30,6 +26,9 @@ public class TicTacToe {
                 cell = 0;
             }
         }
+
+        winningPositions = new Point[3];
+
     }
 
     public void printBoard(){
@@ -48,41 +47,9 @@ public class TicTacToe {
         System.out.println();
     }
 
-    public void printBoard(byte[][] board){
-        for(byte[] row: board){
-            for (byte cell: row) {
-                if (cell == 1) {
-                    System.out.print("X");
-                } else if (cell == 2) {
-                    System.out.print("O");
-                } else {
-                    System.out.print("_");
-                }
-            }
-            System.out.println();
-        }
-    }
-
-
     public void put(int playerId, Point point){
-
         this.board[point.x][point.y] = (byte)playerId;
         num_of_available_moves--;
-
-//        if (isInRange(point)){
-//            c = Character.toLowerCase(c);
-//            if (c == 'x'){
-//                this.board[point.x][point.y] = 1;
-//                num_of_available_moves--;
-//
-//            } else if (c == 'o'){
-//                this.board[point.x][point.y] = 2;
-//                num_of_available_moves--;
-//
-//            } else {
-//                throw new WrongCharException(c + " is not 'x' or 'o' - case insensitive");
-//            }
-//        }
     }
 
     public boolean checkIfFree(Point point) {
@@ -139,8 +106,23 @@ public class TicTacToe {
             return -1;
         return 0;
     }
+
     public Point[] getWinningPositions() {
         return winningPositions;
+    }
+
+    public byte getWinnerId() {
+        return winnerId;
+    }
+
+    public void resetGame(){
+        for( byte[] row : this.board){
+            for (byte cell : row){
+                cell = 0;
+            }
+        }
+        winningPositions = new Point[3];
+        winnerId = 0;
     }
 
     class WrongPositionException extends Exception{

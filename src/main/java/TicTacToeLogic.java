@@ -45,23 +45,19 @@ public class TicTacToeLogic {
                 }
             }
         }
-        System.out.println(bestScore);
         return move;
     }
 
     public int minimax(boolean ai_turn){
         int state = game.checkForWin();
-        if (state!=0){
+        if (state!=0){ // If game ended
             if(state == -1){
-                System.out.println("TIE");
-                return 0;
+                return 0; //TIE
             }
             if( state == ai_id){
-                System.out.println("WIN");
-                return 1;
+                return 1; //AI wins
             }
-            System.out.println("LOSE");
-            return -1;
+            return -1; //Player wins
         }
 
         int bestScore = 0;
@@ -91,7 +87,6 @@ public class TicTacToeLogic {
                 }
             }
         }
-        System.out.println("Ai+turn = "+ ai_turn +" " + bestScore);
         return bestScore;
     }
 }

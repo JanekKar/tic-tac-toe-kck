@@ -1,53 +1,160 @@
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.graphics.TextImage;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import org.w3c.dom.Text;
 
 import java.awt.*;
 import java.io.IOException;
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main {
 
+
+
+
+public class Main {
+    static int score =100;
+    static String playerName = "Janek";
+
+    static int tempRowsSize, tempCollSize, xWidth, xHeight, paddingLeft, paddingTop, fieldOffset;
+
+    public static void drawX(TextGraphics tg, int x, int y){
+        tg.drawLine(new TerminalPosition(paddingLeft+fieldOffset+(x*tempCollSize), paddingTop+(tempRowsSize*y)), new TerminalPosition(paddingLeft+xWidth+fieldOffset+ (x*tempCollSize), paddingTop+xHeight+(tempRowsSize*y)), 'O');
+        tg.drawLine(new TerminalPosition(paddingLeft+xWidth+fieldOffset+ (x*tempCollSize), paddingTop+(tempRowsSize*y)), new TerminalPosition(paddingLeft+fieldOffset+(x*tempCollSize), paddingTop+xHeight+(tempRowsSize*y)), 'O');
+    }
+
+    public static void highlightField(TextGraphics tg, int x, int y){
+        tg.setBackgroundColor(TextColor.ANSI.GREEN);
+        tg.fillRectangle(new TerminalPosition(paddingLeft+(x*tempCollSize), paddingTop+(y*tempRowsSize)), new TerminalSize(tempCollSize-1, tempRowsSize-1), ' ');
+        // TODO if contains O or X Draw it
+        drawX(tg, x, y);
+        tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
+    }
+
+    public static void unHighlightField(TextGraphics tg, int x, int y){
+        tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
+        tg.fillRectangle(new TerminalPosition(paddingLeft+(x*tempCollSize), paddingTop+(y*tempRowsSize)), new TerminalSize(tempCollSize-1, tempRowsSize-1), ' ');
+        // TODO if contains O or X Draw it
+        drawX(tg, x, y);
+    }
+
+    public static void drawCircle(TextGraphics tg, int x, int y){
+
+    }
 
     public static void main(String[] args) throws IOException {
-//        Terminal terminal = new DefaultTerminalFactory().createTerminal();
-////        terminal.setCursorVisible(false);
-//        Screen screen = new TerminalScreen(terminal);
-//
-//        TextGraphics tg = screen.newTextGraphics();
-//        screen.startScreen();
-//
-//        tg.drawLine(4, 10, 200, 100 , 'c');
-//
-//        tg.setForegroundColor(TextColor.ANSI.MAGENTA);
-//        tg.setBackgroundColor(TextColor.ANSI.CYAN);
-//            /*
-//            putString(..) exists in a couple of different flavors but it generally works by taking a string and
-//            outputting it somewhere in terminal window. Notice that it doesn't take the current position of the text
-//            cursor when doing this.
-//             */
+        Terminal terminal = new DefaultTerminalFactory().createTerminal();
+        terminal.setCursorVisible(true);
+        Screen screen = new TerminalScreen(terminal);
+        screen.doResizeIfNecessary();
+
+        TextGraphics tg = screen.newTextGraphics();
+        screen.startScreen();
+
+        tg.putString(1,1 ,"Score: " + score,SGR.BOLD);
+        int sidebar = 12;
+        int columns = terminal.getTerminalSize().getColumns();
+        int rows = terminal.getTerminalSize().getRows();
+
+        tg.drawLine(sidebar, 0, sidebar, rows, '|');
+
+        tg.drawLine(0, 3, sidebar, 3, '-');
+
+        tg.putString(sidebar, 3, "+");
+
+
+        tg.putString(1,5 ,"Player: ",SGR.BOLD);
+        tg.putString(1,6 ,playerName);
+
+
+        tg.setForegroundColor(TextColor.ANSI.MAGENTA);
+        tg.setBackgroundColor(TextColor.ANSI.CYAN);
+
+
+        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+        tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
+
+        tempRowsSize = (rows-1)/3;
+        tempCollSize = ((columns-sidebar-6)/3)-1;
+        xWidth = 11;
+        xHeight = 5;
+        paddingLeft = sidebar+6;
+        paddingTop = 2;
+        fieldOffset = 3;
+
+        for(int j=0; j<3; j++){
+            for(int i=0; i<3;i++){
+                tg.drawRectangle(new TerminalPosition(paddingLeft-1+((tempCollSize)*i), 1+((tempRowsSize)*j)), new TerminalSize(tempCollSize+1,tempRowsSize+1), '#');
+            }
+        }
+
+        tg.drawRectangle(new TerminalPosition(paddingLeft-1, 1), new TerminalSize(tempCollSize*3+1, tempRowsSize*3+1), ' ');
+
+
+        for (int j = 0; j < 3; j++) {
+            for (int i=0; i<3; i++){
+                drawX(tg, i, j);
+            }
+        }
+
+        int x = 0;
+        int y = 0;
+
+        highlightField(tg, x,y);
+
+
+
+        terminal.flush();
+
+        screen.refresh();
+
+        screen.startScreen();
+
+        while(true) {
+            KeyStroke keyStroke = terminal.pollInput();
+            if (keyStroke != null){
+                unHighlightField(tg, x, y);
+
+                if (keyStroke.getKeyType() == KeyType.ArrowDown && y<2)
+                    y++;
+                if (keyStroke.getKeyType() == KeyType.ArrowUp && y>0)
+                    y--;
+                if (keyStroke.getKeyType() == KeyType.ArrowRight && x<2)
+                    x++;
+                if (keyStroke.getKeyType() == KeyType.ArrowLeft && x>0)
+                    x--;
+
+                if (keyStroke.getKeyType() == KeyType.Escape){
+                    break;
+                }
+
+                highlightField(tg, x, y);
+                terminal.flush();
+                screen.refresh();
+            }
+        }
+        terminal.close();
+
+
+
+
+        /*
+            putString(..) exists in a couple of different flavors but it generally works by taking a string and
+            outputting it somewhere in terminal window. Notice that it doesn't take the current position of the text
+            cursor when doing this.
+             */
 //        tg.putString(2, 1, "Lanterna Tutorial 2 - Press ESC to exit", SGR.BOLD);
-//        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-//        tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
 //        tg.putString(5, 3, "Terminal Size: ", SGR.BOLD);
 //        tg.putString(5 + "Terminal Size: ".length(), 3, terminal.getTerminalSize().toString());
-//
-//
-//        terminal.flush();
-//
-//        screen.refresh();
-//
-//        screen.readInput();
-//        screen.startScreen();
 
+
+        /*
 
         Scanner scanner = new Scanner(System.in);
 
@@ -72,10 +179,11 @@ public class Main {
 //            while( !game.checkIfFree( new Point(x, y)) );
 
 //            game.put(2, new Point(x,y));
+            System.out.println("O Moves");
             game.put(2, logic.random());
             game.printBoard();
             int i = game.checkForWin();
-            System.out.println(i);
+//            System.out.println(i);
             switch(i){
                 case 0:
                     break;
@@ -106,7 +214,7 @@ public class Main {
 
 
             i = game.checkForWin();
-            System.out.println(i);
+//            System.out.println(i);
             switch(i){
                 case 0:
                     break;
@@ -128,7 +236,7 @@ public class Main {
             }
         }
         System.out.println(game.getWinnerId());
-
+        */
     }
 
 
