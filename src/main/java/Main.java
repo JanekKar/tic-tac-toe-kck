@@ -22,7 +22,16 @@ public class Main {
     static int score = 999;
     static String playerName = "Janek";
 
-    static int rowHeight, columnWidth, xWidth, xHeight, paddingLeft, paddingTop, fieldOffset;
+    static Terminal terminal;
+
+    static int rowHeight, columnWidth, xWidth, xHeight, paddingLeft, paddingTop, fieldOffset, sidebar, paddingLeftSidebar;
+
+    static int rows;
+    static int columns;
+
+    static int prevRows;
+    static int prevCols;
+
 
     public static void drawX(TextGraphics tg, int x, int y) {
         int posX = paddingLeft + fieldOffset + (x * columnWidth);
@@ -118,41 +127,22 @@ public class Main {
 
     private static void drawBoard(TextGraphics tg) {for (int j = 0; j < 3; j++) {
         for (int i = 0; i < 3; i++) {
-            tg.drawRectangle(new TerminalPosition(paddingLeft - 1 + ((columnWidth) * i), 1 + ((rowHeight) * j)), new TerminalSize(columnWidth + 1, rowHeight + 1), '#');
+            tg.drawRectangle(
+                    new TerminalPosition(paddingLeft - 1 + ((columnWidth) * i), 1 + ((rowHeight) * j)),
+                    new TerminalSize(columnWidth + 1, rowHeight + 1),
+                    '#');
         }
     }
 
-        tg.drawRectangle(new TerminalPosition(paddingLeft - 1, 1), new TerminalSize(columnWidth * 3 + 1, rowHeight * 3 + 1), ' ');
+        tg.drawRectangle(
+                new TerminalPosition(paddingLeft - 1, 1),
+                new TerminalSize(columnWidth * 3 + 1, rowHeight * 3 + 1),
+                ' ');
 
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-
-
-        game = new TicTacToe();
-        TicTacToeLogic logic = new TicTacToeLogic(game);
-
-
-        Terminal terminal = new DefaultTerminalFactory().createTerminal();
-        terminal.setCursorVisible(true);
-        
-        terminal.addResizeListener(new TerminalResizeListener() {
-            @Override
-            public void onResized(Terminal terminal, TerminalSize terminalSize) {
-                
-            }
-        });
-        
-        Screen screen = new TerminalScreen(terminal);
-        screen.doResizeIfNecessary();
-
-        TextGraphics tg = screen.newTextGraphics();
-        screen.startScreen();
-
+    private static void drawSidebar(TextGraphics tg){
         tg.putString(1, 1, "Score: " + score, SGR.BOLD);
-        int sidebar = 12;
-        int columns = terminal.getTerminalSize().getColumns();
-        int rows = terminal.getTerminalSize().getRows();
 
         tg.drawLine(sidebar, 0, sidebar, rows, '|');
 
@@ -164,19 +154,82 @@ public class Main {
         tg.putString(1, 5, "Player: ", SGR.BOLD);
         tg.putString(1, 6, playerName);
 
+    }
 
-        tg.setForegroundColor(TextColor.ANSI.MAGENTA);
-        tg.setBackgroundColor(TextColor.ANSI.CYAN);
+    private static void drawGame(TextGraphics tg) throws IOException {
+        tg.fill(' ');
+
+//        paddingLeft = sidebar + 6;
+        rowHeight = (rows - 1) / 3;
+//        columnWidth = ((columns - sidebar - 6) / 3) - 1;
+
+        drawSidebar(tg);
+        drawBoard(tg);
+
+//        drawAllMoves(tg);
+    }
+
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        game = new TicTacToe();
+        TicTacToeLogic logic = new TicTacToeLogic(game);
+
+        terminal = new DefaultTerminalFactory().createTerminal();
+        terminal.setCursorVisible(true);
+
+        Screen screen = new TerminalScreen(terminal);
+        screen.doResizeIfNecessary();
+
+        TextGraphics tg = screen.newTextGraphics();
+
+        terminal.addResizeListener(new TerminalResizeListener() {
+            @Override
+            public void onResized(Terminal terminal, TerminalSize terminalSize) {
+                try {
+
+                    rows = terminal.getTerminalSize().getRows();
+                    columns = terminal.getTerminalSize().getColumns();
+
+                    int deltaColumns = columns - prevCols;
 
 
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-        tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
+                    if(deltaColumns%4==0){
+                        prevCols = columns;
+                        prevRows = rows;
+                        sidebar+= (deltaColumns/2);
+                        paddingLeftSidebar += (deltaColumns/4);
+                        paddingLeft = sidebar +  paddingLeftSidebar;
+                    }
 
+                    screen.doResizeIfNecessary();
+
+                    drawGame(tg);
+
+                    terminal.flush();
+                    screen.refresh();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        screen.startScreen();
+
+        rows = terminal.getTerminalSize().getRows();
+        columns = terminal.getTerminalSize().getColumns();
+
+        prevRows = rows;
+        prevCols = columns;
+
+        sidebar = 12;
+        drawSidebar(tg);
+
+        paddingLeftSidebar = 6;
         rowHeight = (rows - 1) / 3;
         columnWidth = ((columns - sidebar - 6) / 3) - 1;
         xWidth = 11;
         xHeight = 5;
-        paddingLeft = sidebar + 6;
+        paddingLeft = sidebar + paddingLeftSidebar;
         paddingTop = 2;
         fieldOffset = 3;
 
@@ -258,6 +311,7 @@ public class Main {
         screen.refresh();
 
         Thread.sleep(4000);
+        screen.close();
         terminal.close();
 
     }
