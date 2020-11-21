@@ -32,6 +32,8 @@ public class Main {
     static int prevRows;
     static int prevCols;
 
+    static int highlightX = 0;
+    static int highlightY = 0;
 
     public static void drawX(TextGraphics tg, int x, int y) {
         int posX = paddingLeft + fieldOffset + (x * columnWidth);
@@ -125,14 +127,15 @@ public class Main {
         }
     }
 
-    private static void drawBoard(TextGraphics tg) {for (int j = 0; j < 3; j++) {
-        for (int i = 0; i < 3; i++) {
-            tg.drawRectangle(
-                    new TerminalPosition(paddingLeft - 1 + ((columnWidth) * i), 1 + ((rowHeight) * j)),
-                    new TerminalSize(columnWidth + 1, rowHeight + 1),
-                    '#');
+    private static void drawBoard(TextGraphics tg) {
+        for (int j = 0; j < 3; j++) {
+            for (int i = 0; i < 3; i++) {
+                tg.drawRectangle(
+                        new TerminalPosition(paddingLeft - 1 + ((columnWidth) * i), 1 + ((rowHeight) * j)),
+                        new TerminalSize(columnWidth + 1, rowHeight + 1),
+                        '#');
+            }
         }
-    }
 
         tg.drawRectangle(
                 new TerminalPosition(paddingLeft - 1, 1),
@@ -159,14 +162,22 @@ public class Main {
     private static void drawGame(TextGraphics tg) throws IOException {
         tg.fill(' ');
 
-//        paddingLeft = sidebar + 6;
         rowHeight = (rows - 1) / 3;
-//        columnWidth = ((columns - sidebar - 6) / 3) - 1;
 
         drawSidebar(tg);
         drawBoard(tg);
 
-//        drawAllMoves(tg);
+        drawAllMoves(tg);
+
+        highlightField(tg, highlightX, highlightY, TextColor.ANSI.GREEN, TextColor.ANSI.BLACK);
+    }
+
+    private static void drawAllMoves(TextGraphics tg) {
+        for(int i=0; i<3; i++){
+            for(int j=0; j<3; j++){
+                drawXorO(tg, i, j);
+            }
+        }
     }
 
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -191,7 +202,6 @@ public class Main {
                     columns = terminal.getTerminalSize().getColumns();
 
                     int deltaColumns = columns - prevCols;
-
 
                     if(deltaColumns%4==0){
                         prevCols = columns;
@@ -222,8 +232,6 @@ public class Main {
         prevCols = columns;
 
         sidebar = 12;
-        drawSidebar(tg);
-
         paddingLeftSidebar = 6;
         rowHeight = (rows - 1) / 3;
         columnWidth = ((columns - sidebar - 6) / 3) - 1;
@@ -233,18 +241,12 @@ public class Main {
         paddingTop = 2;
         fieldOffset = 3;
 
+        drawSidebar(tg);
         drawBoard(tg);
-
-        int x = 0;
-        int y = 0;
-
-        highlightField(tg, x, y, TextColor.ANSI.GREEN, TextColor.ANSI.WHITE);
-
+        highlightField(tg, highlightX, highlightY, TextColor.ANSI.GREEN, TextColor.ANSI.WHITE);
 
         terminal.flush();
-
         screen.refresh();
-
         screen.startScreen();
 
         TextColor bgColor;
@@ -253,21 +255,24 @@ public class Main {
         while (true) {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
-                unHighlightField(tg, x, y);
+                unHighlightField(tg, highlightX, highlightY);
                 bgColor = TextColor.ANSI.GREEN;
                 fgColor = TextColor.ANSI.BLACK;
-                if (keyStroke.getKeyType() == KeyType.ArrowDown && y < 2)
-                    y++;
-                if (keyStroke.getKeyType() == KeyType.ArrowUp && y > 0)
-                    y--;
-                if (keyStroke.getKeyType() == KeyType.ArrowRight && x < 2)
-                    x++;
-                if (keyStroke.getKeyType() == KeyType.ArrowLeft && x > 0)
-                    x--;
-                if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == ' ') {
-                    if (game.checkIfFree(new Point(x, y))) {
-                        game.makeMove(new Point(x, y));
-                        drawXorO(tg, x, y);
+                if(keyStroke.getKeyType() == KeyType.Escape){
+                    break;
+                }
+                if (keyStroke.getKeyType() == KeyType.ArrowDown && highlightY < 2)
+                    highlightY++;
+                if (keyStroke.getKeyType() == KeyType.ArrowUp && highlightY > 0)
+                    highlightY--;
+                if (keyStroke.getKeyType() == KeyType.ArrowRight && highlightX < 2)
+                    highlightX++;
+                if (keyStroke.getKeyType() == KeyType.ArrowLeft && highlightX > 0)
+                    highlightX--;
+                if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == ' '){
+                    if (game.checkIfFree(new Point(highlightX, highlightY))) {
+                        game.makeMove(new Point(highlightX, highlightY));
+                        drawXorO(tg, highlightX, highlightY);
                         String result = game.checkWinner();
                         if (result != null) {
                             if (result != "TIE")
@@ -300,7 +305,7 @@ public class Main {
                     break;
                 }
 
-                highlightField(tg, x, y, bgColor, fgColor);
+                highlightField(tg, highlightX, highlightY, bgColor, fgColor);
                 terminal.flush();
                 screen.refresh();
             }
@@ -311,6 +316,7 @@ public class Main {
         screen.refresh();
 
         Thread.sleep(4000);
+
         screen.close();
         terminal.close();
 

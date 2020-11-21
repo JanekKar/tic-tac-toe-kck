@@ -15,7 +15,6 @@ public class TicTacToeLogic {
 
     public TicTacToeLogic(TicTacToe game){
         this.game = game;
-
         this.blank = game.blank;
 
         score.put(player, -10);
@@ -24,13 +23,8 @@ public class TicTacToeLogic {
     }
 
     public Point makeMove(){
-        return bestMove();
+        return midAi();
     }
-
-
-
-
-
 
     public Point random(){
         Point temp;
@@ -39,6 +33,27 @@ public class TicTacToeLogic {
         } while(!game.checkIfFree(temp));
         return temp;
     }
+
+
+
+    public Point easyAi(){
+        double chance = Math.random();
+        System.out.println(chance);
+        if(chance > 0.2)
+            return random();
+        else
+            return bestMove();
+    }
+
+    public Point midAi(){
+        double chance = Math.random();
+        System.out.println(chance);
+        if(chance > 0.6)
+            return random();
+        else
+            return bestMove();
+    }
+
 
 
 
