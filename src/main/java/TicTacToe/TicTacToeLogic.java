@@ -23,7 +23,32 @@ public class TicTacToeLogic {
     }
 
     public Point makeMove(){
-        return midAi();
+        return hardAi();
+    }
+
+    public Point easyAi(){
+        double chance = Math.random();
+        if(chance > 0.5)
+            return random();
+        else
+            return bestMove();
+    }
+
+    public Point midAi(){
+        double chance = Math.random();
+        if(chance > 0.8)
+            return random();
+        else
+            return bestMove();
+    }
+
+    public Point hardAi(){
+        double chance = Math.random();
+        if(chance > 0.9)
+            return random();
+        else
+            return bestMove();
+
     }
 
     public Point random(){
@@ -33,29 +58,6 @@ public class TicTacToeLogic {
         } while(!game.checkIfFree(temp));
         return temp;
     }
-
-
-
-    public Point easyAi(){
-        double chance = Math.random();
-        System.out.println(chance);
-        if(chance > 0.2)
-            return random();
-        else
-            return bestMove();
-    }
-
-    public Point midAi(){
-        double chance = Math.random();
-        System.out.println(chance);
-        if(chance > 0.6)
-            return random();
-        else
-            return bestMove();
-    }
-
-
-
 
     public Point bestMove(){
         int bestScore = Integer.MIN_VALUE;

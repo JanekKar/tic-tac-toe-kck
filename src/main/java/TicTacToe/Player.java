@@ -1,9 +1,14 @@
+package TicTacToe;
+
 import java.util.UUID;
 
 public class Player {
     private String name;
     private int score;
-    private int numberOfWonGames, numberOfLostGames;
+    private int numberOfWonGames;
+    private int numberOfLostGames;
+
+    private int numberOfTies;
     private UUID global_id;
 
     public Player(String name){
@@ -20,6 +25,10 @@ public class Player {
 
     public void increaseNumberOfLostGames(){
         this.numberOfLostGames++;
+    }
+
+    public void increaseNumberOfTiess(){
+        this.numberOfTies++;
     }
 
     public String getName() {
@@ -40,6 +49,14 @@ public class Player {
 
     public int getNumberOfLostGames() {
         return numberOfLostGames;
+    }
+
+    public int getNumberOfTies() {
+        return numberOfTies;
+    }
+
+    public void setNumberOfTies(int numberOfTies) {
+        this.numberOfTies = numberOfTies;
     }
 
 }

@@ -1,33 +1,31 @@
 package TicTacToe;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Random;
-
-@Getter
-@Setter
 public class TicTacToe {
 
 
     protected String blank = "";
-    private String[] players = {"X", "O"};
+
+    private final String[] players = {"X", "O"};
     private int currentPlayer;
     private int available;
+
+    private Player player;
 
     protected String[][] board = new String[3][3];
 
     private Point[] winningPositions;
+    private String winner;
 
-    public TicTacToe() {
+    public TicTacToe(Player player) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 board[i][j] = blank;
                 available++;
             }
         }
+
+        this.player = player;
 
         currentPlayer = 0;
     }
@@ -73,6 +71,7 @@ public class TicTacToe {
             winningPositions = null;
             return "TIE";
         } else {
+            this.winner = winner;
             return winner;
         }
     }
@@ -100,6 +99,27 @@ public class TicTacToe {
         available++;
     }
 
+    public void nextGame(){
+        if (winner!=null)
+            if(winner.equals("X"))
+                player.increaseNumberOfWonGames();
+            else
+                player.increaseNumberOfLostGames();
+        else
+            player.increaseNumberOfTiess();
+
+        available = 0;
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                board[i][j] = blank;
+                available++;
+            }
+        }
+
+        currentPlayer = 0;
+    }
+
     public Point[] getWinningPositions(){
         return winningPositions;
     }
@@ -108,7 +128,13 @@ public class TicTacToe {
         return board[point.x][point.y];
     }
 
+    public String getCurrentPlayer(){
+        return players[currentPlayer];
+    }
 
+    public Player getPlayer() {
+        return player;
+    }
 
     public void printBoard() {
         for (String[] row : this.board) {

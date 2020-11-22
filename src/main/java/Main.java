@@ -1,9 +1,7 @@
 import TicTacToe.TicTacToe;
 import TicTacToe.TicTacToeLogic;
-import com.googlecode.lanterna.SGR;
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.TextColor;
+import TicTacToe.Player;
+import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
@@ -19,12 +17,19 @@ import java.io.IOException;
 
 public class Main {
     static TicTacToe game;
-    static int score = 999;
-    static String playerName = "Janek";
 
     static Terminal terminal;
 
-    static int rowHeight, columnWidth, xWidth, xHeight, paddingLeft, paddingTop, fieldOffset, sidebar, paddingLeftSidebar;
+    static int rowHeight;
+    static int columnWidth;
+    static int xWidth = 11;
+    static int xHeight = 5;
+    static int paddingLeft;
+    static int paddingTop = 2;
+    static int fieldOffset = 3;
+    static int sidebar = 12;
+    static int sidedarPaddintTop;
+    static int paddingLeftSidebar = 6;
 
     static int rows;
     static int columns;
@@ -32,8 +37,8 @@ public class Main {
     static int prevRows;
     static int prevCols;
 
-    static int highlightX = 0;
-    static int highlightY = 0;
+    static int highlightX = 1;
+    static int highlightY = 1;
 
     public static void drawX(TextGraphics tg, int x, int y) {
         int posX = paddingLeft + fieldOffset + (x * columnWidth);
@@ -48,7 +53,6 @@ public class Main {
                 new TerminalPosition(posX,posY + xHeight),
                 'O');
     }
-
 
     public static void drawO(TextGraphics tg, int x, int y) {
         int posX = paddingLeft + fieldOffset + (x * columnWidth);
@@ -94,7 +98,6 @@ public class Main {
                 'X');
     }
 
-
     public static void highlightField(TextGraphics tg, int x, int y, TextColor backgroundColor, TextColor foregroundColor) {
         tg.setBackgroundColor(backgroundColor);
         tg.setForegroundColor(foregroundColor);
@@ -131,42 +134,43 @@ public class Main {
         for (int j = 0; j < 3; j++) {
             for (int i = 0; i < 3; i++) {
                 tg.drawRectangle(
-                        new TerminalPosition(paddingLeft - 1 + ((columnWidth) * i), 1 + ((rowHeight) * j)),
+                        new TerminalPosition(paddingLeft - 1 + ((columnWidth) * i), paddingTop-1 + ((rowHeight) * j)),
                         new TerminalSize(columnWidth + 1, rowHeight + 1),
-                        '#');
+                        Symbols.BLOCK_MIDDLE);
             }
         }
 
         tg.drawRectangle(
-                new TerminalPosition(paddingLeft - 1, 1),
+                new TerminalPosition(paddingLeft - 1, paddingTop-1),
                 new TerminalSize(columnWidth * 3 + 1, rowHeight * 3 + 1),
                 ' ');
 
     }
 
     private static void drawSidebar(TextGraphics tg){
-        tg.putString(1, 1, "Score: " + score, SGR.BOLD);
 
-        tg.drawLine(sidebar, 0, sidebar, rows, '|');
+        tg.drawLine(sidebar, 0, sidebar, rows, Symbols.DOUBLE_LINE_VERTICAL);
 
-        tg.drawLine(0, 3, sidebar, 3, '-');
+        tg.drawLine(0, sidedarPaddintTop + 0, sidebar, sidedarPaddintTop + 0, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.putString(sidebar, sidedarPaddintTop + 0, Symbols.DOUBLE_LINE_T_LEFT+"");
+        tg.drawLine(0, sidedarPaddintTop + 4, sidebar, sidedarPaddintTop + 4, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.putString(sidebar, sidedarPaddintTop + 4, Symbols.DOUBLE_LINE_T_LEFT+"");
+        tg.drawLine(0, sidedarPaddintTop + 9, sidebar, sidedarPaddintTop + 9, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.putString(sidebar, sidedarPaddintTop + 9, Symbols.DOUBLE_LINE_T_LEFT+"");
+        tg.drawLine(0, sidedarPaddintTop + 13, sidebar, sidedarPaddintTop + 13, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.putString(sidebar, sidedarPaddintTop + 13, Symbols.DOUBLE_LINE_T_LEFT+"");
+        tg.drawLine(0, sidedarPaddintTop + 19, sidebar, sidedarPaddintTop + 19, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.putString(sidebar, sidedarPaddintTop + 19, Symbols.DOUBLE_LINE_T_LEFT+"");
 
-        tg.putString(sidebar, 3, "+");
-
-
-        tg.putString(1, 5, "Player: ", SGR.BOLD);
-        tg.putString(1, 6, playerName);
+        drawPlayerInfo(tg);
 
     }
 
     private static void drawGame(TextGraphics tg) throws IOException {
         tg.fill(' ');
 
-        rowHeight = (rows - 1) / 3;
-
         drawSidebar(tg);
         drawBoard(tg);
-
         drawAllMoves(tg);
 
         highlightField(tg, highlightX, highlightY, TextColor.ANSI.GREEN, TextColor.ANSI.BLACK);
@@ -180,9 +184,36 @@ public class Main {
         }
     }
 
+    private static void drawPlayerInfo(TextGraphics tg){
+        tg.putString(1, sidedarPaddintTop + 2, "Score: " + game.getPlayer().getScore(), SGR.BOLD);
+        tg.putString(1, sidedarPaddintTop + 6, "Player:", SGR.BOLD);
+        tg.putString(1, sidedarPaddintTop + 7, game.getPlayer().getName());
+
+        drawCurrentPlayer(tg);
+
+        tg.putString(1, sidedarPaddintTop + 15, "WIN: "+game.getPlayer().getNumberOfWonGames());
+        tg.putString(1, sidedarPaddintTop + 16, "LOST: "+game.getPlayer().getNumberOfLostGames());
+        tg.putString(1, sidedarPaddintTop + 17, "TIES: "+game.getPlayer().getNumberOfTies());
+
+    }
+
+    private static void drawCurrentPlayer(TextGraphics tg) {
+        if (game.getCurrentPlayer().equals("X")){
+            tg.setForegroundColor(TextColor.ANSI.GREEN);
+            tg.putString(1,sidedarPaddintTop + 11, "Your Turn", SGR.BLINK, SGR.BOLD);
+        }else{
+            tg.setForegroundColor(TextColor.ANSI.RED);
+            tg.putString(1,sidedarPaddintTop + 11, "AI's Turn", SGR.BLINK, SGR.BOLD);
+        }
+
+        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+        tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
+    }
+
+
     public static void main(String[] args) throws IOException, InterruptedException {
 
-        game = new TicTacToe();
+        game = new TicTacToe(new Player("Janek"));
         TicTacToeLogic logic = new TicTacToeLogic(game);
 
         terminal = new DefaultTerminalFactory().createTerminal();
@@ -202,13 +233,19 @@ public class Main {
                     columns = terminal.getTerminalSize().getColumns();
 
                     int deltaColumns = columns - prevCols;
+                    int deltaRows = rows - prevRows;
 
                     if(deltaColumns%4==0){
                         prevCols = columns;
-                        prevRows = rows;
                         sidebar+= (deltaColumns/2);
                         paddingLeftSidebar += (deltaColumns/4);
                         paddingLeft = sidebar +  paddingLeftSidebar;
+                    }
+
+                    if(deltaRows%2==0){
+                        prevRows = rows;
+                        sidedarPaddintTop += deltaRows/2;
+                        paddingTop += deltaRows/2;
                     }
 
                     screen.doResizeIfNecessary();
@@ -231,91 +268,104 @@ public class Main {
         prevRows = rows;
         prevCols = columns;
 
-        sidebar = 12;
-        paddingLeftSidebar = 6;
         rowHeight = (rows - 1) / 3;
         columnWidth = ((columns - sidebar - 6) / 3) - 1;
-        xWidth = 11;
-        xHeight = 5;
         paddingLeft = sidebar + paddingLeftSidebar;
-        paddingTop = 2;
-        fieldOffset = 3;
-
-        drawSidebar(tg);
-        drawBoard(tg);
-        highlightField(tg, highlightX, highlightY, TextColor.ANSI.GREEN, TextColor.ANSI.WHITE);
-
-        terminal.flush();
-        screen.refresh();
-        screen.startScreen();
+        sidedarPaddintTop = (rows-20)/2;
 
         TextColor bgColor;
         TextColor fgColor;
 
-        while (true) {
-            KeyStroke keyStroke = terminal.pollInput();
-            if (keyStroke != null) {
-                unHighlightField(tg, highlightX, highlightY);
-                bgColor = TextColor.ANSI.GREEN;
-                fgColor = TextColor.ANSI.BLACK;
-                if(keyStroke.getKeyType() == KeyType.Escape){
-                    break;
-                }
-                if (keyStroke.getKeyType() == KeyType.ArrowDown && highlightY < 2)
-                    highlightY++;
-                if (keyStroke.getKeyType() == KeyType.ArrowUp && highlightY > 0)
-                    highlightY--;
-                if (keyStroke.getKeyType() == KeyType.ArrowRight && highlightX < 2)
-                    highlightX++;
-                if (keyStroke.getKeyType() == KeyType.ArrowLeft && highlightX > 0)
-                    highlightX--;
-                if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == ' '){
-                    if (game.checkIfFree(new Point(highlightX, highlightY))) {
-                        game.makeMove(new Point(highlightX, highlightY));
-                        drawXorO(tg, highlightX, highlightY);
-                        String result = game.checkWinner();
-                        if (result != null) {
-                            if (result != "TIE")
-                                for (Point point : game.getWinningPositions()) {
-                                    highlightField(tg, point.x, point.y, TextColor.ANSI.MAGENTA, TextColor.ANSI.CYAN);
-                                }
-                            break;
-                        }
 
-                        Point point = logic.makeMove();
-                        game.makeMove(point);
+        boolean play = true;
+        while (play) {
+            drawSidebar(tg);
+            drawBoard(tg);
+            highlightField(tg, highlightX, highlightY, TextColor.ANSI.GREEN, TextColor.ANSI.WHITE);
 
-                        drawXorO(tg, point.x, point.y);
-                        result = game.checkWinner();
-                        if (result != null) {
-                            if (result != "TIE")
-                                for (Point winningPoint : game.getWinningPositions()) {
-                                    highlightField(tg, winningPoint.x, winningPoint.y, TextColor.ANSI.RED, TextColor.ANSI.YELLOW);
-                                }
-                            break;
+            terminal.flush();
+            screen.refresh();
+            screen.startScreen();
+
+            while (true) {
+                KeyStroke keyStroke = terminal.pollInput();
+                if (keyStroke != null) {
+                    unHighlightField(tg, highlightX, highlightY);
+                    bgColor = TextColor.ANSI.GREEN;
+                    fgColor = TextColor.ANSI.BLACK;
+                    if (keyStroke.getKeyType() == KeyType.ArrowDown && highlightY < 2)
+                        highlightY++;
+                    if (keyStroke.getKeyType() == KeyType.ArrowUp && highlightY > 0)
+                        highlightY--;
+                    if (keyStroke.getKeyType() == KeyType.ArrowRight && highlightX < 2)
+                        highlightX++;
+                    if (keyStroke.getKeyType() == KeyType.ArrowLeft && highlightX > 0)
+                        highlightX--;
+                    if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == ' ') {
+                        if (game.checkIfFree(new Point(highlightX, highlightY))) {
+                            game.makeMove(new Point(highlightX, highlightY));
+                            drawXorO(tg, highlightX, highlightY);
+                            String result = game.checkWinner();
+                            if (result != null) {
+                                if (result != "TIE")
+                                    for (Point point : game.getWinningPositions()) {
+                                        highlightField(tg, point.x, point.y, TextColor.ANSI.MAGENTA, TextColor.ANSI.CYAN);
+                                    }
+                                break;
+                            }
+
+                            drawCurrentPlayer(tg);
+                            unHighlightField(tg,highlightX, highlightY);
+                            terminal.flush();
+                            screen.refresh();
+
+                            Thread.sleep(500);
+
+                            drawCurrentPlayer(tg);
+                            Point point = logic.makeMove();
+                            game.makeMove(point);
+
+                            drawXorO(tg, point.x, point.y);
+                            result = game.checkWinner();
+                            if (result != null) {
+                                if (result != "TIE")
+                                    for (Point winningPoint : game.getWinningPositions()) {
+                                        highlightField(tg, winningPoint.x, winningPoint.y, TextColor.ANSI.RED, TextColor.ANSI.YELLOW);
+                                    }
+                                break;
+                            }
+
+                            drawCurrentPlayer(tg);
+
+                        } else {
+                            bgColor = TextColor.ANSI.RED;
+                            fgColor = TextColor.ANSI.WHITE;
+
                         }
-                    } else {
-                        bgColor = TextColor.ANSI.RED;
-                        fgColor = TextColor.ANSI.WHITE;
 
                     }
+                    if (keyStroke.getKeyType() == KeyType.Escape) {
+                        play = false;
+                        break;
+                    }
 
+                    highlightField(tg, highlightX, highlightY, bgColor, fgColor);
+                    terminal.flush();
+                    screen.refresh();
                 }
-                if (keyStroke.getKeyType() == KeyType.Escape) {
-                    break;
-                }
-
-                highlightField(tg, highlightX, highlightY, bgColor, fgColor);
-                terminal.flush();
-                screen.refresh();
             }
+
+            terminal.flush();
+            screen.refresh();
+
+            game.nextGame();
+            tg.fill(' ');
+
+            highlightX=1;
+            highlightY=1;
+            Thread.sleep(2000);
+
         }
-
-
-        terminal.flush();
-        screen.refresh();
-
-        Thread.sleep(4000);
 
         screen.close();
         terminal.close();
