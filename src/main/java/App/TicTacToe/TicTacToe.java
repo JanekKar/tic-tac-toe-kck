@@ -1,8 +1,9 @@
-package TicTacToe;
+package App.TicTacToe;
 
 import java.awt.*;
 public class TicTacToe {
 
+    private static TicTacToe instance;
 
     protected String blank = "";
 
@@ -10,25 +11,30 @@ public class TicTacToe {
     private int currentPlayer;
     private int available;
 
-    private Player player;
+    private final Player player;
 
     protected String[][] board = new String[3][3];
 
     private Point[] winningPositions;
     private String winner;
 
-    public TicTacToe(Player player) {
+    private TicTacToe(Player player) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 board[i][j] = blank;
                 available++;
             }
         }
-
         this.player = player;
-
         currentPlayer = 0;
     }
+
+    public static TicTacToe getInstance(Player player){
+        if (instance == null)
+            instance = new TicTacToe(player);
+        return instance;
+    }
+
 
 
     public boolean equal3(String a, String b, String c) {

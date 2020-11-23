@@ -1,4 +1,4 @@
-package TicTacToe;
+package App.TicTacToe;
 
 import java.util.UUID;
 
