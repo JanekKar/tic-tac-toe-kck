@@ -7,6 +7,7 @@ import com.googlecode.lanterna.input.KeyType;
 import java.io.IOException;
 
 import static App.CLI.CLI.*;
+import static App.CLI.Utils.*;
 
 public class MainMenu {
     private static int menuPos = 0;
