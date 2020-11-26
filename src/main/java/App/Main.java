@@ -18,8 +18,6 @@ public class Main{
 
         TextGraphics tg = CLI.setUpTerminalAndScreen();
 
-
-
         CLI.mainLoop(tg);
 
         CLI.screen.close();

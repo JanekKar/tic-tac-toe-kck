@@ -23,7 +23,7 @@ public class TicTacToeLogic {
     }
 
     public Point makeMove(){
-        return hardAi();
+        return bestMove();
     }
 
     public Point easyAi(){

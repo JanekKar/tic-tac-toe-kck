@@ -44,6 +44,19 @@ public class Utils {
         tg.setCharacter(endX, startY, Symbols.DOUBLE_LINE_TOP_RIGHT_CORNER);
         tg.setCharacter(endX, endY, Symbols.DOUBLE_LINE_BOTTOM_RIGHT_CORNER);
     }
+
+    public static void drawWindow(TextGraphics tg, int startX, int startY, int endX, int endY ){
+        drawBorder(tg, startX, startY, endX, endY);
+        tg.fillRectangle(
+                new TerminalPosition(windowPaddingLeft+startX+1, windowPaddingTop+startY+1),
+                new TerminalSize(endX-startX-1, endY-startY-1),
+                ' ');
+    }
+
+    public static void  drawWindow(TextGraphics tg, int marginSide, int marginTop){
+        drawWindow(tg, marginSide, marginTop, columns-marginSide-1, rows-marginTop-1);
+    }
+
     public static void drawX(TextGraphics tg, int x, int y) {
         int posX = x + windowPaddingLeft;
         int posY = y + windowPaddingTop;
@@ -147,4 +160,19 @@ public class Utils {
             default:
         }
     }
+
+    public static void setDimensions(){
+        rows = 24;
+        columns = 80;
+
+        prevRows = rows;
+        prevCols = columns;
+
+        rowHeight = (rows - 1) / 3;
+        columnWidth = ((columns - sidebar - 6) / 3) - 1;
+        paddingLeft = sidebar + paddingLeftSidebar;
+        sidebarPaddingTop = (rows - 20) / 2;
+    }
 }
+
+

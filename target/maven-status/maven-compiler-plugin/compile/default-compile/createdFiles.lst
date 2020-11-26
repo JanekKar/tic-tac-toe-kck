@@ -1,1 +1,9 @@
-Main.class
+App/TicTacToe/TicTacToe.class
+App/CLI/PauseMenu.class
+App/TicTacToe/TicTacToeLogic.class
+App/OLD.class
+App/Main.class
+App/CLI/Utils.class
+App/CLI/MainMenu.class
+App/CLI/CLI.class
+App/TicTacToe/Player.class

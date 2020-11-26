@@ -27,6 +27,7 @@ public class PauseMenu {
                 }
                 if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'q') {
                     play = false;
+                    paused = false;
                     return true;
                 }
             }

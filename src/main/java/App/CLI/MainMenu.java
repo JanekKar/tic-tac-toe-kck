@@ -6,12 +6,13 @@ import com.googlecode.lanterna.input.KeyType;
 
 import java.io.IOException;
 
-import static App.CLI.CLI.*;
 import static App.CLI.Utils.*;
+import static App.CLI.CLI.*;
+
 
 public class MainMenu {
     private static int menuPos = 0;
-    private static String[] menuItems = {
+    private final static String[] menuItems = {
             "Start Game",
             "Settings",
             "Score Board",
@@ -92,13 +93,16 @@ public class MainMenu {
                 if (keyStroke.getKeyType() == KeyType.Enter){
                     switch(menuPos){
                         case 0:
-                            return;
+                            levelMenu(tg);
+                            if(play)
+                                return;
                         case 1:
                             break;
                         case 2:
                             break;
                         case 3:
                             run = false;
+                            play = false;
                             return;
                     }
                 }
@@ -111,31 +115,88 @@ public class MainMenu {
         }
     }
 
+    private static void drawLevelMenu(TextGraphics tg){
+        drawWindow(tg, 15, 5);
+    }
+
+    private static void levelMenu(TextGraphics tg) throws IOException {
+        drawLevelMenu(tg);
+
+        terminal.flush();
+        screen.refresh();
+        boolean choosingLevel = true;
+        while(choosingLevel){
+            KeyStroke keyStroke = terminal.pollInput();
+            if (keyStroke != null) {
+                if (keyStroke.getKeyType() == KeyType.ArrowDown && menuPos < menuItems.length-1){
+//                    menuPos++;
+                    continue;
+                }
+                if (keyStroke.getKeyType() == KeyType.ArrowUp && menuPos > 0) {
+//                    menuPos--;
+                    continue;
+                }
+                if (keyStroke.getKeyType() == KeyType.Enter){
+                    play = true;
+                    switch(menuPos){
+                        case 0:
+                            if(play)
+                                return;
+                        case 1:
+                            break;
+                        case 2:
+                            break;
+                        case 3:
+                            run = false;
+                            play = false;
+                            return;
+                    }
+                }
+                if (keyStroke.getKeyType() == KeyType.Escape){
+                    drawMainMenu(tg);
+                    return;
+                }
+
+                terminal.flush();
+                screen.refresh();
+            }
+        }
+    }
+
     private static void highlightMenuItem(TextGraphics tg) {
+        int itemNumber = 2 * menuPos;
+        int menuPaddingTop = windowPaddingTop+12;
+        int menuPaddingLeft = windowPaddingLeft+12;
+
         tg.setForegroundColor(TextColor.ANSI.BLUE);
-        tg.putString(10,12+2*menuPos, Symbols.TRIANGLE_RIGHT_POINTING_BLACK+"", SGR.BLINK);
-        tg.putString(12,12+2*menuPos, menuItems[menuPos], SGR.UNDERLINE );
-        tg.putString(10+menuItems[menuPos].length() + 3,12+2*menuPos, Symbols.TRIANGLE_LEFT_POINTING_BLACK+"", SGR.BLINK);
+        tg.putString(windowPaddingLeft+10,menuPaddingTop+itemNumber, Symbols.TRIANGLE_RIGHT_POINTING_BLACK+"", SGR.BLINK);
+        tg.putString(menuPaddingLeft,menuPaddingTop+itemNumber, menuItems[menuPos], SGR.UNDERLINE );
+        tg.putString(windowPaddingLeft+10+menuItems[menuPos].length() + 3,menuPaddingTop+itemNumber, Symbols.TRIANGLE_LEFT_POINTING_BLACK+"", SGR.BLINK);
         tg.setForegroundColor(TextColor.ANSI.DEFAULT);
     }
 
     private static void unhighlightMenuItem(TextGraphics tg){
+        int itemNumber = 2 * menuPos;
+        int menuPaddingTop = windowPaddingTop+12;
+        int menuPaddingLeft = windowPaddingLeft+12;
+
         tg.setForegroundColor(TextColor.ANSI.YELLOW);
-        tg.putString(10,12+2*menuPos, " ");
-        tg.putString(12,12+2*menuPos, menuItems[menuPos]);
-        tg.putString(10+menuItems[menuPos].length() + 3,12+2*menuPos, " ");
+        tg.putString(windowPaddingLeft+10,menuPaddingTop+itemNumber, " ");
+        tg.putString(menuPaddingLeft,menuPaddingTop+itemNumber, menuItems[menuPos]);
+        tg.putString(windowPaddingLeft+10+menuItems[menuPos].length() + 3,menuPaddingTop+2*menuPos, " ");
     }
 
     protected static void drawMainMenu(TextGraphics tg) {
+        int menuPaddingTop = windowPaddingTop+12;
+        int menuPaddingLeft = windowPaddingLeft+12;
         tg.setBackgroundColor(TextColor.ANSI.WHITE);
         tg.setForegroundColor(TextColor.ANSI.YELLOW);
         tg.fill(' ');
-        drawBorder(tg, 0, 0,columns-1, rows-1);
-        tg.fillRectangle(new TerminalPosition(windowPaddingLeft+ 1,windowPaddingTop+1),new TerminalSize(columns-2, rows-2), ' ');
+        drawWindow(tg,0,0);
         drawLogo(tg);
 
         for(int i = 0; i< menuItems.length; i++){
-            tg.putString(12,12+2*i, menuItems[i] );
+            tg.putString(menuPaddingLeft,menuPaddingTop+2*i, menuItems[i] );
         }
 
         menuPos = 0;

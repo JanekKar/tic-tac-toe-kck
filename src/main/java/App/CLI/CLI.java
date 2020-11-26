@@ -1,7 +1,6 @@
 package App.CLI;
 
 import App.Main;
-import App.CLI.MainMenu.*;
 import App.TicTacToe.TicTacToe;
 import App.TicTacToe.TicTacToeLogic;
 import com.googlecode.lanterna.*;
@@ -16,11 +15,11 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.awt.*;
 import java.io.IOException;
 
-import static App.CLI.MainMenu.drawMainMenu;
-import static App.CLI.MainMenu.mainMenu;
-import static App.CLI.PauseMenu.drawPausedMenu;
-import static App.CLI.PauseMenu.pauseMenu;
+
+import static App.CLI.PauseMenu.*;
 import static App.CLI.Utils.*;
+import static App.CLI.MainMenu.*;
+
 
 
 public class CLI {
@@ -30,7 +29,7 @@ public class CLI {
     public static Screen screen;
     static int highlightX = 1;
     static int highlightY = 1;
-    static boolean play = true;
+    static boolean play = false;
     protected static boolean paused = false;
     protected static boolean run = true;
 
@@ -130,7 +129,6 @@ public class CLI {
 
 
     public static void mainLoop(TextGraphics tg) throws IOException, InterruptedException {
-
 
         while(run){
             mainMenu(tg);
@@ -239,6 +237,48 @@ public class CLI {
         }
     }
 
+    public static void calculatePadding() throws IOException {
+
+        int currRows = terminal.getTerminalSize().getRows();
+        int currColumns = terminal.getTerminalSize().getColumns();
+
+        int deltaColumns = currColumns - prevCols;
+        int deltaRows = currRows - prevRows;
+
+        if (deltaColumns % 2 == 0) {
+            prevCols = currColumns;
+            windowPaddingLeft += deltaColumns / 2;
+        }
+
+        if (deltaRows % 2 == 0) {
+            prevRows = currRows;
+            windowPaddingTop += deltaRows / 2;
+        }
+
+        screen.doResizeIfNecessary();
+    }
+
+    public static void resizeScreen(TextGraphics tg){
+        try {
+
+            calculatePadding();
+
+            if (play)
+                drawGame(tg);
+            else
+                drawMainMenu(tg);
+
+            if (paused)
+                drawPausedMenu(tg);
+
+            terminal.flush();
+            screen.refresh();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static TextGraphics setUpTerminalAndScreen() throws IOException {
         terminal = new DefaultTerminalFactory().createTerminal();
         terminal.setCursorVisible(false);
@@ -250,52 +290,18 @@ public class CLI {
         TextGraphics tg = screen.newTextGraphics();
 
         terminal.addResizeListener((terminal, terminalSize) -> {
-            try {
-
-                int currRows = terminal.getTerminalSize().getRows();
-                int currColumns = terminal.getTerminalSize().getColumns();
-
-                int deltaColumns = currColumns - prevCols;
-                int deltaRows = currRows - prevRows;
-
-                if (deltaColumns % 2 == 0) {
-                    prevCols = currColumns;
-                    windowPaddingLeft += deltaColumns / 2;
-                }
-
-                if (deltaRows % 2 == 0) {
-                    prevRows = currRows;
-                    windowPaddingTop += deltaRows / 2;
-                }
-
-                screen.doResizeIfNecessary();
-                if (play)
-                    drawGame(tg);
-                else
-                    drawMainMenu(tg);
-
-                if (paused)
-                    drawPausedMenu(tg);
-
-                terminal.flush();
-                screen.refresh();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+           resizeScreen(tg);
         });
         screen.startScreen();
 
-        rows = 24;
-        columns = 80;
+        setDimensions();
 
-        prevRows = rows;
-        prevCols = columns;
+        int tempRows = terminal.getTerminalSize().getRows();
+        int tempCol = terminal.getTerminalSize().getColumns();
 
-        rowHeight = (rows - 1) / 3;
-        columnWidth = ((columns - sidebar - 6) / 3) - 1;
-        paddingLeft = sidebar + paddingLeftSidebar;
-        sidebarPaddingTop = (rows - 20) / 2;
+        if(tempRows != rows || tempCol != columns){
+            calculatePadding();
+        }
 
         return tg;
     }
