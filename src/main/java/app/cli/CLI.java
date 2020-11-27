@@ -1,8 +1,8 @@
-package App.CLI;
+package app.cli;
 
-import App.Main;
-import App.TicTacToe.TicTacToe;
-import App.TicTacToe.TicTacToeLogic;
+import app.Main;
+import app.ticTacToe.TicTacToe;
+import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -16,15 +16,15 @@ import java.awt.*;
 import java.io.IOException;
 
 
-import static App.CLI.PauseMenu.*;
-import static App.CLI.Utils.*;
-import static App.CLI.MainMenu.*;
+import static app.cli.PauseMenu.*;
+import static app.cli.Utils.*;
+import static app.cli.MainMenu.*;
 
 
 
 public class CLI {
     private static TicTacToe game = Main.game;
-    private static TicTacToeLogic logic = Main.logic;
+    protected static TicTacToeLogic logic = Main.logic;
     public static Terminal terminal;
     public static Screen screen;
     static int highlightX = 1;

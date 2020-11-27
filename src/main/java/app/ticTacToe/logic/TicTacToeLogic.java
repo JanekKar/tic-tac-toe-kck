@@ -1,10 +1,12 @@
-package App.TicTacToe;
+package app.ticTacToe.logic;
+
+import app.ticTacToe.TicTacToe;
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TicTacToeLogic {
+public abstract class TicTacToeLogic {
     private TicTacToe game;
 
     String ai = "O";
@@ -13,43 +15,16 @@ public class TicTacToeLogic {
 
     Map<String, Integer> score = new HashMap<String, Integer>();
 
-    public TicTacToeLogic(TicTacToe game){
-        this.game = game;
-        this.blank = game.blank;
+    public TicTacToeLogic(){
+        this.game = TicTacToe.getInstance();
+        this.blank = game.getBlank();
 
         score.put(player, -10);
         score.put(ai, 10);
         score.put("TIE", 0);
     }
 
-    public Point makeMove(){
-        return bestMove();
-    }
-
-    public Point easyAi(){
-        double chance = Math.random();
-        if(chance > 0.5)
-            return random();
-        else
-            return bestMove();
-    }
-
-    public Point midAi(){
-        double chance = Math.random();
-        if(chance > 0.8)
-            return random();
-        else
-            return bestMove();
-    }
-
-    public Point hardAi(){
-        double chance = Math.random();
-        if(chance > 0.9)
-            return random();
-        else
-            return bestMove();
-
-    }
+    public abstract Point makeMove();
 
     public Point random(){
         Point temp;
@@ -63,8 +38,8 @@ public class TicTacToeLogic {
         int bestScore = Integer.MIN_VALUE;
         Point move = null;
 
-        for (int i=0; i<game.board.length; i++){
-            for(int j=0; j<game.board[i].length; j++){
+        for (int i=0; i<game.getBoard().length; i++){
+            for(int j=0; j<game.getBoard()[i].length; j++){
                 if (game.checkIfFree(new Point(i,j))){
                     game.makeMove(i,j,ai);
                     int score = minimax(false);
@@ -90,8 +65,8 @@ public class TicTacToeLogic {
 
         if(ai_turn){
             bestScore = Integer.MIN_VALUE;
-            for (int i=0; i<game.board.length; i++){
-                for(int j=0; j<game.board[i].length; j++){
+            for (int i=0; i<game.getBoard().length; i++){
+                for(int j=0; j<game.getBoard()[i].length; j++){
                     if (game.checkIfFree(new Point(i,j))){
                         game.makeMove(i,j, ai);
                         int score = minimax(false);
@@ -102,8 +77,8 @@ public class TicTacToeLogic {
             }
         }else{
             bestScore = Integer.MAX_VALUE;
-            for (int i=0; i<game.board.length; i++){
-                for(int j=0; j<game.board[i].length; j++){
+            for (int i=0; i<game.getBoard().length; i++){
+                for(int j=0; j<game.getBoard()[i].length; j++){
                     if (game.checkIfFree(new Point(i,j))){
                         game.makeMove(i,j,player);
                         int score = minimax(true);
@@ -115,4 +90,6 @@ public class TicTacToeLogic {
         }
         return bestScore;
     }
+
 }
+

@@ -1,4 +1,4 @@
-package App.CLI;
+package app.cli;
 
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -7,8 +7,8 @@ import com.googlecode.lanterna.input.KeyType;
 
 import java.io.IOException;
 
-import static App.CLI.CLI.*;
-import static App.CLI.Utils.*;
+import static app.cli.CLI.*;
+import static app.cli.Utils.*;
 
 public class PauseMenu {
     public static boolean pauseMenu(TextGraphics tg) throws IOException {

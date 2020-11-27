@@ -1,4 +1,4 @@
-package App.CLI;
+package app.cli;
 
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalPosition;
@@ -8,7 +8,7 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.awt.*;
 
-import static App.Main.game;
+import static app.Main.game;
 
 public class Utils {
     static int rowHeight;

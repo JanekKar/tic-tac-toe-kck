@@ -1,4 +1,4 @@
-package App.TicTacToe;
+package app.ticTacToe;
 
 import java.awt.*;
 public class TicTacToe {
@@ -11,28 +11,31 @@ public class TicTacToe {
     private int currentPlayer;
     private int available;
 
-    private final Player player;
+    private Player player;
 
     protected String[][] board = new String[3][3];
 
     private Point[] winningPositions;
     private String winner;
 
-    private TicTacToe(Player player) {
+    private TicTacToe() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 board[i][j] = blank;
                 available++;
             }
         }
-        this.player = player;
         currentPlayer = 0;
     }
 
-    public static TicTacToe getInstance(Player player){
+    public static TicTacToe getInstance(){
         if (instance == null)
-            instance = new TicTacToe(player);
+            instance = new TicTacToe();
         return instance;
+    }
+
+    public void setPlayer(Player player){
+        this.player = player;
     }
 
 
@@ -95,12 +98,12 @@ public class TicTacToe {
         }
     }
 
-    protected void makeMove(int x, int y,  String player ){
+    public void makeMove(int x, int y, String player){
         board[x][y] = player;
         available--;
     }
 
-    protected void undoMove(int x, int y){
+    public void undoMove(int x, int y){
         board[x][y] = blank;
         available++;
     }
@@ -153,5 +156,13 @@ public class TicTacToe {
             }
             System.out.println();
         }
+    }
+
+    public String getBlank() {
+        return this.blank;
+    }
+
+    public String[][] getBoard() {
+        return this.board;
     }
 }

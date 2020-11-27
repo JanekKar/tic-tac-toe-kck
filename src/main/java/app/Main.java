@@ -1,7 +1,8 @@
-package App;
+package app;
 
-import App.TicTacToe.*;
-import App.CLI.*;
+import app.ticTacToe.*;
+import app.cli.*;
+import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.io.IOException;
@@ -9,12 +10,13 @@ import java.io.IOException;
 public class Main{
 
     public static TicTacToe game;
-    public static TicTacToeLogic  logic;
+    public static TicTacToeLogic logic;
 
     public static void main(String[] args) throws IOException, InterruptedException, IOException {
 
-        game = TicTacToe.getInstance(new Player("Janek"));
-        logic = new TicTacToeLogic(game);
+        game = TicTacToe.getInstance();
+        game.setPlayer(new Player("Janek"));
+        logic = null;
 
         TextGraphics tg = CLI.setUpTerminalAndScreen();
 
