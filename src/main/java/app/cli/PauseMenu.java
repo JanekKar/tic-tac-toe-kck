@@ -37,26 +37,28 @@ public class PauseMenu {
     }
 
     protected static void drawPausedMenu(TextGraphics tg) {
-        tg.setForegroundColor(TextColor.ANSI.YELLOW);
-        drawBorder(tg, 4, 2, columns - 5, rows - 3);
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-        tg.fillRectangle(new TerminalPosition(windowPaddingLeft + 5, windowPaddingTop + 3), new TerminalSize(columns - 10, rows - 6), ' ');
+        TextColor prevColor = tg.getForegroundColor();
 
+        drawWindow(tg, 4, 2);
+
+        tg.setForegroundColor(colorSchema.menuForground);
+        tg.setBackgroundColor(colorSchema.menuBackground);
         tg.putString(windowPaddingLeft + 9, windowPaddingTop + 4, "Game Paused", SGR.BLINK, SGR.CIRCLED);
         tg.drawLine(windowPaddingLeft + 8, windowPaddingTop + 5, windowPaddingLeft + columns - 9, windowPaddingTop + 5, Symbols.SINGLE_LINE_HORIZONTAL);
         tg.putString(windowPaddingLeft + 12, windowPaddingTop + 8, "Press Q to quit game", SGR.CIRCLED);
         tg.setForegroundColor(TextColor.ANSI.RED);
         tg.putString(windowPaddingLeft + 12 + "Press ".length(), windowPaddingTop + 8, "Q");
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+        tg.setForegroundColor(colorSchema.menuForground);
         tg.putString(windowPaddingLeft + 12, windowPaddingTop + 11, "Press ESC to continue", SGR.CIRCLED);
         tg.setForegroundColor(TextColor.ANSI.GREEN);
         tg.putString(windowPaddingLeft + 12 + "Press ".length(), windowPaddingTop + 11, "ESC");
 
+        tg.setForegroundColor(colorSchema.logo[0]);
         drawX(tg, 55, 7);
-        tg.setForegroundColor(TextColor.ANSI.MAGENTA);
+        tg.setForegroundColor(colorSchema.logo[1]);
         drawO(tg, 55, 14);
-        tg.setForegroundColor(TextColor.ANSI.CYAN);
+        tg.setForegroundColor(colorSchema.logo[2]);
         drawX(tg, 42, 14);
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+        tg.setForegroundColor(prevColor);
     }
 }

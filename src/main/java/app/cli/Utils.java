@@ -1,5 +1,7 @@
 package app.cli;
 
+import app.cli.colors.ColorSchema;
+import app.cli.colors.DefaultColors;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -27,11 +29,16 @@ public class Utils {
     static int prevCols;
     static int xWidth = 11;
     static int xHeight = 5;
+
+    public static ColorSchema colorSchema = new DefaultColors();
+
     public static void drawBorder(TextGraphics tg, int startX, int startY, int endX, int endY) {
+        TextColor prevColor = tg.getForegroundColor();
         startX += windowPaddingLeft;
         endX += windowPaddingLeft;
         startY += windowPaddingTop;
         endY += windowPaddingTop;
+        tg.setForegroundColor(colorSchema.borders);
 
         tg.drawLine(new TerminalPosition(startX, startY), new TerminalPosition(endX, startY), Symbols.DOUBLE_LINE_HORIZONTAL);
         tg.drawLine(new TerminalPosition(startX, endY), new TerminalPosition(endX, endY), Symbols.DOUBLE_LINE_HORIZONTAL);
@@ -43,14 +50,20 @@ public class Utils {
         tg.setCharacter(startX, endY, Symbols.DOUBLE_LINE_BOTTOM_LEFT_CORNER);
         tg.setCharacter(endX, startY, Symbols.DOUBLE_LINE_TOP_RIGHT_CORNER);
         tg.setCharacter(endX, endY, Symbols.DOUBLE_LINE_BOTTOM_RIGHT_CORNER);
+
+        tg.setForegroundColor(prevColor);
     }
 
     public static void drawWindow(TextGraphics tg, int startX, int startY, int endX, int endY ){
         drawBorder(tg, startX, startY, endX, endY);
+        TextColor prevColor = tg.getBackgroundColor();
+        tg.setBackgroundColor(colorSchema.menuBackground);
         tg.fillRectangle(
                 new TerminalPosition(windowPaddingLeft+startX+1, windowPaddingTop+startY+1),
                 new TerminalSize(endX-startX-1, endY-startY-1),
                 ' ');
+
+        tg.setBackgroundColor(prevColor);
     }
 
     public static void  drawWindow(TextGraphics tg, int marginSide, int marginTop){
@@ -172,6 +185,10 @@ public class Utils {
         columnWidth = ((columns - sidebar - 6) / 3) - 1;
         paddingLeft = sidebar + paddingLeftSidebar;
         sidebarPaddingTop = (rows - 20) / 2;
+    }
+
+    public static void setColorSchema(ColorSchema colors){
+        colorSchema = colors;
     }
 }
 

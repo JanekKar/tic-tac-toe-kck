@@ -1,4 +1,6 @@
 package app.cli;
+import app.cli.colors.DefaultColors;
+import app.cli.colors.MonokaiColors;
 import app.ticTacToe.logic.EasyLogic;
 import app.ticTacToe.logic.HardLogic;
 import app.ticTacToe.logic.ImpossibleLogic;
@@ -36,16 +38,18 @@ public class MainMenu {
     };
 
     private final static String[] colorsSchemas = {
-            "1", "2", "3", "4", "5"
+            "Default", "Monokai"
     };
 
     private static void drawLogo(TextGraphics tg){
+
+        TextColor prevColor = tg.getForegroundColor();
 
         int totalPaddingLeft = windowPaddingLeft + 10;
         int totalPaddingTop = windowPaddingTop;
 
         char sym = Symbols.BLOCK_SOLID;
-        tg.setForegroundColor(TextColor.ANSI.CYAN);
+        tg.setForegroundColor(colorSchema.logo[0]);
         //T
         tg.drawLine(totalPaddingLeft + 3,totalPaddingTop + 3,totalPaddingLeft + 7,totalPaddingTop + 3, sym);
         tg.drawLine(totalPaddingLeft + 5,totalPaddingTop + 3,totalPaddingLeft + 5,totalPaddingTop + 6, sym);
@@ -57,7 +61,7 @@ public class MainMenu {
         tg.drawLine(totalPaddingLeft + 11,totalPaddingTop + 6,totalPaddingLeft + 14,totalPaddingTop + 6, sym);
 
         sym = Symbols.BLOCK_DENSE;
-        tg.setForegroundColor(TextColor.ANSI.GREEN);
+        tg.setForegroundColor(colorSchema.logo[1]);
         //T
         tg.drawLine(totalPaddingLeft + 18,totalPaddingTop + 3,totalPaddingLeft + 22,totalPaddingTop + 3, sym);
         tg.drawLine(totalPaddingLeft + 20,totalPaddingTop + 3,totalPaddingLeft + 20,totalPaddingTop + 6, sym);
@@ -74,7 +78,7 @@ public class MainMenu {
         tg.drawLine(totalPaddingLeft + 30,totalPaddingTop + 6,totalPaddingLeft + 33,totalPaddingTop + 6, sym);
 
         sym = Symbols.BLOCK_MIDDLE;
-        tg.setForegroundColor(TextColor.ANSI.YELLOW);
+        tg.setForegroundColor(colorSchema.logo[2]);
 
         //T
         tg.drawLine(totalPaddingLeft + 37,totalPaddingTop + 3,totalPaddingLeft + 41,totalPaddingTop + 3, sym);
@@ -91,18 +95,21 @@ public class MainMenu {
         tg.drawLine(totalPaddingLeft + 49, totalPaddingTop + 4, totalPaddingLeft + 53,totalPaddingTop + 4, sym);
         tg.drawLine(totalPaddingLeft + 49, totalPaddingTop + 6, totalPaddingLeft + 53,totalPaddingTop + 6, sym);
         tg.drawLine(totalPaddingLeft + 49,totalPaddingTop + 3,totalPaddingLeft + 49,totalPaddingTop + 6, sym);
+
+        tg.setForegroundColor(prevColor);
     }
 
     private static void highlightMenuItem(TextGraphics tg, int menuPos, String[] menuItems, int menuPaddingLeft, int menuPaddingTop) {
+        TextColor prevColor = tg.getForegroundColor();
         int itemNumber = 2 * menuPos;
         menuPaddingTop += windowPaddingTop;
         menuPaddingLeft += windowPaddingLeft;
 
-        tg.setForegroundColor(TextColor.ANSI.BLUE);
+        tg.setForegroundColor(colorSchema.menuHighlight);
         tg.putString(menuPaddingLeft-2,menuPaddingTop+itemNumber, Symbols.TRIANGLE_RIGHT_POINTING_BLACK+"", SGR.BLINK);
         tg.putString(menuPaddingLeft,menuPaddingTop+itemNumber, menuItems[menuPos], SGR.UNDERLINE );
         tg.putString(menuPaddingLeft-2+menuItems[menuPos].length() + 3,menuPaddingTop+itemNumber, Symbols.TRIANGLE_LEFT_POINTING_BLACK+"", SGR.BLINK);
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+        tg.setForegroundColor(prevColor);
     }
 
     private static void unhighlightMenuItem(TextGraphics tg, int menuPos, String[] menuItems, int menuPaddingLeft, int menuPaddingTop){
@@ -110,7 +117,7 @@ public class MainMenu {
         menuPaddingTop += windowPaddingTop;
         menuPaddingLeft += windowPaddingLeft;
 
-        tg.setForegroundColor(TextColor.ANSI.YELLOW);
+        tg.setForegroundColor(colorSchema.menuForground);
         tg.putString(menuPaddingLeft-2,menuPaddingTop+itemNumber, " ");
         tg.putString(menuPaddingLeft,menuPaddingTop+itemNumber, menuItems[menuPos]);
         tg.putString(menuPaddingLeft-2+menuItems[menuPos].length() + 3,menuPaddingTop+2*menuPos, " ");
@@ -119,8 +126,8 @@ public class MainMenu {
     protected static void drawMainMenu(TextGraphics tg) {
         int menuPaddingTop = windowPaddingTop+12;
         int menuPaddingLeft = windowPaddingLeft+12;
-        tg.setBackgroundColor(TextColor.ANSI.WHITE);
-        tg.setForegroundColor(TextColor.ANSI.YELLOW);
+        tg.setBackgroundColor(colorSchema.menuBackground);
+        tg.setForegroundColor(colorSchema.menuForground);
         tg.fill(' ');
         drawWindow(tg,0,0);
         drawLogo(tg);
@@ -182,7 +189,6 @@ public class MainMenu {
                             drawMainMenu(tg);
                             break;
                         case 1:
-//                            settingsMenu(tg);
                             Submenu settingsMenu = new Submenu(tg, setteingsCategories, "Settings") {
                                 @Override
                                 void onEnter(int menuPos) throws IOException {
@@ -191,7 +197,19 @@ public class MainMenu {
                                             Submenu colorsMenu = new Submenu(tg, colorsSchemas, "Choose color schema") {
                                                 @Override
                                                 void onEnter(int menuPos) {
-                                                    return;
+                                                    switch(menuPos){
+                                                        case 0:
+                                                            colorSchema = new DefaultColors();
+                                                            break;
+                                                        case 1:
+                                                            colorSchema = new MonokaiColors();
+                                                            break;
+                                                        case 2:
+                                                            break;
+                                                        case 3:
+                                                            break;
+                                                    }
+                                                    closeMenu();
                                                 }
                                             };
                                             colorsMenu.showMenu();

@@ -32,8 +32,8 @@ public abstract class Submenu {
     public void drawSubMenu(){
         int totalItemPaddingTop = itemPaddingTop + windowPaddingTop;
         int totalItemPaddingLeft = itemPaddintLeft + windowPaddingLeft;
-        tg.setBackgroundColor(TextColor.ANSI.WHITE);
-        tg.setForegroundColor(TextColor.ANSI.YELLOW);
+        tg.setBackgroundColor(colorSchema.menuBackground);
+        tg.setForegroundColor(colorSchema.menuForground);
         drawWindow(tg, 15, 4);
         tg.putString(totalItemPaddingLeft -5, totalItemPaddingTop-3, menuTitle);
         tg.drawLine(totalItemPaddingLeft -5, totalItemPaddingTop-2, windowPaddingLeft + columns - 18, windowPaddingTop + 7, Symbols.SINGLE_LINE_HORIZONTAL);
@@ -81,15 +81,16 @@ public abstract class Submenu {
     }
 
     private void highlightMenuItem() {
+        TextColor prevColor = tg.getForegroundColor();
         int itemNumber = 2 * menuPos;
         int totalPaddingTop = this.itemPaddingTop + windowPaddingTop;
         int totalPaddingLeft = this.itemPaddintLeft + windowPaddingLeft;
 
-        tg.setForegroundColor(TextColor.ANSI.BLUE);
+        tg.setForegroundColor(colorSchema.menuHighlight);
         tg.putString(totalPaddingLeft-2,totalPaddingTop+itemNumber, Symbols.TRIANGLE_RIGHT_POINTING_BLACK+"", SGR.BLINK);
         tg.putString(totalPaddingLeft,totalPaddingTop+itemNumber, menuItems[menuPos], SGR.UNDERLINE );
         tg.putString(totalPaddingLeft-2+menuItems[menuPos].length() + 3,totalPaddingTop+itemNumber, Symbols.TRIANGLE_LEFT_POINTING_BLACK+"", SGR.BLINK);
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+        tg.setForegroundColor(prevColor);
     }
 
     private void unhighlightMenuItem(){
@@ -97,7 +98,7 @@ public abstract class Submenu {
         int totalPaddingTop = this.itemPaddingTop + windowPaddingTop;
         int totalPaddingLeft = this.itemPaddintLeft + windowPaddingLeft;
 
-        tg.setForegroundColor(TextColor.ANSI.YELLOW);
+        tg.setForegroundColor(colorSchema.menuForground);
         tg.putString(totalPaddingLeft-2,totalPaddingTop+itemNumber, " ");
         tg.putString(totalPaddingLeft,totalPaddingTop+itemNumber, menuItems[menuPos]);
         tg.putString(totalPaddingLeft-2+menuItems[menuPos].length() + 3,totalPaddingTop+2*menuPos, " ");

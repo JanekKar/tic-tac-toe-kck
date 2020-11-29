@@ -34,6 +34,8 @@ public class CLI {
     protected static boolean run = true;
 
     private static void drawBoard(TextGraphics tg) {
+        tg.setForegroundColor(colorSchema.gameBoard);
+        tg.setBackgroundColor(colorSchema.gameBackground);
         for (int j = 0; j < 3; j++) {
             for (int i = 0; i < 3; i++) {
                 tg.drawRectangle(
@@ -51,6 +53,8 @@ public class CLI {
     }
 
     private static void drawSidebar(TextGraphics tg) {
+
+        tg.setForegroundColor(colorSchema.borders);
 
         tg.drawLine(windowPaddingLeft + sidebar, windowPaddingTop, windowPaddingLeft + sidebar, windowPaddingTop + rows - 1, Symbols.DOUBLE_LINE_VERTICAL);
 
@@ -78,7 +82,6 @@ public class CLI {
         tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop, Symbols.DOUBLE_LINE_T_DOWN);
         tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop + rows - 1, Symbols.DOUBLE_LINE_T_UP);
 
-
         drawPlayerInfo(tg);
 
     }
@@ -102,6 +105,9 @@ public class CLI {
     }
 
     private static void drawPlayerInfo(TextGraphics tg) {
+        tg.setBackgroundColor(colorSchema.gameSidebarBackground);
+        tg.setForegroundColor(colorSchema.gameSidebarForeground);
+
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 2, "Score: " + game.getPlayer().getScore(), SGR.BOLD);
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 6, "Player:", SGR.BOLD);
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 7, game.getPlayer().getName());
@@ -123,8 +129,6 @@ public class CLI {
             tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 11, "AI's Turn", SGR.BLINK, SGR.BOLD);
         }
 
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-        tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
     }
 
 
@@ -132,8 +136,8 @@ public class CLI {
 
         while(run){
             mainMenu(tg);
-            tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
-            tg.setForegroundColor(TextColor.ANSI.DEFAULT);
+            tg.setBackgroundColor(colorSchema.gameBackground);
+            tg.setForegroundColor(colorSchema.gameBoard);
             tg.fill(' ');
 
             terminal.flush();
@@ -171,8 +175,8 @@ public class CLI {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
                 unHighlightField(tg, highlightX, highlightY);
-                bgColor = TextColor.ANSI.GREEN;
-                fgColor = TextColor.ANSI.BLACK;
+                bgColor = colorSchema.gameFiledHighlightOk[0];
+                fgColor = colorSchema.gameFiledHighlightOk[1];
                 if (keyStroke.getKeyType() == KeyType.ArrowDown && highlightY < 2)
                     highlightY++;
                 if (keyStroke.getKeyType() == KeyType.ArrowUp && highlightY > 0)
@@ -189,7 +193,7 @@ public class CLI {
                         if (result != null) {
                             if (!result.equals("TIE"))
                                 for (Point point : game.getWinningPositions()) {
-                                    highlightField(tg, point.x, point.y, TextColor.ANSI.MAGENTA, TextColor.ANSI.CYAN);
+                                    highlightField(tg, point.x, point.y, colorSchema.highlightWinning[0], colorSchema.highlightWinning[1]);
                                 }
                             break;
                         }
@@ -210,7 +214,7 @@ public class CLI {
                         if (result != null) {
                             if (!result.equals("TIE"))
                                 for (Point winningPoint : game.getWinningPositions()) {
-                                    highlightField(tg, winningPoint.x, winningPoint.y, TextColor.ANSI.RED, TextColor.ANSI.YELLOW);
+                                    highlightField(tg, winningPoint.x, winningPoint.y,colorSchema.highlightLoosing[0], colorSchema.highlightLoosing[1]);
                                 }
                             break;
                         }
@@ -218,8 +222,8 @@ public class CLI {
                         drawCurrentPlayer(tg);
 
                     } else {
-                        bgColor = TextColor.ANSI.RED;
-                        fgColor = TextColor.ANSI.WHITE;
+                        bgColor = colorSchema.gameFiledHighlightWrong[0];
+                        fgColor = colorSchema.gameFiledHighlightWrong[1];
                     }
 
                 }
