@@ -51,32 +51,25 @@ public abstract class Submenu {
         terminal.flush();
         screen.refresh();
 
-        while(show){
+        while(show) {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
                 unhighlightMenuItem();
-                switch(keyStroke.getKeyType()) {
-                    case ArrowDown:
-                        if (menuPos < menuItems.length - 1)
-                            menuPos++;
-                        break;
-                    case ArrowUp:
-                        if (menuPos > 0)
-                            menuPos--;
-                        break;
-                    case Enter:
-                        onEnter(menuPos);
-                        drawSubMenu();
-                        break;
-                    case Escape:
-                        closeMenu();
-                        break;
-                }
+                if ( controls.isDownKey(keyStroke) && menuPos < menuItems.length - 1)
+                    menuPos++;
+                else if (controls.isUpKey(keyStroke) && menuPos > 0)
+                    menuPos--;
+                else if (controls.isAssertKey(keyStroke)) {
+                    onEnter(menuPos);
+                    drawSubMenu();
+                } else if (controls.isEscapeKey(keyStroke))
+                    closeMenu();
+
                 highlightMenuItem();
                 terminal.flush();
                 screen.refresh();
-
             }
+
         }
     }
 

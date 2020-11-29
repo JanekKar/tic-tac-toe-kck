@@ -2,6 +2,8 @@ package app.cli;
 
 import app.cli.colors.ColorSchema;
 import app.cli.colors.DefaultColors;
+import app.cli.controls.Controls;
+import app.cli.controls.DefaultControls;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -30,7 +32,8 @@ public class Utils {
     static int xWidth = 11;
     static int xHeight = 5;
 
-    public static ColorSchema colorSchema = new DefaultColors();
+    public static ColorSchema colorSchema = DefaultColors.getInstance();
+    public static Controls controls = DefaultControls.getInstance();
 
     public static void drawBorder(TextGraphics tg, int startX, int startY, int endX, int endY) {
         TextColor prevColor = tg.getForegroundColor();
@@ -152,17 +155,16 @@ public class Utils {
                 ' ');
 
         drawXorO(tg, x, y);
-
-        tg.setBackgroundColor(TextColor.ANSI.DEFAULT);
-        tg.setForegroundColor(TextColor.ANSI.DEFAULT);
-
     }
 
     public static void unHighlightField(TextGraphics tg, int x, int y) {
-        highlightField(tg, x, y, TextColor.ANSI.DEFAULT, TextColor.ANSI.DEFAULT);
+        highlightField(tg, x, y, colorSchema.gameBackground, colorSchema.xAndO);
     }
 
     protected static void drawXorO(TextGraphics tg, int x, int y) {
+//        tg.setBackgroundColor(colorSchema.gameBackground);
+//        tg.setForegroundColor(colorSchema.xAndO);
+
         switch (game.getFieldContent(new Point(x, y))) {
             case "X":
                 drawXOnBoard(tg, x, y);

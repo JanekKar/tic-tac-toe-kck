@@ -22,10 +22,10 @@ public class PauseMenu {
         while (true) {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
-                if (keyStroke.getKeyType() == KeyType.Escape) {
+                if (controls.isEscapeKey(keyStroke)) {
                     break;
                 }
-                if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'q') {
+                if (controls.isQuitKey(keyStroke)) {
                     play = false;
                     paused = false;
                     return true;

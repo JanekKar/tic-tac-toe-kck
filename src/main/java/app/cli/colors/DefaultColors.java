@@ -4,7 +4,17 @@ import com.googlecode.lanterna.TextColor;
 import org.w3c.dom.Text;
 
 public class DefaultColors extends ColorSchema {
-    public DefaultColors() {
+
+    private static ColorSchema  instance;
+
+    public static ColorSchema getInstance(){
+        if (instance == null){
+            instance = new DefaultColors();
+        }
+        return instance;
+    }
+
+    private DefaultColors() {
         this.menuBackground = TextColor.ANSI.WHITE;
         this.menuForground = TextColor.ANSI.YELLOW;
         this.menuHighlight = TextColor.ANSI.BLUE;
@@ -12,8 +22,8 @@ public class DefaultColors extends ColorSchema {
         this.gameBoard = TextColor.ANSI.WHITE;
         this.xAndO = TextColor.ANSI.WHITE;
 
-        this.gameSidebarForeground = TextColor.ANSI.BLACK;
-        this.gameSidebarBackground = TextColor.ANSI.WHITE;
+        this.gameSidebarForeground = TextColor.ANSI.WHITE;
+        this.gameSidebarBackground = TextColor.ANSI.BLACK;
 
         this.borders = TextColor.ANSI.YELLOW;
 

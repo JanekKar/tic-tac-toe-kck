@@ -128,6 +128,7 @@ public class CLI {
             tg.setForegroundColor(TextColor.ANSI.RED);
             tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 11, "AI's Turn", SGR.BLINK, SGR.BOLD);
         }
+        tg.setForegroundColor(colorSchema.xAndO);
 
     }
 
@@ -146,7 +147,7 @@ public class CLI {
                 drawBorder(tg, 0, 0, columns - 1, rows - 1);
                 drawSidebar(tg);
                 drawBoard(tg);
-                highlightField(tg, highlightX, highlightY, TextColor.ANSI.GREEN, TextColor.ANSI.WHITE);
+                highlightField(tg, highlightX, highlightY, colorSchema.gameFiledHighlightOk[0], colorSchema.gameFiledHighlightOk[1]);
 
                 terminal.flush();
                 screen.refresh();
@@ -158,6 +159,7 @@ public class CLI {
                 screen.refresh();
 
                 game.nextGame();
+                tg.setBackgroundColor(colorSchema.gameBackground);
                 tg.fill(' ');
 
                 highlightX = 1;
@@ -177,15 +179,15 @@ public class CLI {
                 unHighlightField(tg, highlightX, highlightY);
                 bgColor = colorSchema.gameFiledHighlightOk[0];
                 fgColor = colorSchema.gameFiledHighlightOk[1];
-                if (keyStroke.getKeyType() == KeyType.ArrowDown && highlightY < 2)
+                if (controls.isUpKey(keyStroke) && highlightY < 2)
                     highlightY++;
-                if (keyStroke.getKeyType() == KeyType.ArrowUp && highlightY > 0)
+                if (controls.isDownKey(keyStroke) && highlightY > 0)
                     highlightY--;
-                if (keyStroke.getKeyType() == KeyType.ArrowRight && highlightX < 2)
+                if (controls.isRightKey(keyStroke) && highlightX < 2)
                     highlightX++;
-                if (keyStroke.getKeyType() == KeyType.ArrowLeft && highlightX > 0)
+                if (controls.isLeftKey(keyStroke) && highlightX > 0)
                     highlightX--;
-                if (keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == ' ') {
+                if (controls.isPlaceKey(keyStroke)) {
                     if (game.checkIfFree(new Point(highlightX, highlightY))) {
                         game.makeMove(new Point(highlightX, highlightY));
                         drawXorO(tg, highlightX, highlightY);
@@ -195,6 +197,7 @@ public class CLI {
                                 for (Point point : game.getWinningPositions()) {
                                     highlightField(tg, point.x, point.y, colorSchema.highlightWinning[0], colorSchema.highlightWinning[1]);
                                 }
+                            // TODO if tie window with word TIE
                             break;
                         }
 

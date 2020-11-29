@@ -1,6 +1,9 @@
 package app.cli;
 import app.cli.colors.DefaultColors;
 import app.cli.colors.MonokaiColors;
+import app.cli.controls.DefaultControls;
+import app.cli.controls.JKLIControls;
+import app.cli.controls.VimControls;
 import app.ticTacToe.logic.EasyLogic;
 import app.ticTacToe.logic.HardLogic;
 import app.ticTacToe.logic.ImpossibleLogic;
@@ -8,7 +11,6 @@ import app.ticTacToe.logic.MediumLogic;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 
 import java.io.IOException;
 
@@ -39,6 +41,13 @@ public class MainMenu {
 
     private final static String[] colorsSchemas = {
             "Default", "Monokai"
+    };
+
+    private final static String[] controlsMenuList = {
+            "Arrows",
+            "WASD",
+            "IJKL",
+            "Vim"
     };
 
     private static void drawLogo(TextGraphics tg){
@@ -152,13 +161,13 @@ public class MainMenu {
 
                 unhighlightMenuItem(tg, menuPos, menuItems, 12, 12);
 
-                if (keyStroke.getKeyType() == KeyType.ArrowDown && menuPos < menuItems.length-1){
+                if (controls.isDownKey(keyStroke) && menuPos < menuItems.length-1){
                     menuPos++;
                 }
-                if (keyStroke.getKeyType() == KeyType.ArrowUp && menuPos > 0) {
+                if (controls.isUpKey(keyStroke) && menuPos > 0) {
                     menuPos--;
                 }
-                if (keyStroke.getKeyType() == KeyType.Enter){
+                if (controls.isAssertKey(keyStroke)){
                     switch(menuPos){
                         case 0:
                             Submenu levelMenu = new Submenu(tg, levelMenuItems, "Choose difficulty level:") {
@@ -199,10 +208,10 @@ public class MainMenu {
                                                 void onEnter(int menuPos) {
                                                     switch(menuPos){
                                                         case 0:
-                                                            colorSchema = new DefaultColors();
+                                                            setColorSchema(DefaultColors.getInstance());
                                                             break;
                                                         case 1:
-                                                            colorSchema = new MonokaiColors();
+                                                            setColorSchema(MonokaiColors.getInstance());
                                                             break;
                                                         case 2:
                                                             break;
@@ -215,6 +224,26 @@ public class MainMenu {
                                             colorsMenu.showMenu();
                                             break;
                                         case 1:
+                                            Submenu controlsMenu = new Submenu(tg, controlsMenuList, "Choose controls:") {
+                                                @Override
+                                                void onEnter(int menuPos) throws IOException {
+                                                    switch(menuPos){
+                                                        case 0:
+                                                            controls = DefaultControls.getInstance();
+                                                            break;
+                                                        case 1:
+                                                            break;
+                                                        case 2:
+                                                            controls = JKLIControls.getInstance();
+                                                            break;
+                                                        case 3:
+                                                            controls = VimControls.getInstance();
+                                                            break;
+                                                    }
+                                                    closeMenu();
+                                                }
+                                            };
+                                            controlsMenu.showMenu();
                                             break;
                                     }
                                 }

@@ -3,21 +3,42 @@ package app.cli.colors;
 import com.googlecode.lanterna.TextColor;
 
 public class MonokaiColors extends ColorSchema{
-    public MonokaiColors(){
-        this.menuBackground = new TextColor.RGB(51,54,43);
-        this.menuForground = TextColor.ANSI.WHITE;
-        this.menuHighlight = TextColor.ANSI.MAGENTA;
-        this.gameBackground = TextColor.ANSI.BLACK;
+    private TextColor blue = new TextColor.RGB(120, 221, 232);
+    private TextColor green = new TextColor.RGB(169, 220, 118);
+    private TextColor pink = new TextColor.RGB(255, 97, 137);
+    private TextColor yellow = new TextColor.RGB(255, 217, 102);
+    private TextColor orange = new TextColor.RGB(252, 152, 103);
+    private TextColor violet = new TextColor.RGB(171, 157, 242);
+    private TextColor gray = new TextColor.RGB(79, 75, 61);
+
+    private static ColorSchema instance;
+
+    public static ColorSchema getInstance(){
+        if (instance == null){
+            instance = new MonokaiColors();
+        }
+        return  instance;
+    }
+
+    private  MonokaiColors(){
+        this.logo = new TextColor[]{blue, green, orange};
+        this.menuForground = orange;
+        this.menuBackground = gray;
+        this.menuHighlight = pink;
+
+        this.borders = yellow;
+
+        this.gameBackground = gray;
         this.gameBoard = TextColor.ANSI.WHITE;
         this.xAndO = TextColor.ANSI.WHITE;
-        this.gameSidebarForeground = TextColor.ANSI.BLACK;
-        this.gameSidebarBackground = TextColor.ANSI.WHITE;
-        this.borders = TextColor.ANSI.YELLOW;
 
-        this.logo = new TextColor[]{TextColor.ANSI.CYAN, TextColor.ANSI.GREEN, TextColor.ANSI.YELLOW};
-       // this.gameFiledHighlight = new TextColor[]{TextColor.ANSI.GREEN, TextColor.ANSI.BLACK, TextColor.ANSI.RED, TextColor.ANSI.WHITE};
-        this.highlightWinning = new TextColor[]{TextColor.ANSI.MAGENTA, TextColor.ANSI.CYAN};
-        this.highlightLoosing = new TextColor[]{TextColor.ANSI.RED, TextColor.ANSI.YELLOW};
+        this.gameSidebarForeground = TextColor.ANSI.WHITE;
+        this.gameSidebarBackground = gray;
+
+        this.gameFiledHighlightOk = new TextColor[]{green, gray};
+        this.gameFiledHighlightWrong = new TextColor[]{pink, TextColor.ANSI.WHITE};
+        this.highlightWinning = new TextColor[]{violet, blue};
+        this.highlightLoosing = new TextColor[]{TextColor.ANSI.RED, yellow};
 
     }
 }
