@@ -1,4 +1,5 @@
 package app.ticTacToe.logic;
+
 import java.awt.*;
 
 public class EasyLogic extends TicTacToeLogic {

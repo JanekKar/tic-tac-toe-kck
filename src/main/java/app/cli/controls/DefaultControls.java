@@ -4,14 +4,15 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
 
-public class DefaultControls implements Controls{
+public class DefaultControls implements Controls {
 
     private static Controls instance;
 
-    private DefaultControls(){}
+    private DefaultControls() {
+    }
 
     public static Controls getInstance() {
-        if (instance== null)
+        if (instance == null)
             instance = new DefaultControls();
         return instance;
     }

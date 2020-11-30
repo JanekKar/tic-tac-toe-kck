@@ -6,7 +6,6 @@ import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -15,27 +14,28 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.awt.*;
 import java.io.IOException;
 
-
-import static app.cli.PauseMenu.*;
+import static app.cli.ACSILogo.drawTie;
+import static app.cli.MainMenu.drawMainMenu;
+import static app.cli.MainMenu.mainMenu;
+import static app.cli.PauseMenu.drawPausedMenu;
+import static app.cli.PauseMenu.pauseMenu;
 import static app.cli.Utils.*;
-import static app.cli.MainMenu.*;
 
 
-
-public class CLI {
-    private static TicTacToe game = Main.game;
-    protected static TicTacToeLogic logic = Main.logic;
+public class Game {
     public static Terminal terminal;
     public static Screen screen;
+    protected static TicTacToeLogic logic = Main.logic;
+    protected static boolean paused = false;
+    protected static boolean run = true;
     static int highlightX = 1;
     static int highlightY = 1;
     static boolean play = false;
-    protected static boolean paused = false;
-    protected static boolean run = true;
+    private static final TicTacToe game = Main.game;
 
     private static void drawBoard(TextGraphics tg) {
-        tg.setForegroundColor(colorSchema.gameBoard);
-        tg.setBackgroundColor(colorSchema.gameBackground);
+        tg.setForegroundColor(colorSchema.getGameBoard());
+        tg.setBackgroundColor(colorSchema.getGameBackground());
         for (int j = 0; j < 3; j++) {
             for (int i = 0; i < 3; i++) {
                 tg.drawRectangle(
@@ -54,7 +54,7 @@ public class CLI {
 
     private static void drawSidebar(TextGraphics tg) {
 
-        tg.setForegroundColor(colorSchema.borders);
+        tg.setForegroundColor(colorSchema.getBorders());
 
         tg.drawLine(windowPaddingLeft + sidebar, windowPaddingTop, windowPaddingLeft + sidebar, windowPaddingTop + rows - 1, Symbols.DOUBLE_LINE_VERTICAL);
 
@@ -105,8 +105,8 @@ public class CLI {
     }
 
     private static void drawPlayerInfo(TextGraphics tg) {
-        tg.setBackgroundColor(colorSchema.gameSidebarBackground);
-        tg.setForegroundColor(colorSchema.gameSidebarForeground);
+        tg.setBackgroundColor(colorSchema.getGameSidebarBackground());
+        tg.setForegroundColor(colorSchema.getGameSidebarForeground());
 
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 2, "Score: " + game.getPlayer().getScore(), SGR.BOLD);
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 6, "Player:", SGR.BOLD);
@@ -128,17 +128,17 @@ public class CLI {
             tg.setForegroundColor(TextColor.ANSI.RED);
             tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 11, "AI's Turn", SGR.BLINK, SGR.BOLD);
         }
-        tg.setForegroundColor(colorSchema.xAndO);
+        tg.setForegroundColor(colorSchema.getXAndO());
 
     }
 
 
     public static void mainLoop(TextGraphics tg) throws IOException, InterruptedException {
 
-        while(run){
+        while (run) {
             mainMenu(tg);
-            tg.setBackgroundColor(colorSchema.gameBackground);
-            tg.setForegroundColor(colorSchema.gameBoard);
+            tg.setBackgroundColor(colorSchema.getGameBackground());
+            tg.setForegroundColor(colorSchema.getGameBoard());
             tg.fill(' ');
 
             terminal.flush();
@@ -147,7 +147,7 @@ public class CLI {
                 drawBorder(tg, 0, 0, columns - 1, rows - 1);
                 drawSidebar(tg);
                 drawBoard(tg);
-                highlightField(tg, highlightX, highlightY, colorSchema.gameFiledHighlightOk[0], colorSchema.gameFiledHighlightOk[1]);
+                highlightField(tg, highlightX, highlightY, colorSchema.getGameFiledHighlightOk()[0], colorSchema.getGameFiledHighlightOk()[1]);
 
                 terminal.flush();
                 screen.refresh();
@@ -159,7 +159,7 @@ public class CLI {
                 screen.refresh();
 
                 game.nextGame();
-                tg.setBackgroundColor(colorSchema.gameBackground);
+                tg.setBackgroundColor(colorSchema.getGameBackground());
                 tg.fill(' ');
 
                 highlightX = 1;
@@ -177,11 +177,11 @@ public class CLI {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
                 unHighlightField(tg, highlightX, highlightY);
-                bgColor = colorSchema.gameFiledHighlightOk[0];
-                fgColor = colorSchema.gameFiledHighlightOk[1];
-                if (controls.isUpKey(keyStroke) && highlightY < 2)
+                bgColor = colorSchema.getGameFiledHighlightOk()[0];
+                fgColor = colorSchema.getGameFiledHighlightOk()[1];
+                if (controls.isDownKey(keyStroke) && highlightY < 2)
                     highlightY++;
-                if (controls.isDownKey(keyStroke) && highlightY > 0)
+                if (controls.isUpKey(keyStroke) && highlightY > 0)
                     highlightY--;
                 if (controls.isRightKey(keyStroke) && highlightX < 2)
                     highlightX++;
@@ -195,8 +195,11 @@ public class CLI {
                         if (result != null) {
                             if (!result.equals("TIE"))
                                 for (Point point : game.getWinningPositions()) {
-                                    highlightField(tg, point.x, point.y, colorSchema.highlightWinning[0], colorSchema.highlightWinning[1]);
+                                    highlightField(tg, point.x, point.y, colorSchema.getHighlightWinning()[0], colorSchema.getHighlightWinning()[1]);
                                 }
+                            else
+                                drawTieWindow(tg);
+
                             // TODO if tie window with word TIE
                             break;
                         }
@@ -217,20 +220,21 @@ public class CLI {
                         if (result != null) {
                             if (!result.equals("TIE"))
                                 for (Point winningPoint : game.getWinningPositions()) {
-                                    highlightField(tg, winningPoint.x, winningPoint.y,colorSchema.highlightLoosing[0], colorSchema.highlightLoosing[1]);
-                                }
+                                    highlightField(tg, winningPoint.x, winningPoint.y, colorSchema.getHighlightLoosing()[0], colorSchema.getHighlightLoosing()[1]);
+                                } else
+                                drawTieWindow(tg);
                             break;
                         }
 
                         drawCurrentPlayer(tg);
 
                     } else {
-                        bgColor = colorSchema.gameFiledHighlightWrong[0];
-                        fgColor = colorSchema.gameFiledHighlightWrong[1];
+                        bgColor = colorSchema.getGameFiledHighlightWrong()[0];
+                        fgColor = colorSchema.getGameFiledHighlightWrong()[1];
                     }
 
                 }
-                if (keyStroke.getKeyType() == KeyType.Escape) {
+                if (controls.isPauseGameKey(keyStroke)) {
                     if (pauseMenu(tg))
                         break;
                     tg.fill(' ');
@@ -242,6 +246,18 @@ public class CLI {
                 screen.refresh();
             }
         }
+    }
+
+    private static void drawTieWindow(TextGraphics tg) throws IOException, InterruptedException {
+        windowPaddingLeft += sidebar / 2;
+        tg.setBackgroundColor(colorSchema.getMenuBackground());
+        tg.setForegroundColor(colorSchema.getBorders());
+        drawWindow(tg, 25, 8);
+        drawTie(tg, 33, 10);
+        terminal.flush();
+        screen.refresh();
+        windowPaddingLeft -= sidebar / 2;
+        Thread.sleep(500);
     }
 
     public static void calculatePadding() throws IOException {
@@ -265,7 +281,7 @@ public class CLI {
         screen.doResizeIfNecessary();
     }
 
-    public static void resizeScreen(TextGraphics tg){
+    public static void resizeScreen(TextGraphics tg) {
         try {
 
             calculatePadding();
@@ -297,7 +313,7 @@ public class CLI {
         TextGraphics tg = screen.newTextGraphics();
 
         terminal.addResizeListener((terminal, terminalSize) -> {
-           resizeScreen(tg);
+            resizeScreen(tg);
         });
         screen.startScreen();
 
@@ -306,14 +322,12 @@ public class CLI {
         int tempRows = terminal.getTerminalSize().getRows();
         int tempCol = terminal.getTerminalSize().getColumns();
 
-        if(tempRows != rows || tempCol != columns){
+        if (tempRows != rows || tempCol != columns) {
             calculatePadding();
         }
 
         return tg;
     }
-
-
 
 
 }

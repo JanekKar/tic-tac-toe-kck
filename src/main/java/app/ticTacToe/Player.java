@@ -3,15 +3,15 @@ package app.ticTacToe;
 import java.util.UUID;
 
 public class Player {
-    private String name;
+    private final String name;
     private int score;
     private int numberOfWonGames;
     private int numberOfLostGames;
 
     private int numberOfTies;
-    private UUID global_id;
+    private final UUID global_id;
 
-    public Player(String name){
+    public Player(String name) {
         this.name = name;
         this.global_id = UUID.randomUUID();
         this.score = 0;
@@ -19,15 +19,15 @@ public class Player {
         this.numberOfLostGames = 0;
     }
 
-    public void increaseNumberOfWonGames(){
+    public void increaseNumberOfWonGames() {
         this.numberOfWonGames++;
     }
 
-    public void increaseNumberOfLostGames(){
+    public void increaseNumberOfLostGames() {
         this.numberOfLostGames++;
     }
 
-    public void increaseNumberOfTiess(){
+    public void increaseNumberOfTiess() {
         this.numberOfTies++;
     }
 

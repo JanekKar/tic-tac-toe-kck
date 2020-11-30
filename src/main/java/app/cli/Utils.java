@@ -15,6 +15,8 @@ import java.awt.*;
 import static app.Main.game;
 
 public class Utils {
+    public static ColorSchema colorSchema = DefaultColors.getInstance();
+    public static Controls controls = DefaultControls.getInstance();
     static int rowHeight;
     static int columnWidth;
     static int paddingLeft;
@@ -32,16 +34,13 @@ public class Utils {
     static int xWidth = 11;
     static int xHeight = 5;
 
-    public static ColorSchema colorSchema = DefaultColors.getInstance();
-    public static Controls controls = DefaultControls.getInstance();
-
     public static void drawBorder(TextGraphics tg, int startX, int startY, int endX, int endY) {
         TextColor prevColor = tg.getForegroundColor();
         startX += windowPaddingLeft;
         endX += windowPaddingLeft;
         startY += windowPaddingTop;
         endY += windowPaddingTop;
-        tg.setForegroundColor(colorSchema.borders);
+        tg.setForegroundColor(colorSchema.getBorders());
 
         tg.drawLine(new TerminalPosition(startX, startY), new TerminalPosition(endX, startY), Symbols.DOUBLE_LINE_HORIZONTAL);
         tg.drawLine(new TerminalPosition(startX, endY), new TerminalPosition(endX, endY), Symbols.DOUBLE_LINE_HORIZONTAL);
@@ -57,20 +56,20 @@ public class Utils {
         tg.setForegroundColor(prevColor);
     }
 
-    public static void drawWindow(TextGraphics tg, int startX, int startY, int endX, int endY ){
+    public static void drawWindow(TextGraphics tg, int startX, int startY, int endX, int endY) {
         drawBorder(tg, startX, startY, endX, endY);
         TextColor prevColor = tg.getBackgroundColor();
-        tg.setBackgroundColor(colorSchema.menuBackground);
+        tg.setBackgroundColor(colorSchema.getMenuBackground());
         tg.fillRectangle(
-                new TerminalPosition(windowPaddingLeft+startX+1, windowPaddingTop+startY+1),
-                new TerminalSize(endX-startX-1, endY-startY-1),
+                new TerminalPosition(windowPaddingLeft + startX + 1, windowPaddingTop + startY + 1),
+                new TerminalSize(endX - startX - 1, endY - startY - 1),
                 ' ');
 
         tg.setBackgroundColor(prevColor);
     }
 
-    public static void  drawWindow(TextGraphics tg, int marginSide, int marginTop){
-        drawWindow(tg, marginSide, marginTop, columns-marginSide-1, rows-marginTop-1);
+    public static void drawWindow(TextGraphics tg, int marginSide, int marginTop) {
+        drawWindow(tg, marginSide, marginTop, columns - marginSide - 1, rows - marginTop - 1);
     }
 
     public static void drawX(TextGraphics tg, int x, int y) {
@@ -158,12 +157,10 @@ public class Utils {
     }
 
     public static void unHighlightField(TextGraphics tg, int x, int y) {
-        highlightField(tg, x, y, colorSchema.gameBackground, colorSchema.xAndO);
+        highlightField(tg, x, y, colorSchema.getGameBackground(), colorSchema.getXAndO());
     }
 
     protected static void drawXorO(TextGraphics tg, int x, int y) {
-//        tg.setBackgroundColor(colorSchema.gameBackground);
-//        tg.setForegroundColor(colorSchema.xAndO);
 
         switch (game.getFieldContent(new Point(x, y))) {
             case "X":
@@ -176,7 +173,7 @@ public class Utils {
         }
     }
 
-    public static void setDimensions(){
+    public static void setDimensions() {
         rows = 24;
         columns = 80;
 
@@ -187,10 +184,6 @@ public class Utils {
         columnWidth = ((columns - sidebar - 6) / 3) - 1;
         paddingLeft = sidebar + paddingLeftSidebar;
         sidebarPaddingTop = (rows - 20) / 2;
-    }
-
-    public static void setColorSchema(ColorSchema colors){
-        colorSchema = colors;
     }
 }
 

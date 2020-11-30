@@ -7,15 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class TicTacToeLogic {
-    private TicTacToe game;
-
     String ai = "O";
     String player = "X";
     String blank;
-
     Map<String, Integer> score = new HashMap<String, Integer>();
+    private final TicTacToe game;
 
-    public TicTacToeLogic(){
+    public TicTacToeLogic() {
         this.game = TicTacToe.getInstance();
         this.blank = game.getBlank();
 
@@ -26,25 +24,25 @@ public abstract class TicTacToeLogic {
 
     public abstract Point makeMove();
 
-    public Point random(){
+    public Point random() {
         Point temp;
         do {
-            temp = new Point((int)(Math.random()*3), (int)(Math.random()*3));
-        } while(!game.checkIfFree(temp));
+            temp = new Point((int) (Math.random() * 3), (int) (Math.random() * 3));
+        } while (!game.checkIfFree(temp));
         return temp;
     }
 
-    public Point bestMove(){
+    public Point bestMove() {
         int bestScore = Integer.MIN_VALUE;
         Point move = null;
 
-        for (int i=0; i<game.getBoard().length; i++){
-            for(int j=0; j<game.getBoard()[i].length; j++){
-                if (game.checkIfFree(new Point(i,j))){
-                    game.makeMove(i,j,ai);
+        for (int i = 0; i < game.getBoard().length; i++) {
+            for (int j = 0; j < game.getBoard()[i].length; j++) {
+                if (game.checkIfFree(new Point(i, j))) {
+                    game.makeMove(i, j, ai);
                     int score = minimax(false);
-                    game.undoMove(i,j);
-                    if(score > bestScore){
+                    game.undoMove(i, j);
+                    if (score > bestScore) {
                         bestScore = score;
                         move = new Point(i, j);
                     }
@@ -54,35 +52,35 @@ public abstract class TicTacToeLogic {
         return move;
     }
 
-    public int minimax(boolean ai_turn){
+    public int minimax(boolean ai_turn) {
 
         String result = game.checkWinner();
-        if(result!=null)
+        if (result != null)
             return score.get(result);
 
 
         int bestScore;
 
-        if(ai_turn){
+        if (ai_turn) {
             bestScore = Integer.MIN_VALUE;
-            for (int i=0; i<game.getBoard().length; i++){
-                for(int j=0; j<game.getBoard()[i].length; j++){
-                    if (game.checkIfFree(new Point(i,j))){
-                        game.makeMove(i,j, ai);
+            for (int i = 0; i < game.getBoard().length; i++) {
+                for (int j = 0; j < game.getBoard()[i].length; j++) {
+                    if (game.checkIfFree(new Point(i, j))) {
+                        game.makeMove(i, j, ai);
                         int score = minimax(false);
                         game.undoMove(i, j);
                         bestScore = Math.max(score, bestScore);
                     }
                 }
             }
-        }else{
+        } else {
             bestScore = Integer.MAX_VALUE;
-            for (int i=0; i<game.getBoard().length; i++){
-                for(int j=0; j<game.getBoard()[i].length; j++){
-                    if (game.checkIfFree(new Point(i,j))){
-                        game.makeMove(i,j,player);
+            for (int i = 0; i < game.getBoard().length; i++) {
+                for (int j = 0; j < game.getBoard()[i].length; j++) {
+                    if (game.checkIfFree(new Point(i, j))) {
+                        game.makeMove(i, j, player);
                         int score = minimax(true);
-                        game.undoMove(i,j);
+                        game.undoMove(i, j);
                         bestScore = Math.min(score, bestScore);
                     }
                 }

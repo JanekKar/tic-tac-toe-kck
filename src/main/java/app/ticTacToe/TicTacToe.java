@@ -1,20 +1,16 @@
 package app.ticTacToe;
 
 import java.awt.*;
+
 public class TicTacToe {
 
     private static TicTacToe instance;
-
-    protected String blank = "";
-
     private final String[] players = {"X", "O"};
+    protected String blank = "";
+    protected String[][] board = new String[3][3];
     private int currentPlayer;
     private int available;
-
     private Player player;
-
-    protected String[][] board = new String[3][3];
-
     private Point[] winningPositions;
     private String winner;
 
@@ -28,17 +24,11 @@ public class TicTacToe {
         currentPlayer = 0;
     }
 
-    public static TicTacToe getInstance(){
+    public static TicTacToe getInstance() {
         if (instance == null)
             instance = new TicTacToe();
         return instance;
     }
-
-    public void setPlayer(Player player){
-        this.player = player;
-    }
-
-
 
     public boolean equal3(String a, String b, String c) {
         return a.equals(b) && b.equals(c) && !a.equals(blank);
@@ -50,7 +40,7 @@ public class TicTacToe {
 
         // horizontal
         for (int i = 0; i < 3; i++) {
-            if (equal3(board[i][0], board[i][1], board[i][2])){
+            if (equal3(board[i][0], board[i][1], board[i][2])) {
                 winner = board[i][0];
                 winningPositions = new Point[]{new Point(i, 0), new Point(i, 1), new Point(i, 2)};
             }
@@ -58,21 +48,21 @@ public class TicTacToe {
 
         // vertical
         for (int i = 0; i < 3; i++) {
-            if (equal3(board[0][i], board[1][i], board[2][i])){
+            if (equal3(board[0][i], board[1][i], board[2][i])) {
                 winner = board[0][i];
                 winningPositions = new Point[]{new Point(0, i), new Point(1, i), new Point(2, i)};
             }
         }
 
         // diagonal
-        if (equal3(board[0][0], board[1][1], board[2][2])){
+        if (equal3(board[0][0], board[1][1], board[2][2])) {
             winner = board[0][0];
             winningPositions = new Point[]{new Point(0, 0), new Point(1, 1), new Point(2, 2)};
 
         }
-        if (equal3(board[2][0], board[1][1], board[0][2])){
+        if (equal3(board[2][0], board[1][1], board[0][2])) {
             winner = board[2][0];
-            winningPositions = new Point[]{new Point(2, 0), new Point(1, 1), new Point(0,2 )};
+            winningPositions = new Point[]{new Point(2, 0), new Point(1, 1), new Point(0, 2)};
 
         }
 
@@ -94,23 +84,23 @@ public class TicTacToe {
             available--;
             board[point.x][point.y] = players[currentPlayer];
             currentPlayer++;
-            currentPlayer%=2;
+            currentPlayer %= 2;
         }
     }
 
-    public void makeMove(int x, int y, String player){
+    public void makeMove(int x, int y, String player) {
         board[x][y] = player;
         available--;
     }
 
-    public void undoMove(int x, int y){
+    public void undoMove(int x, int y) {
         board[x][y] = blank;
         available++;
     }
 
-    public void nextGame(){
-        if (winner!=null)
-            if(winner.equals("X"))
+    public void nextGame() {
+        if (winner != null)
+            if (winner.equals("X"))
                 player.increaseNumberOfWonGames();
             else
                 player.increaseNumberOfLostGames();
@@ -129,20 +119,24 @@ public class TicTacToe {
         currentPlayer = 0;
     }
 
-    public Point[] getWinningPositions(){
+    public Point[] getWinningPositions() {
         return winningPositions;
     }
 
-    public String getFieldContent(Point point){
+    public String getFieldContent(Point point) {
         return board[point.x][point.y];
     }
 
-    public String getCurrentPlayer(){
+    public String getCurrentPlayer() {
         return players[currentPlayer];
     }
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public void printBoard() {

@@ -1,29 +1,30 @@
 package app;
 
-import app.ticTacToe.*;
-import app.cli.*;
+import app.cli.Game;
+import app.ticTacToe.Player;
+import app.ticTacToe.TicTacToe;
 import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
 import java.io.IOException;
 
-public class Main{
+public class Main {
 
     public static TicTacToe game;
     public static TicTacToeLogic logic;
 
-    public static void main(String[] args) throws IOException, InterruptedException, IOException {
+    public static void main(String[] args) throws InterruptedException, IOException {
 
         game = TicTacToe.getInstance();
         game.setPlayer(new Player("Janek"));
         logic = null;
 
-        TextGraphics tg = CLI.setUpTerminalAndScreen();
+        TextGraphics tg = Game.setUpTerminalAndScreen();
 
-        CLI.mainLoop(tg);
+        Game.mainLoop(tg);
 
-        CLI.screen.close();
-        CLI.terminal.close();
+        Game.screen.close();
+        Game.terminal.close();
 
     }
 

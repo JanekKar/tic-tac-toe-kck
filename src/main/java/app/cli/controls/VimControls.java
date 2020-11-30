@@ -3,14 +3,15 @@ package app.cli.controls;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
-public class VimControls implements Controls{
+public class VimControls implements Controls {
 
     private static Controls instance;
 
-    private VimControls(){}
+    private VimControls() {
+    }
 
     public static Controls getInstance() {
-        if (instance== null)
+        if (instance == null)
             instance = new VimControls();
         return instance;
     }

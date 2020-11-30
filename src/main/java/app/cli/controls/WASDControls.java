@@ -3,37 +3,36 @@ package app.cli.controls;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
-public class JKLIControls implements Controls {
-
+public class WASDControls implements Controls {
     private static Controls instance;
 
-    private JKLIControls() {
+    private WASDControls() {
     }
 
     public static Controls getInstance() {
         if (instance == null)
-            instance = new JKLIControls();
+            instance = new WASDControls();
         return instance;
     }
 
     @Override
     public boolean isUpKey(KeyStroke keyStroke) {
-        return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'i';
+        return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'w';
     }
 
     @Override
     public boolean isDownKey(KeyStroke keyStroke) {
-        return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'k';
+        return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 's';
     }
 
     @Override
     public boolean isLeftKey(KeyStroke keyStroke) {
-        return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'j';
+        return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'a';
     }
 
     @Override
     public boolean isRightKey(KeyStroke keyStroke) {
-        return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'l';
+        return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'd';
     }
 
     @Override

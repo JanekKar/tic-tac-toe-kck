@@ -2,14 +2,16 @@ package app.cli.colors;
 
 import com.googlecode.lanterna.TextColor;
 
-public class MonokaiColors implements ColorSchema {
-    private static final TextColor blue = new TextColor.RGB(120, 221, 232);
-    private static final TextColor green = new TextColor.RGB(169, 220, 118);
-    private static final TextColor pink = new TextColor.RGB(255, 97, 137);
-    private static final TextColor yellow = new TextColor.RGB(255, 217, 102);
-    private static final TextColor orange = new TextColor.RGB(252, 152, 103);
-    private static final TextColor violet = new TextColor.RGB(171, 157, 242);
-    private static final TextColor gray = new TextColor.RGB(79, 75, 61);
+public class OceanColors implements ColorSchema {
+    private static final TextColor blue = new TextColor.RGB(37, 106, 217);
+    private static final TextColor green = new TextColor.RGB(37, 217, 130);
+    private static final TextColor pink = new TextColor.RGB(245, 95, 165);
+    private static final TextColor yellow = new TextColor.RGB(255, 186, 3);
+    private static final TextColor orange = new TextColor.RGB(252, 119, 3);
+    private static final TextColor violet = new TextColor.RGB(171, 88, 219);
+    private static final TextColor gray = new TextColor.RGB(126, 130, 156);
+    private static final TextColor white = new TextColor.RGB(237, 237, 218);
+    private static final TextColor red = new TextColor.RGB(240, 28, 17);
     private static ColorSchema instance;
     private final TextColor[] logo = new TextColor[]{blue, green, orange};
     private final TextColor menuForground = orange;
@@ -17,21 +19,21 @@ public class MonokaiColors implements ColorSchema {
     private final TextColor menuHighlight = pink;
     private final TextColor borders = yellow;
     private final TextColor gameBackground = gray;
-    private final TextColor gameBoard = TextColor.ANSI.WHITE;
-    private final TextColor xAndO = TextColor.ANSI.WHITE;
-    private final TextColor gameSidebarForeground = TextColor.ANSI.WHITE;
+    private final TextColor gameBoard = white;
+    private final TextColor xAndO = white;
+    private final TextColor gameSidebarForeground = white;
     private final TextColor gameSidebarBackground = gray;
     private final TextColor[] gameFiledHighlightOk = new TextColor[]{green, gray};
-    private final TextColor[] gameFiledHighlightWrong = new TextColor[]{pink, TextColor.ANSI.WHITE};
+    private final TextColor[] gameFiledHighlightWrong = new TextColor[]{pink, white};
     private final TextColor[] highlightWinning = new TextColor[]{violet, blue};
-    private final TextColor[] highlightLoosing = new TextColor[]{TextColor.ANSI.RED, yellow};
+    private final TextColor[] highlightLoosing = new TextColor[]{red, yellow};
 
-    private MonokaiColors() {
+    private OceanColors() {
     }
 
     public static ColorSchema getInstance() {
         if (instance == null) {
-            instance = new MonokaiColors();
+            instance = new OceanColors();
         }
         return instance;
     }

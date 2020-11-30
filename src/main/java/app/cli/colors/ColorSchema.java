@@ -2,22 +2,33 @@ package app.cli.colors;
 
 import com.googlecode.lanterna.TextColor;
 
-public abstract class ColorSchema {
-    public static TextColor[] logo;
-    public static TextColor menuBackground;
-    public static TextColor menuForground;
-    public static TextColor menuHighlight;
-    public static TextColor borders;
+public interface ColorSchema {
+    TextColor getMenuBackground();
 
-    public static TextColor gameBackground;
-    public static TextColor gameBoard;
-    public static TextColor xAndO;
-    public static TextColor gameSidebarForeground;
-    public static TextColor gameSidebarBackground;
+    TextColor getMenuForeground();
 
-    public static TextColor[] gameFiledHighlightOk;
-    public static TextColor[] gameFiledHighlightWrong;
-    public static TextColor[] highlightWinning;
-    public static TextColor[] highlightLoosing;
+    TextColor getMenuHighlight();
+
+    TextColor getGameBackground();
+
+    TextColor getGameBoard();
+
+    TextColor getXAndO();
+
+    TextColor getGameSidebarForeground();
+
+    TextColor getGameSidebarBackground();
+
+    TextColor getBorders();
+
+    TextColor[] getLogo();
+
+    TextColor[] getGameFiledHighlightOk();
+
+    TextColor[] getGameFiledHighlightWrong();
+
+    TextColor[] getHighlightWinning();
+
+    TextColor[] getHighlightLoosing();
 }
 
