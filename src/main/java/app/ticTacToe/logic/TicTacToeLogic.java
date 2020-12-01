@@ -11,7 +11,7 @@ public abstract class TicTacToeLogic {
     String player = "X";
     String blank;
     Map<String, Integer> score = new HashMap<String, Integer>();
-    private final TicTacToe game;
+    protected final TicTacToe game;
 
     public TicTacToeLogic() {
         this.game = TicTacToe.getInstance();

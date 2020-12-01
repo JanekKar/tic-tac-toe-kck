@@ -39,7 +39,10 @@ public abstract class Submenu {
         drawWindow(tg, 15, 4);
         tg.drawLine(totalItemPaddingLeft - 5, totalItemPaddingTop - 2, windowPaddingLeft + columns - 18, windowPaddingTop + 7, Symbols.SINGLE_LINE_HORIZONTAL);
 
+        TextColor current = tg.getForegroundColor();
+        tg.setForegroundColor(colorSchema.getLogo()[0]);
         tg.putString(totalItemPaddingLeft - 5, totalItemPaddingTop - 3, menuTitle);
+        tg.setForegroundColor(current);
         for (int i = 0; i < menuItems.length; i++) {
             tg.putString(totalItemPaddingLeft, totalItemPaddingTop + 2 * i, menuItems[i]);
         }
@@ -102,7 +105,10 @@ public abstract class Submenu {
 
     abstract void onEnter(int menuPos) throws IOException;
 
+    abstract void onClose();
+
     public void closeMenu() {
+        onClose();
         show = false;
     }
 

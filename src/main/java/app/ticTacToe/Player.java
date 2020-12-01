@@ -37,6 +37,7 @@ public class Player implements Comparable{
         this.numberOfTies++;
     }
 
+
     public String getName() {
         return name;
     }

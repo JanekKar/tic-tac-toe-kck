@@ -1,11 +1,6 @@
 package app.cli;
 
 import app.Main;
-import app.cli.colors.DefaultColors;
-import app.cli.colors.MonokaiColors;
-import app.cli.colors.OceanColors;
-import app.cli.controls.Controls;
-import app.ticTacToe.PlayerScores;
 import app.ticTacToe.TicTacToe;
 import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.*;
@@ -19,9 +14,9 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.awt.*;
 import java.io.IOException;
 
+import static app.Main.submenus;
 import static app.cli.ACSILogo.drawTie;
-import static app.cli.MainMenu.drawMainMenu;
-import static app.cli.MainMenu.mainMenu;
+import static app.cli.MainMenu.*;
 import static app.cli.PauseMenu.drawPausedMenu;
 import static app.cli.PauseMenu.pauseMenu;
 import static app.cli.Utils.*;
@@ -93,6 +88,7 @@ public class Game {
     }
 
     private static void drawGame(TextGraphics tg) {
+        tg.setBackgroundColor(colorSchema.getGameBackground());
         tg.fill(' ');
         drawBorder(tg, 0, 0, columns - 1, rows - 1);
         drawSidebar(tg);
@@ -113,6 +109,9 @@ public class Game {
     private static void drawPlayerInfo(TextGraphics tg) {
         tg.setBackgroundColor(colorSchema.getGameSidebarBackground());
         tg.setForegroundColor(colorSchema.getGameSidebarForeground());
+
+        tg.putString(windowPaddingLeft+1, windowPaddingTop+sidebarPaddingTop-1, "Game No: " +(game.getGameNo()+1));
+
 
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 2, "Score: " + game.getPlayer().getScore(), SGR.BOLD);
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 6, "Player:", SGR.BOLD);
@@ -165,12 +164,28 @@ public class Game {
                 screen.refresh();
 
                 game.nextGame();
+                // TODO check if sidebar is refreshed after winnig the last game
+                if(game.isEndOfSession()){
+                    play = false;
+                    if(game.isNewBest()){
+                        tg.setBackgroundColor(colorSchema.getMenuBackground());
+                        tg.setForegroundColor(colorSchema.getMenuForeground());
+                        drawWindow(tg, 14,1);
+                        tg.putString(windowPaddingLeft+17,windowPaddingTop+2,"NEW TOP 5 SCORE", SGR.BOLD, SGR.BLINK);
+                        tg.putString(windowPaddingLeft+17,windowPaddingTop+21,"ESC to exit", SGR.BOLD, SGR.BLINK);
+                        submenus.getScoreInfoMenu(tg, false);
+
+                        terminal.flush();
+                        screen.refresh();
+                    }
+                }else{
+                    Thread.sleep(500);
+                }
                 tg.setBackgroundColor(colorSchema.getGameBackground());
                 tg.fill(' ');
 
                 highlightX = 1;
                 highlightY = 1;
-                Thread.sleep(1500);
             }
         }
 
@@ -205,8 +220,6 @@ public class Game {
                                 }
                             else
                                 drawTieWindow(tg);
-
-                            // TODO if tie window with word TIE
                             break;
                         }
 
@@ -289,16 +302,34 @@ public class Game {
 
     public static void resizeScreen(TextGraphics tg) {
         try {
-
             calculatePadding();
+
+
 
             if (play)
                 drawGame(tg);
-            else
+            else{
                 drawMainMenu(tg);
+                if(submenus.bestScoreMenuOpen){
+                    submenus.getScoreInfoMenu(tg, false);
+                }
+                if(submenus.settingsMenuOpen){
+                    submenus.getSettingsMenu().drawSubMenu();
+                    if(submenus.controlsMenuOpen)
+                        submenus.getControlsMenu().drawSubMenu();
+                    if(submenus.colorsMenuOpen)
+                        submenus.getColorsMenu().drawSubMenu();
+                }
 
-            if (paused)
+            }
+
+
+            if (paused){
                 drawPausedMenu(tg);
+                if(submenus.bestScoreMenuOpen){
+                    submenus.getScoreInfoMenu(tg, true);
+                }
+            }
 
             terminal.flush();
             screen.refresh();

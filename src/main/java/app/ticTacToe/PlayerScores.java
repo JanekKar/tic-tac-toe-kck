@@ -6,7 +6,7 @@ import java.util.*;
 public class PlayerScores {
 
     private static PlayerScores instance = null;
-    File pScores, config;
+    File pScores;
     List<Player> playersList;
     int totalPlayedGames = 0;
 
@@ -46,13 +46,13 @@ public class PlayerScores {
     }
 
 
-    public void addNeBestScore(Player player){
+    public void addNewBestScore(Player player){
         if(playersList.size() == 5){
             playersList.remove(4);
         }
         playersList.add(player);
         Collections.sort(playersList);
-     }
+    }
 
     public static PlayerScores getInstance() {
         if (instance == null)
@@ -76,5 +76,27 @@ public class PlayerScores {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Player> getPlayersList() {
+        return playersList;
+    }
+
+    public boolean addPlayer(Player player) {
+        if(player.getScore() > this.lowestScore()){
+            addNewBestScore(player);
+            return true;
+        }
+        return false;
+    }
+
+    private int lowestScore() {
+        if(playersList.size() != 0){
+            if (playersList.size() < 5)
+                return 0;
+            Collections.sort(playersList);
+            return playersList.get(playersList.size()-1).getScore();
+        }
+        return 0;
     }
 }

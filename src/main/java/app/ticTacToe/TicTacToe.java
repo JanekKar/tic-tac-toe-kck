@@ -1,5 +1,7 @@
 package app.ticTacToe;
 
+import app.Main;
+
 import java.awt.*;
 
 public class TicTacToe {
@@ -13,6 +15,8 @@ public class TicTacToe {
     private Player player;
     private Point[] winningPositions;
     private String winner;
+    private int bonus;
+    private int gameNumber=0;
 
     private TicTacToe() {
         for (int i = 0; i < 3; i++) {
@@ -99,6 +103,8 @@ public class TicTacToe {
     }
 
     public void nextGame() {
+        player.setScore(calcScore());
+
         if (winner != null)
             if (winner.equals("X"))
                 player.increaseNumberOfWonGames();
@@ -109,6 +115,7 @@ public class TicTacToe {
 
         available = 0;
 
+
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 board[i][j] = blank;
@@ -116,7 +123,30 @@ public class TicTacToe {
             }
         }
 
+        gameNumber++;
         currentPlayer = 0;
+    }
+
+    public boolean isEndOfSession(){
+        return gameNumber == 10;
+    }
+
+
+
+    private int calcScore() {
+        int score = player.getScore();
+        if(winner != null){
+            if(winner.equals("X")){
+                score += bonus*2;
+                score += available*5;
+            }else
+                score -= available*5;
+        }else
+            score+= bonus;
+
+        if(score < 0)
+            return 0;
+        return score;
     }
 
     public Point[] getWinningPositions() {
@@ -158,5 +188,17 @@ public class TicTacToe {
 
     public String[][] getBoard() {
         return this.board;
+    }
+
+    public boolean isNewBest(){
+        return PlayerScores.getInstance().addPlayer(player);
+    }
+
+    public void setBonus(int i) {
+        this.bonus = i;
+    }
+
+    public int getGameNo() {
+        return gameNumber;
     }
 }
