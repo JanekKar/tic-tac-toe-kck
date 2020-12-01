@@ -35,6 +35,11 @@ public class DefaultColors implements ColorSchema {
     }
 
     @Override
+    public String getName() {
+        return "default";
+    }
+
+    @Override
     public TextColor getMenuBackground() {
         return menuBackground;
     }

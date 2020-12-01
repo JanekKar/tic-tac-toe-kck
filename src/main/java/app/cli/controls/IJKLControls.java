@@ -3,17 +3,22 @@ package app.cli.controls;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
-public class JKLIControls implements Controls {
+public class IJKLControls implements Controls {
 
     private static Controls instance;
 
-    private JKLIControls() {
+    private IJKLControls() {
     }
 
     public static Controls getInstance() {
         if (instance == null)
-            instance = new JKLIControls();
+            instance = new IJKLControls();
         return instance;
+    }
+
+    @Override
+    public String getName() {
+        return "ijkl";
     }
 
     @Override

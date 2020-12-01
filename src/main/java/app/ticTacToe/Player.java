@@ -2,21 +2,27 @@ package app.ticTacToe;
 
 import java.util.UUID;
 
-public class Player {
+public class Player implements Comparable{
     private final String name;
     private int score;
     private int numberOfWonGames;
     private int numberOfLostGames;
 
     private int numberOfTies;
-    private final UUID global_id;
 
     public Player(String name) {
         this.name = name;
-        this.global_id = UUID.randomUUID();
         this.score = 0;
         this.numberOfWonGames = 0;
         this.numberOfLostGames = 0;
+    }
+
+    public Player(String name, int score, int numberOfWonGames, int numberOfLostGames, int numberOfTies) {
+        this.name = name;
+        this.score = score;
+        this.numberOfWonGames = numberOfWonGames;
+        this.numberOfLostGames = numberOfLostGames;
+        this.numberOfTies = numberOfTies;
     }
 
     public void increaseNumberOfWonGames() {
@@ -59,4 +65,17 @@ public class Player {
         this.numberOfTies = numberOfTies;
     }
 
+    @Override
+    public String toString() {
+        return  name +
+                ';' + score +
+                ';' + numberOfWonGames +
+                ';' + numberOfLostGames +
+                ';' + numberOfTies;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        return ((Player)o).getScore()-this.getScore();
+    }
 }

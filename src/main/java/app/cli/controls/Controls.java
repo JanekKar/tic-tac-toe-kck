@@ -4,6 +4,8 @@ import com.googlecode.lanterna.input.KeyStroke;
 
 public interface Controls {
 
+    String getName();
+
     boolean isUpKey(KeyStroke keyStroke);
 
     boolean isDownKey(KeyStroke keyStroke);

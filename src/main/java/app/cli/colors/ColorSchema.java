@@ -3,6 +3,9 @@ package app.cli.colors;
 import com.googlecode.lanterna.TextColor;
 
 public interface ColorSchema {
+
+    String getName();
+
     TextColor getMenuBackground();
 
     TextColor getMenuForeground();

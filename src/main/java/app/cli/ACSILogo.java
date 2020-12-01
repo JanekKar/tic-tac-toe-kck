@@ -4,6 +4,7 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
+import static app.cli.Config.colorSchema;
 import static app.cli.Utils.*;
 
 

@@ -16,6 +16,11 @@ public class WASDControls implements Controls {
     }
 
     @Override
+    public String getName() {
+        return "wasd";
+    }
+
+    @Override
     public boolean isUpKey(KeyStroke keyStroke) {
         return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'w';
     }

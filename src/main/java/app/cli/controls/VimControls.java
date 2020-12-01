@@ -17,6 +17,11 @@ public class VimControls implements Controls {
     }
 
     @Override
+    public String getName() {
+        return "vim";
+    }
+
+    @Override
     public boolean isUpKey(KeyStroke keyStroke) {
         return keyStroke.getKeyType() == KeyType.Character && keyStroke.getCharacter() == 'k';
     }

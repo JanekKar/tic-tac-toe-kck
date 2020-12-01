@@ -13,10 +13,9 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import java.awt.*;
 
 import static app.Main.game;
+import static app.cli.Config.colorSchema;
 
 public class Utils {
-    public static ColorSchema colorSchema = DefaultColors.getInstance();
-    public static Controls controls = DefaultControls.getInstance();
     static int rowHeight;
     static int columnWidth;
     static int paddingLeft;

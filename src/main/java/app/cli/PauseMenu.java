@@ -8,6 +8,7 @@ import com.googlecode.lanterna.input.KeyStroke;
 
 import java.io.IOException;
 
+import static app.cli.Config.*;
 import static app.cli.Game.*;
 import static app.cli.Utils.*;
 

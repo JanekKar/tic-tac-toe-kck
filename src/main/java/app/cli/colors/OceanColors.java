@@ -12,7 +12,9 @@ public class OceanColors implements ColorSchema {
     private static final TextColor gray = new TextColor.RGB(126, 130, 156);
     private static final TextColor white = new TextColor.RGB(237, 237, 218);
     private static final TextColor red = new TextColor.RGB(240, 28, 17);
+
     private static ColorSchema instance;
+
     private final TextColor[] logo = new TextColor[]{blue, green, orange};
     private final TextColor menuForground = orange;
     private final TextColor menuBackground = gray;
@@ -36,6 +38,11 @@ public class OceanColors implements ColorSchema {
             instance = new OceanColors();
         }
         return instance;
+    }
+
+    @Override
+    public String getName() {
+        return "ocean";
     }
 
     @Override

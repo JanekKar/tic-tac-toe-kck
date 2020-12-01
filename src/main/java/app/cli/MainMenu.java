@@ -4,7 +4,7 @@ import app.cli.colors.DefaultColors;
 import app.cli.colors.MonokaiColors;
 import app.cli.colors.OceanColors;
 import app.cli.controls.DefaultControls;
-import app.cli.controls.JKLIControls;
+import app.cli.controls.IJKLControls;
 import app.cli.controls.VimControls;
 import app.cli.controls.WASDControls;
 import app.ticTacToe.logic.EasyLogic;
@@ -22,6 +22,7 @@ import java.io.IOException;
 import static app.cli.ACSILogo.drawLogo;
 import static app.cli.Game.*;
 import static app.cli.Utils.*;
+import static app.cli.Config.*;
 
 
 public class MainMenu {
@@ -181,7 +182,7 @@ public class MainMenu {
                                                             controls = WASDControls.getInstance();
                                                             break;
                                                         case 2:
-                                                            controls = JKLIControls.getInstance();
+                                                            controls = IJKLControls.getInstance();
                                                             break;
                                                         case 3:
                                                             controls = VimControls.getInstance();

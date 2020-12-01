@@ -10,7 +10,9 @@ public class MonokaiColors implements ColorSchema {
     private static final TextColor orange = new TextColor.RGB(252, 152, 103);
     private static final TextColor violet = new TextColor.RGB(171, 157, 242);
     private static final TextColor gray = new TextColor.RGB(79, 75, 61);
+
     private static ColorSchema instance;
+
     private final TextColor[] logo = new TextColor[]{blue, green, orange};
     private final TextColor menuForground = orange;
     private final TextColor menuBackground = gray;
@@ -26,14 +28,17 @@ public class MonokaiColors implements ColorSchema {
     private final TextColor[] highlightWinning = new TextColor[]{violet, blue};
     private final TextColor[] highlightLoosing = new TextColor[]{TextColor.ANSI.RED, yellow};
 
-    private MonokaiColors() {
-    }
 
     public static ColorSchema getInstance() {
         if (instance == null) {
             instance = new MonokaiColors();
         }
         return instance;
+    }
+
+    @Override
+    public String getName() {
+        return "monokai";
     }
 
     @Override

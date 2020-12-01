@@ -11,6 +11,7 @@ import java.io.IOException;
 import static app.cli.Game.screen;
 import static app.cli.Game.terminal;
 import static app.cli.Utils.*;
+import static app.cli.Config.*;
 
 public abstract class Submenu {
     private final String[] menuItems;

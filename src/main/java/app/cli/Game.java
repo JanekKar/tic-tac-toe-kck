@@ -1,6 +1,11 @@
 package app.cli;
 
 import app.Main;
+import app.cli.colors.DefaultColors;
+import app.cli.colors.MonokaiColors;
+import app.cli.colors.OceanColors;
+import app.cli.controls.Controls;
+import app.ticTacToe.PlayerScores;
 import app.ticTacToe.TicTacToe;
 import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.*;
@@ -20,6 +25,7 @@ import static app.cli.MainMenu.mainMenu;
 import static app.cli.PauseMenu.drawPausedMenu;
 import static app.cli.PauseMenu.pauseMenu;
 import static app.cli.Utils.*;
+import static app.cli.Config.*;
 
 
 public class Game {
@@ -329,5 +335,7 @@ public class Game {
         return tg;
     }
 
-
+    public static void setupGameConfig(){
+        Config.getInstance();
+    }
 }

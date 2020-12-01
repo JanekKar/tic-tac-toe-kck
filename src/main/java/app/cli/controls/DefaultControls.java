@@ -18,6 +18,11 @@ public class DefaultControls implements Controls {
     }
 
     @Override
+    public String getName() {
+        return "default";
+    }
+
+    @Override
     public boolean isUpKey(KeyStroke keyStroke) {
         return keyStroke.getKeyType() == KeyType.ArrowUp;
     }
