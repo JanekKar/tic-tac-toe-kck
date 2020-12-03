@@ -2,9 +2,8 @@ package app;
 
 import app.cli.Config;
 import app.cli.Game;
-import app.cli.Submenus;
+import app.cli.menus.Submenus;
 import app.ticTacToe.PlayerScores;
-import app.ticTacToe.Player;
 import app.ticTacToe.TicTacToe;
 import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -24,19 +23,20 @@ public class Main {
         game = TicTacToe.getInstance();
         logic = null;
 
-        TextGraphics tg = Game.setUpTerminalAndScreen();
         Game.setupGameConfig();
 
 
-        submenus = new Submenus(tg);
-        Game.mainLoop(tg);
+        submenus = new Submenus(Config.tg);
+        Game.mainLoop(Config.tg);
 
-        Game.screen.close();
-        Game.terminal.close();
+
+
 
         files.save();
 
         Config.getInstance().saveConfig();
+        Config.closeGame();
+
 
     }
 

@@ -1,4 +1,4 @@
-package app.cli;
+package app.cli.menus;
 
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
@@ -14,7 +14,7 @@ import static app.cli.Utils.*;
 
 public class PauseMenu {
     public static boolean pauseMenu(TextGraphics tg) throws IOException {
-        paused = true;
+        pauseMenu = true;
 
         drawPausedMenu(tg);
 
@@ -29,16 +29,16 @@ public class PauseMenu {
                 }
                 if (controls.isQuitKey(keyStroke)) {
                     play = false;
-                    paused = false;
+                    pauseMenu = false;
                     return true;
                 }
             }
         }
-        paused = false;
+        pauseMenu = false;
         return false;
     }
 
-    protected static void drawPausedMenu(TextGraphics tg) {
+    public static void drawPausedMenu(TextGraphics tg) {
         TextColor prevColor = tg.getForegroundColor();
 
         drawWindow(tg, 4, 2);

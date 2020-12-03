@@ -1,4 +1,4 @@
-package app.cli;
+package app.cli.menus;
 
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
@@ -50,7 +50,7 @@ public class MainMenu {
         tg.putString(menuPaddingLeft - 2 + menuItems[menuPos].length() + 3, menuPaddingTop + 2 * menuPos, " ");
     }
 
-    protected static void drawMainMenu(TextGraphics tg) {
+    public static void drawMainMenu(TextGraphics tg) {
         int menuPaddingTop = windowPaddingTop + 12;
         int menuPaddingLeft = windowPaddingLeft + 12;
         tg.setBackgroundColor(colorSchema.getMenuBackground());
@@ -71,7 +71,7 @@ public class MainMenu {
         highlightMenuItem(tg, menuPos, menuItems, 12, 12);
     }
 
-    protected static void mainMenu(TextGraphics tg) throws IOException {
+    public static void mainMenu(TextGraphics tg) throws IOException {
         drawMainMenu(tg);
 
         terminal.flush();

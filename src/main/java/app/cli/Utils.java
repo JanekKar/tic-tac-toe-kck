@@ -16,22 +16,22 @@ import static app.Main.game;
 import static app.cli.Config.colorSchema;
 
 public class Utils {
-    static int rowHeight;
-    static int columnWidth;
-    static int paddingLeft;
-    static int paddingTop = 2;
-    static int fieldOffset = 3;
-    static int sidebar = 12;
-    static int sidebarPaddingTop;
-    static int paddingLeftSidebar = 6;
-    static int windowPaddingTop = 0;
-    static int windowPaddingLeft = 0;
-    static int rows;
-    static int columns;
-    static int prevRows;
-    static int prevCols;
-    static int xWidth = 11;
-    static int xHeight = 5;
+    public static int rowHeight;
+    public static int columnWidth;
+    public static int paddingLeft;
+    public static int paddingTop = 2;
+    public static int fieldOffset = 3;
+    public static int sidebar = 12;
+    public static int sidebarPaddingTop;
+    public static int paddingLeftSidebar = 6;
+    public static int windowPaddingTop = 0;
+    public static int windowPaddingLeft = 0;
+    public static int rows;
+    public static int columns;
+    public static int prevRows;
+    public static int prevCols;
+    public static int xWidth = 11;
+    public static int xHeight = 5;
 
     public static void drawBorder(TextGraphics tg, int startX, int startY, int endX, int endY) {
         TextColor prevColor = tg.getForegroundColor();

@@ -1,12 +1,15 @@
-package app.cli;
+package app.cli.menus;
 
+import app.cli.Config;
 import app.cli.colors.DefaultColors;
+import app.cli.colors.MatrixColors;
 import app.cli.colors.MonokaiColors;
 import app.cli.colors.OceanColors;
 import app.cli.controls.DefaultControls;
 import app.cli.controls.IJKLControls;
 import app.cli.controls.VimControls;
 import app.cli.controls.WASDControls;
+import app.cli.menus.Submenu;
 import app.ticTacToe.Player;
 import app.ticTacToe.PlayerScores;
 import app.ticTacToe.logic.EasyLogic;
@@ -26,7 +29,7 @@ import static app.Main.submenus;
 import static app.cli.Config.colorSchema;
 import static app.cli.Config.controls;
 import static app.cli.Game.*;
-import static app.cli.NickMenu.drawNickMenu;
+import static app.cli.menus.NickMenu.drawNickMenu;
 import static app.cli.Utils.*;
 
 
@@ -48,7 +51,7 @@ public class Submenus {
             "Controls"
     };
     private final String[] colorsSchemas = {
-            "Default", "Monokai", "Nord"
+            "Default", "Monokai", "Ocean", "Matrix"
     };
     private final String[] controlsMenuList = {
             "Arrows",
@@ -67,7 +70,7 @@ public class Submenus {
         this.tg = tg;
     }
 
-    protected void getScoreInfoMenu(TextGraphics tg, boolean noInput) throws IOException {
+    public void getScoreInfoMenu(TextGraphics tg, boolean noInput) throws IOException {
         bestScoreMenuOpen = true;
         int totalPaddingLeft = windowPaddingLeft + 19;
         int totalPaddingTop = windowPaddingTop;
@@ -116,10 +119,10 @@ public class Submenus {
             tg.putString(totalPaddingLeft+5, totalPaddingTop+i*2, bestPlayers.get(i).getNumberOfTies()+"");
         }
 
-        terminal.flush();
-        screen.refresh();
+        Config.terminal.flush();
+        Config.screen.refresh();
         while(!noInput){
-            KeyStroke keyStroke = terminal.pollInput();
+            KeyStroke keyStroke = Config.terminal.pollInput();
             if(keyStroke!=null){
                 if(controls.isEscapeKey(keyStroke));
                 break;
@@ -203,6 +206,7 @@ public class Submenus {
                         colorSchema = OceanColors.getInstance();
                         break;
                     case 3:
+                        colorSchema = MatrixColors.getInstance();
                         break;
                 }
                 closeMenu();

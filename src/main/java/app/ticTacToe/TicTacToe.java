@@ -169,7 +169,7 @@ public class TicTacToe {
         this.player = player;
     }
 
-    public void printBoard() {
+    public void debugPrintBoard() {
         for (String[] row : this.board) {
             for (String cell : row) {
                 if (cell.equals("")) {

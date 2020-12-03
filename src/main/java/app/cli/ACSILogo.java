@@ -15,6 +15,15 @@ public class ACSILogo {
 
     public static void drawLogo(TextGraphics tg, int leftPadding, int topPadding) {
 
+        char[] symbols;
+
+        if(colorSchema.getLogoSymbols()!=null){
+            symbols = colorSchema.getLogoSymbols();
+        }else{
+            symbols = new char[]{Symbols.BLOCK_SOLID, Symbols.BLOCK_DENSE, Symbols.BLOCK_MIDDLE};
+        }
+
+        sym = symbols[0];
         TextColor prevColor = tg.getForegroundColor();
 
         totalPaddingLeft = windowPaddingLeft + leftPadding;
@@ -26,13 +35,13 @@ public class ACSILogo {
         drawI(tg, 6);
         drawC(tg, 8);
 
-        sym = Symbols.BLOCK_DENSE;
+        sym = symbols[1];
         tg.setForegroundColor(colorSchema.getLogo()[1]);
         drawT(tg, 17);
         drawA(tg, 23);
         drawC(tg, 29);
 
-        sym = Symbols.BLOCK_MIDDLE;
+        sym = symbols[2];
         tg.setForegroundColor(colorSchema.getLogo()[2]);
 
         drawT(tg, 37);
@@ -40,6 +49,7 @@ public class ACSILogo {
         drawE(tg, 49);
 
         tg.setForegroundColor(prevColor);
+        sym = Symbols.BLOCK_SOLID;
     }
 
     public static void drawTie(TextGraphics tg, int xPos, int yPos) {

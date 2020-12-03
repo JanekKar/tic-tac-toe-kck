@@ -33,5 +33,7 @@ public interface ColorSchema {
     TextColor[] getHighlightWinning();
 
     TextColor[] getHighlightLoosing();
+
+    char[] getLogoSymbols();
 }
 

@@ -16,22 +16,20 @@ import java.io.IOException;
 
 import static app.Main.submenus;
 import static app.cli.ACSILogo.drawTie;
-import static app.cli.MainMenu.*;
-import static app.cli.PauseMenu.drawPausedMenu;
-import static app.cli.PauseMenu.pauseMenu;
+import static app.cli.menus.MainMenu.*;
+import static app.cli.menus.PauseMenu.drawPausedMenu;
+import static app.cli.menus.PauseMenu.pauseMenu;
 import static app.cli.Utils.*;
 import static app.cli.Config.*;
 
 
 public class Game {
-    public static Terminal terminal;
-    public static Screen screen;
-    protected static TicTacToeLogic logic = Main.logic;
-    protected static boolean paused = false;
-    protected static boolean run = true;
+    public static TicTacToeLogic logic = Main.logic;
+    public static boolean pauseMenu = false;
+    public static boolean run = true;
     static int highlightX = 1;
     static int highlightY = 1;
-    static boolean play = false;
+    public static boolean play = false;
     private static final TicTacToe game = Main.game;
 
     private static void drawBoard(TextGraphics tg) {
@@ -87,7 +85,7 @@ public class Game {
 
     }
 
-    private static void drawGame(TextGraphics tg) {
+    protected static void drawGame(TextGraphics tg) {
         tg.setBackgroundColor(colorSchema.getGameBackground());
         tg.fill(' ');
         drawBorder(tg, 0, 0, columns - 1, rows - 1);
@@ -113,7 +111,7 @@ public class Game {
         tg.putString(windowPaddingLeft+1, windowPaddingTop+sidebarPaddingTop-1, "Game No: " +(game.getGameNo()+1));
 
 
-        tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 2, "Score: " + game.getPlayer().getScore(), SGR.BOLD);
+        drawScore(tg);
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 6, "Player:", SGR.BOLD);
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 7, game.getPlayer().getName());
 
@@ -123,6 +121,12 @@ public class Game {
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 16, "LOST: " + game.getPlayer().getNumberOfLostGames());
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 17, "TIES: " + game.getPlayer().getNumberOfTies());
 
+    }
+
+    private static void drawScore(TextGraphics tg) {
+        tg.setForegroundColor(colorSchema.getGameSidebarForeground());
+        tg.setBackgroundColor(colorSchema.getGameSidebarBackground());
+        tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 2, "Score: " + game.getPlayer().getScore(), SGR.BOLD);
     }
 
     private static void drawCurrentPlayer(TextGraphics tg) {
@@ -230,7 +234,6 @@ public class Game {
 
                         Thread.sleep(500);
 
-                        drawCurrentPlayer(tg);
                         Point point = logic.makeMove();
                         game.makeMove(point);
 
@@ -244,9 +247,7 @@ public class Game {
                                 drawTieWindow(tg);
                             break;
                         }
-
                         drawCurrentPlayer(tg);
-
                     } else {
                         bgColor = colorSchema.getGameFiledHighlightWrong()[0];
                         fgColor = colorSchema.getGameFiledHighlightWrong()[1];
@@ -265,6 +266,7 @@ public class Game {
                 screen.refresh();
             }
         }
+        drawScore(tg);
     }
 
     private static void drawTieWindow(TextGraphics tg) throws IOException, InterruptedException {
@@ -279,92 +281,8 @@ public class Game {
         Thread.sleep(500);
     }
 
-    public static void calculatePadding() throws IOException {
-
-        int currRows = terminal.getTerminalSize().getRows();
-        int currColumns = terminal.getTerminalSize().getColumns();
-
-        int deltaColumns = currColumns - prevCols;
-        int deltaRows = currRows - prevRows;
-
-        if (deltaColumns % 2 == 0) {
-            prevCols = currColumns;
-            windowPaddingLeft += deltaColumns / 2;
-        }
-
-        if (deltaRows % 2 == 0) {
-            prevRows = currRows;
-            windowPaddingTop += deltaRows / 2;
-        }
-
-        screen.doResizeIfNecessary();
-    }
-
-    public static void resizeScreen(TextGraphics tg) {
-        try {
-            calculatePadding();
 
 
-
-            if (play)
-                drawGame(tg);
-            else{
-                drawMainMenu(tg);
-                if(submenus.bestScoreMenuOpen){
-                    submenus.getScoreInfoMenu(tg, false);
-                }
-                if(submenus.settingsMenuOpen){
-                    submenus.getSettingsMenu().drawSubMenu();
-                    if(submenus.controlsMenuOpen)
-                        submenus.getControlsMenu().drawSubMenu();
-                    if(submenus.colorsMenuOpen)
-                        submenus.getColorsMenu().drawSubMenu();
-                }
-
-            }
-
-
-            if (paused){
-                drawPausedMenu(tg);
-                if(submenus.bestScoreMenuOpen){
-                    submenus.getScoreInfoMenu(tg, true);
-                }
-            }
-
-            terminal.flush();
-            screen.refresh();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static TextGraphics setUpTerminalAndScreen() throws IOException {
-        terminal = new DefaultTerminalFactory().createTerminal();
-        terminal.setCursorVisible(false);
-
-        screen = new TerminalScreen(terminal);
-        screen.doResizeIfNecessary();
-        screen.setCursorPosition(null);
-
-        TextGraphics tg = screen.newTextGraphics();
-
-        terminal.addResizeListener((terminal, terminalSize) -> {
-            resizeScreen(tg);
-        });
-        screen.startScreen();
-
-        setDimensions();
-
-        int tempRows = terminal.getTerminalSize().getRows();
-        int tempCol = terminal.getTerminalSize().getColumns();
-
-        if (tempRows != rows || tempCol != columns) {
-            calculatePadding();
-        }
-
-        return tg;
-    }
 
     public static void setupGameConfig(){
         Config.getInstance();

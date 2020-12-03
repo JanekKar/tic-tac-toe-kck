@@ -1,7 +1,9 @@
-package app.cli;
+package app.cli.menus;
 
+import app.cli.Config;
 import app.ticTacToe.Player;
 import app.ticTacToe.TicTacToe;
+import app.ticTacToe.logic.EasyLogic;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.graphics.TextGraphics;
@@ -10,10 +12,9 @@ import com.googlecode.lanterna.input.KeyType;
 
 import java.io.IOException;
 
-import static app.cli.Game.screen;
-import static app.cli.Game.terminal;
+import static app.cli.Game.*;
 import static app.cli.Utils.*;
-import static app.cli.Utils.windowPaddingTop;
+import static app.cli.Config.*;
 
 public class NickMenu {
 
@@ -31,12 +32,17 @@ public class NickMenu {
         for (int i = 0; i < 10; i++) {
             tg.setCharacter(totalPaddingLeft + 2 * i, totalPaddingTop+4, '_');
         }
-        higlightPosition(tg, cursorPosition);
+        highlightPosition(tg, cursorPosition);
         terminal.flush();
         screen.refresh();
         while (true) {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
+                if(controls.isEscapeKey(keyStroke)){
+                    play = false;
+                    return;
+                }
+
                 if (keyStroke.getKeyType() == KeyType.Character) {
                     if(nick.length()!=10){
                         nick += keyStroke.getCharacter();
@@ -48,6 +54,10 @@ public class NickMenu {
                 }
                 if (keyStroke.getKeyType() == KeyType.Enter && !nick.equals("")) {
                     TicTacToe.getInstance().setPlayer(new Player(nick));
+                    if(Config.colorSchema.getName().equals("matrix") && nick.equals("Neo")){
+                        logic = new EasyLogic();
+                        TicTacToe.getInstance().setBonus(50);
+                    }
                     return;
                 }
                 if (keyStroke.getKeyType() == KeyType.Backspace && cursorPosition > 0) {
@@ -57,7 +67,7 @@ public class NickMenu {
                         tg.setCharacter(totalPaddingLeft + 2 * cursorPosition--, totalPaddingTop+4, '_');
                     nick = nick.substring(0, nick.length()-1);
                 }
-                higlightPosition(tg, cursorPosition);
+                highlightPosition(tg, cursorPosition);
 
                 terminal.flush();
                 screen.refresh();
@@ -66,7 +76,7 @@ public class NickMenu {
         }
     }
 
-    private static void higlightPosition(TextGraphics tg, int cursorPosition) {
+    private static void highlightPosition(TextGraphics tg, int cursorPosition) {
         if(cursorPosition < 9)
             tg.putString(windowPaddingLeft + 29 + 2 * cursorPosition, windowPaddingTop + 12, "_", SGR.BLINK);
     }

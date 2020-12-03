@@ -1,4 +1,4 @@
-package app.cli;
+package app.cli.menus;
 
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.Symbols;
@@ -8,8 +8,6 @@ import com.googlecode.lanterna.input.KeyStroke;
 
 import java.io.IOException;
 
-import static app.cli.Game.screen;
-import static app.cli.Game.terminal;
 import static app.cli.Utils.*;
 import static app.cli.Config.*;
 

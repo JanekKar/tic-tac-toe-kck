@@ -1,5 +1,6 @@
 package app.cli.colors;
 
+import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 
 public class OceanColors implements ColorSchema {
@@ -113,5 +114,10 @@ public class OceanColors implements ColorSchema {
     @Override
     public TextColor[] getHighlightLoosing() {
         return highlightLoosing;
+    }
+
+    @Override
+    public char[] getLogoSymbols() {
+        return null;
     }
 }

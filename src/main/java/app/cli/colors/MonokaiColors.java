@@ -1,5 +1,6 @@
 package app.cli.colors;
 
+import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 
 public class MonokaiColors implements ColorSchema {
@@ -109,5 +110,10 @@ public class MonokaiColors implements ColorSchema {
     @Override
     public TextColor[] getHighlightLoosing() {
         return highlightLoosing;
+    }
+
+    @Override
+    public char[] getLogoSymbols() {
+        return null;
     }
 }
