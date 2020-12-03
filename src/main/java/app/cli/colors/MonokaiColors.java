@@ -1,6 +1,5 @@
 package app.cli.colors;
 
-import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 
 public class MonokaiColors implements ColorSchema {

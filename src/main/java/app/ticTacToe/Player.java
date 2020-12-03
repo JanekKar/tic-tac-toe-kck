@@ -1,8 +1,6 @@
 package app.ticTacToe;
 
-import java.util.UUID;
-
-public class Player implements Comparable{
+public class Player implements Comparable {
     private final String name;
     private int score;
     private int numberOfWonGames;
@@ -68,7 +66,7 @@ public class Player implements Comparable{
 
     @Override
     public String toString() {
-        return  name +
+        return name +
                 ';' + score +
                 ';' + numberOfWonGames +
                 ';' + numberOfLostGames +
@@ -77,6 +75,6 @@ public class Player implements Comparable{
 
     @Override
     public int compareTo(Object o) {
-        return ((Player)o).getScore()-this.getScore();
+        return ((Player) o).getScore() - this.getScore();
     }
 }

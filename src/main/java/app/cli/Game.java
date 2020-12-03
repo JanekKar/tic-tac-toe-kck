@@ -1,36 +1,33 @@
 package app.cli;
 
 import app.Main;
+import app.cli.menus.Submenus;
 import app.ticTacToe.TicTacToe;
 import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
 
 import java.awt.*;
 import java.io.IOException;
 
-import static app.Main.submenus;
+import static app.Main.game;
+import static app.Main.logic;
 import static app.cli.ACSILogo.drawTie;
-import static app.cli.menus.MainMenu.*;
-import static app.cli.menus.PauseMenu.drawPausedMenu;
-import static app.cli.menus.PauseMenu.pauseMenu;
-import static app.cli.Utils.*;
 import static app.cli.Config.*;
+import static app.cli.Utils.*;
+import static app.cli.menus.MainMenu.mainMenu;
+import static app.cli.menus.PauseMenu.pauseMenu;
 
 
 public class Game {
-    public static TicTacToeLogic logic = Main.logic;
+
     public static boolean pauseMenu = false;
     public static boolean run = true;
+    public static boolean play = false;
+    public static Submenus submenus;
     static int highlightX = 1;
     static int highlightY = 1;
-    public static boolean play = false;
-    private static final TicTacToe game = Main.game;
 
     private static void drawBoard(TextGraphics tg) {
         tg.setForegroundColor(colorSchema.getGameBoard());
@@ -38,15 +35,15 @@ public class Game {
         for (int j = 0; j < 3; j++) {
             for (int i = 0; i < 3; i++) {
                 tg.drawRectangle(
-                        new TerminalPosition(windowPaddingLeft + paddingLeft - 1 + ((columnWidth) * i), windowPaddingTop + paddingTop - 1 + ((rowHeight) * j)),
-                        new TerminalSize(columnWidth + 1, rowHeight + 1),
+                        new TerminalPosition(windowPaddingLeft + boardPaddingLeft - 1 + ((boardColumnWidth) * i), windowPaddingTop + boardPaddingTop - 1 + ((boardRowHeight) * j)),
+                        new TerminalSize(boardColumnWidth + 1, boardRowHeight + 1),
                         Symbols.BLOCK_MIDDLE);
             }
         }
 
         tg.drawRectangle(
-                new TerminalPosition(windowPaddingLeft + paddingLeft - 1, windowPaddingTop + paddingTop - 1),
-                new TerminalSize(columnWidth * 3 + 1, rowHeight * 3 + 1),
+                new TerminalPosition(windowPaddingLeft + boardPaddingLeft - 1, windowPaddingTop + boardPaddingTop - 1),
+                new TerminalSize(boardColumnWidth * 3 + 1, boardRowHeight * 3 + 1),
                 ' ');
 
     }
@@ -55,31 +52,31 @@ public class Game {
 
         tg.setForegroundColor(colorSchema.getBorders());
 
-        tg.drawLine(windowPaddingLeft + sidebar, windowPaddingTop, windowPaddingLeft + sidebar, windowPaddingTop + rows - 1, Symbols.DOUBLE_LINE_VERTICAL);
+        tg.drawLine(windowPaddingLeft + sidebarWidth, windowPaddingTop, windowPaddingLeft + sidebarWidth, windowPaddingTop + rowLength - 1, Symbols.DOUBLE_LINE_VERTICAL);
 
-        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop, windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop, Symbols.DOUBLE_LINE_HORIZONTAL);
-        tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop, Symbols.DOUBLE_LINE_T_LEFT);
+        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop, windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.setCharacter(windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop, Symbols.DOUBLE_LINE_T_LEFT);
         tg.setCharacter(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop, Symbols.DOUBLE_LINE_T_RIGHT);
 
-        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 4, windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop + 4, Symbols.DOUBLE_LINE_HORIZONTAL);
-        tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop + 4, Symbols.DOUBLE_LINE_T_LEFT);
+        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 4, windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop + 4, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.setCharacter(windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop + 4, Symbols.DOUBLE_LINE_T_LEFT);
         tg.setCharacter(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 4, Symbols.DOUBLE_LINE_T_RIGHT);
 
-        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 9, windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop + 9, Symbols.DOUBLE_LINE_HORIZONTAL);
-        tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop + 9, Symbols.DOUBLE_LINE_T_LEFT);
+        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 9, windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop + 9, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.setCharacter(windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop + 9, Symbols.DOUBLE_LINE_T_LEFT);
         tg.setCharacter(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 9, Symbols.DOUBLE_LINE_T_RIGHT);
 
-        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 13, windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop + 13, Symbols.DOUBLE_LINE_HORIZONTAL);
-        tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop + 13, Symbols.DOUBLE_LINE_T_LEFT);
+        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 13, windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop + 13, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.setCharacter(windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop + 13, Symbols.DOUBLE_LINE_T_LEFT);
         tg.setCharacter(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 13, Symbols.DOUBLE_LINE_T_RIGHT);
 
-        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 19, windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop + 19, Symbols.DOUBLE_LINE_HORIZONTAL);
-        tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop + sidebarPaddingTop + 19, Symbols.DOUBLE_LINE_T_LEFT);
+        tg.drawLine(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 19, windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop + 19, Symbols.DOUBLE_LINE_HORIZONTAL);
+        tg.setCharacter(windowPaddingLeft + sidebarWidth, windowPaddingTop + sidebarPaddingTop + 19, Symbols.DOUBLE_LINE_T_LEFT);
         tg.setCharacter(windowPaddingLeft, windowPaddingTop + sidebarPaddingTop + 19, Symbols.DOUBLE_LINE_T_RIGHT);
 
 
-        tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop, Symbols.DOUBLE_LINE_T_DOWN);
-        tg.setCharacter(windowPaddingLeft + sidebar, windowPaddingTop + rows - 1, Symbols.DOUBLE_LINE_T_UP);
+        tg.setCharacter(windowPaddingLeft + sidebarWidth, windowPaddingTop, Symbols.DOUBLE_LINE_T_DOWN);
+        tg.setCharacter(windowPaddingLeft + sidebarWidth, windowPaddingTop + rowLength - 1, Symbols.DOUBLE_LINE_T_UP);
 
         drawPlayerInfo(tg);
 
@@ -88,7 +85,7 @@ public class Game {
     protected static void drawGame(TextGraphics tg) {
         tg.setBackgroundColor(colorSchema.getGameBackground());
         tg.fill(' ');
-        drawBorder(tg, 0, 0, columns - 1, rows - 1);
+        drawBorder(tg, 0, 0, columnHeight - 1, rowLength - 1);
         drawSidebar(tg);
         drawBoard(tg);
         drawAllMoves(tg);
@@ -108,7 +105,7 @@ public class Game {
         tg.setBackgroundColor(colorSchema.getGameSidebarBackground());
         tg.setForegroundColor(colorSchema.getGameSidebarForeground());
 
-        tg.putString(windowPaddingLeft+1, windowPaddingTop+sidebarPaddingTop-1, "Game No: " +(game.getGameNo()+1));
+        tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop - 1, "Game No: " + (game.getGameNo() + 1));
 
 
         drawScore(tg);
@@ -153,7 +150,7 @@ public class Game {
             terminal.flush();
             screen.refresh();
             while (play) {
-                drawBorder(tg, 0, 0, columns - 1, rows - 1);
+                drawBorder(tg, 0, 0, columnHeight - 1, rowLength - 1);
                 drawSidebar(tg);
                 drawBoard(tg);
                 highlightField(tg, highlightX, highlightY, colorSchema.getGameFiledHighlightOk()[0], colorSchema.getGameFiledHighlightOk()[1]);
@@ -169,20 +166,20 @@ public class Game {
 
                 game.nextGame();
                 // TODO check if sidebar is refreshed after winnig the last game
-                if(game.isEndOfSession()){
+                if (game.isEndOfSession()) {
                     play = false;
-                    if(game.isNewBest()){
+                    if (game.isNewBest()) {
                         tg.setBackgroundColor(colorSchema.getMenuBackground());
                         tg.setForegroundColor(colorSchema.getMenuForeground());
-                        drawWindow(tg, 14,1);
-                        tg.putString(windowPaddingLeft+17,windowPaddingTop+2,"NEW TOP 5 SCORE", SGR.BOLD, SGR.BLINK);
-                        tg.putString(windowPaddingLeft+17,windowPaddingTop+21,"ESC to exit", SGR.BOLD, SGR.BLINK);
+                        drawWindow(tg, 14, 1);
+                        tg.putString(windowPaddingLeft + 17, windowPaddingTop + 2, "NEW TOP 5 SCORE", SGR.BOLD, SGR.BLINK);
+                        tg.putString(windowPaddingLeft + 17, windowPaddingTop + 21, "ESC to exit", SGR.BOLD, SGR.BLINK);
                         submenus.getScoreInfoMenu(tg, false);
 
                         terminal.flush();
                         screen.refresh();
                     }
-                }else{
+                } else {
                     Thread.sleep(500);
                 }
                 tg.setBackgroundColor(colorSchema.getGameBackground());
@@ -243,7 +240,8 @@ public class Game {
                             if (!result.equals("TIE"))
                                 for (Point winningPoint : game.getWinningPositions()) {
                                     highlightField(tg, winningPoint.x, winningPoint.y, colorSchema.getHighlightLoosing()[0], colorSchema.getHighlightLoosing()[1]);
-                                } else
+                                }
+                            else
                                 drawTieWindow(tg);
                             break;
                         }
@@ -270,21 +268,20 @@ public class Game {
     }
 
     private static void drawTieWindow(TextGraphics tg) throws IOException, InterruptedException {
-        windowPaddingLeft += sidebar / 2;
+        windowPaddingLeft += sidebarWidth / 2;
         tg.setBackgroundColor(colorSchema.getMenuBackground());
         tg.setForegroundColor(colorSchema.getBorders());
         drawWindow(tg, 25, 8);
         drawTie(tg, 33, 10);
         terminal.flush();
         screen.refresh();
-        windowPaddingLeft -= sidebar / 2;
+        windowPaddingLeft -= sidebarWidth / 2;
         Thread.sleep(500);
     }
 
 
-
-
-    public static void setupGameConfig(){
+    public static void setupGameConfig() {
         Config.getInstance();
+        submenus = new Submenus(Config.tg);
     }
 }

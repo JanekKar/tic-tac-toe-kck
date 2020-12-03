@@ -8,18 +8,16 @@ import com.googlecode.lanterna.input.KeyStroke;
 
 import java.io.IOException;
 
-import static app.cli.Utils.*;
 import static app.cli.Config.*;
+import static app.cli.Utils.drawWindow;
 
 public abstract class Submenu {
     private final String[] menuItems;
     private final String menuTitle;
     private final TextGraphics tg;
-    private int menuPos;
-
     private final int itemPaddingTop = 9;
     private final int itemPaddintLeft = 22;
-
+    private int menuPos;
     private boolean show = true;
 
 
@@ -35,7 +33,7 @@ public abstract class Submenu {
         tg.setBackgroundColor(colorSchema.getMenuBackground());
         tg.setForegroundColor(colorSchema.getMenuForeground());
         drawWindow(tg, 15, 4);
-        tg.drawLine(totalItemPaddingLeft - 5, totalItemPaddingTop - 2, windowPaddingLeft + columns - 18, windowPaddingTop + 7, Symbols.SINGLE_LINE_HORIZONTAL);
+        tg.drawLine(totalItemPaddingLeft - 5, totalItemPaddingTop - 2, windowPaddingLeft + columnHeight - 18, windowPaddingTop + 7, Symbols.SINGLE_LINE_HORIZONTAL);
 
         TextColor current = tg.getForegroundColor();
         tg.setForegroundColor(colorSchema.getLogo()[0]);

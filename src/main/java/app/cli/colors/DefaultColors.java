@@ -1,6 +1,5 @@
 package app.cli.colors;
 
-import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 
 public class DefaultColors implements ColorSchema {
@@ -10,12 +9,12 @@ public class DefaultColors implements ColorSchema {
     private final TextColor menuBackground = TextColor.ANSI.WHITE;
     private final TextColor menuForground = TextColor.ANSI.YELLOW;
     private final TextColor menuHighlight = TextColor.ANSI.BLUE;
-    private final TextColor gameBackground = new TextColor.RGB(46,52,54);
+    private final TextColor gameBackground = new TextColor.RGB(46, 52, 54);
     private final TextColor gameBoard = TextColor.ANSI.WHITE;
     private final TextColor xAndO = TextColor.ANSI.WHITE;
 
     private final TextColor gameSidebarForeground = TextColor.ANSI.WHITE;
-    private final TextColor gameSidebarBackground = new TextColor.RGB(46,52,54);;
+    private final TextColor gameSidebarBackground = new TextColor.RGB(46, 52, 54);
 
     private final TextColor borders = TextColor.ANSI.YELLOW;
 

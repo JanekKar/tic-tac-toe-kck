@@ -1,15 +1,13 @@
 package app.cli.colors;
 
-import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 
-public class MatrixColors implements ColorSchema{
-
-    TextColor black = new TextColor.RGB(0,0,0);
-    TextColor green = new TextColor.RGB(0, 255, 0);
-    TextColor white = new TextColor.RGB(255, 255, 255);
+public class MatrixColors implements ColorSchema {
 
     private static ColorSchema instance;
+    TextColor black = new TextColor.RGB(0, 0, 0);
+    TextColor green = new TextColor.RGB(0, 255, 0);
+    TextColor white = new TextColor.RGB(255, 255, 255);
 
     public static ColorSchema getInstance() {
         if (instance == null) {

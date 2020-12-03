@@ -1,7 +1,5 @@
 package app.ticTacToe;
 
-import app.Main;
-
 import java.awt.*;
 
 public class TicTacToe {
@@ -16,7 +14,7 @@ public class TicTacToe {
     private Point[] winningPositions;
     private String winner;
     private int bonus;
-    private int gameNumber=0;
+    private int gameNumber = 0;
 
     private TicTacToe() {
         for (int i = 0; i < 3; i++) {
@@ -127,24 +125,23 @@ public class TicTacToe {
         currentPlayer = 0;
     }
 
-    public boolean isEndOfSession(){
+    public boolean isEndOfSession() {
         return gameNumber == 10;
     }
 
 
-
     private int calcScore() {
         int score = player.getScore();
-        if(winner != null){
-            if(winner.equals("X")){
-                score += bonus*2;
-                score += available*5;
-            }else
-                score -= available*5;
-        }else
-            score+= bonus;
+        if (winner != null) {
+            if (winner.equals("X")) {
+                score += bonus * 2;
+                score += available * 5;
+            } else
+                score -= available * 5;
+        } else
+            score += bonus;
 
-        if(score < 0)
+        if (score < 0)
             return 0;
         return score;
     }
@@ -190,8 +187,8 @@ public class TicTacToe {
         return this.board;
     }
 
-    public boolean isNewBest(){
-        return PlayerScores.getInstance().addPlayer(player);
+    public boolean isNewBest() {
+        return BestScoreManager.getInstance().addPlayer(player);
     }
 
     public void setBonus(int i) {

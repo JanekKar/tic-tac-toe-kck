@@ -4,8 +4,7 @@ import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 
-import static app.cli.Config.colorSchema;
-import static app.cli.Utils.*;
+import static app.cli.Config.*;
 
 
 public class ACSILogo {
@@ -14,12 +13,11 @@ public class ACSILogo {
     private static char sym = Symbols.BLOCK_SOLID;
 
     public static void drawLogo(TextGraphics tg, int leftPadding, int topPadding) {
-
         char[] symbols;
 
-        if(colorSchema.getLogoSymbols()!=null){
+        if (colorSchema.getLogoSymbols() != null) {
             symbols = colorSchema.getLogoSymbols();
-        }else{
+        } else {
             symbols = new char[]{Symbols.BLOCK_SOLID, Symbols.BLOCK_DENSE, Symbols.BLOCK_MIDDLE};
         }
 
@@ -62,14 +60,6 @@ public class ACSILogo {
         drawE(tg, 8);
     }
 
-    private static void drawE(TextGraphics tg, int xPos) {
-        //E
-        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos + 4, totalPaddingTop, sym);
-        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop + 1, totalPaddingLeft + xPos + 4, totalPaddingTop + 1, sym);
-        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop + 3, totalPaddingLeft + xPos + 4, totalPaddingTop + 3, sym);
-        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos, totalPaddingTop + 3, sym);
-    }
-
     private static void drawA(TextGraphics tg, int xPos) {
         //A
         tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos + 4, totalPaddingTop, sym);
@@ -85,14 +75,17 @@ public class ACSILogo {
         tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop + 3, totalPaddingLeft + xPos + 3, totalPaddingTop + 3, sym);
     }
 
-    private static void drawI(TextGraphics tg, int xPos) {
-        //I
+    private static void drawE(TextGraphics tg, int xPos) {
+        //E
+        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos + 4, totalPaddingTop, sym);
+        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop + 1, totalPaddingLeft + xPos + 4, totalPaddingTop + 1, sym);
+        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop + 3, totalPaddingLeft + xPos + 4, totalPaddingTop + 3, sym);
         tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos, totalPaddingTop + 3, sym);
     }
 
-    private static void drawT(TextGraphics tg, int xPos) {
-        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos + 4, totalPaddingTop, sym);
-        tg.drawLine(totalPaddingLeft + xPos + 2, totalPaddingTop, totalPaddingLeft + xPos + 2, totalPaddingTop + 3, sym);
+    private static void drawI(TextGraphics tg, int xPos) {
+        //I
+        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos, totalPaddingTop + 3, sym);
     }
 
     private static void drawO(TextGraphics tg, int xPos) {
@@ -101,5 +94,11 @@ public class ACSILogo {
         tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop + 3, totalPaddingLeft + xPos + 4, totalPaddingTop + 3, sym);
         tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos, totalPaddingTop + 3, sym);
         tg.drawLine(totalPaddingLeft + xPos + 4, totalPaddingTop, totalPaddingLeft + xPos + 4, totalPaddingTop + 3, sym);
+    }
+
+    private static void drawT(TextGraphics tg, int xPos) {
+        //T
+        tg.drawLine(totalPaddingLeft + xPos, totalPaddingTop, totalPaddingLeft + xPos + 4, totalPaddingTop, sym);
+        tg.drawLine(totalPaddingLeft + xPos + 2, totalPaddingTop, totalPaddingLeft + xPos + 2, totalPaddingTop + 3, sym);
     }
 }

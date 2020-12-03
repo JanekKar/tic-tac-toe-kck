@@ -14,7 +14,7 @@ import static app.cli.Utils.*;
 
 public class PauseMenu {
     public static boolean pauseMenu(TextGraphics tg) throws IOException {
-        pauseMenu = true;
+        submenus.pauseMenuOpen = true;
 
         drawPausedMenu(tg);
 
@@ -34,7 +34,7 @@ public class PauseMenu {
                 }
             }
         }
-        pauseMenu = false;
+        submenus.pauseMenuOpen = false;
         return false;
     }
 
@@ -46,7 +46,7 @@ public class PauseMenu {
         tg.setForegroundColor(colorSchema.getMenuForeground());
         tg.setBackgroundColor(colorSchema.getMenuBackground());
         tg.putString(windowPaddingLeft + 9, windowPaddingTop + 4, "Game Paused", SGR.BLINK, SGR.CIRCLED);
-        tg.drawLine(windowPaddingLeft + 8, windowPaddingTop + 5, windowPaddingLeft + columns - 9, windowPaddingTop + 5, Symbols.SINGLE_LINE_HORIZONTAL);
+        tg.drawLine(windowPaddingLeft + 8, windowPaddingTop + 5, windowPaddingLeft + columnHeight - 9, windowPaddingTop + 5, Symbols.SINGLE_LINE_HORIZONTAL);
         tg.putString(windowPaddingLeft + 12, windowPaddingTop + 8, "Press Q to quit game", SGR.CIRCLED);
         tg.setForegroundColor(TextColor.ANSI.RED);
         tg.putString(windowPaddingLeft + 12 + "Press ".length(), windowPaddingTop + 8, "Q");

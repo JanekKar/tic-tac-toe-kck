@@ -1,9 +1,5 @@
 package app.cli;
 
-import app.cli.colors.ColorSchema;
-import app.cli.colors.DefaultColors;
-import app.cli.controls.Controls;
-import app.cli.controls.DefaultControls;
 import com.googlecode.lanterna.Symbols;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
@@ -13,25 +9,9 @@ import com.googlecode.lanterna.graphics.TextGraphics;
 import java.awt.*;
 
 import static app.Main.game;
-import static app.cli.Config.colorSchema;
+import static app.cli.Config.*;
 
 public class Utils {
-    public static int rowHeight;
-    public static int columnWidth;
-    public static int paddingLeft;
-    public static int paddingTop = 2;
-    public static int fieldOffset = 3;
-    public static int sidebar = 12;
-    public static int sidebarPaddingTop;
-    public static int paddingLeftSidebar = 6;
-    public static int windowPaddingTop = 0;
-    public static int windowPaddingLeft = 0;
-    public static int rows;
-    public static int columns;
-    public static int prevRows;
-    public static int prevCols;
-    public static int xWidth = 11;
-    public static int xHeight = 5;
 
     public static void drawBorder(TextGraphics tg, int startX, int startY, int endX, int endY) {
         TextColor prevColor = tg.getForegroundColor();
@@ -68,7 +48,7 @@ public class Utils {
     }
 
     public static void drawWindow(TextGraphics tg, int marginSide, int marginTop) {
-        drawWindow(tg, marginSide, marginTop, columns - marginSide - 1, rows - marginTop - 1);
+        drawWindow(tg, marginSide, marginTop, columnHeight - marginSide - 1, rowLength - marginTop - 1);
     }
 
     public static void drawX(TextGraphics tg, int x, int y) {
@@ -76,18 +56,18 @@ public class Utils {
         int posY = y + windowPaddingTop;
         tg.drawLine(
                 new TerminalPosition(posX, posY),
-                new TerminalPosition(posX + xWidth, posY + xHeight),
+                new TerminalPosition(posX + widthOfX, posY + heightOfX),
                 'O');
 
         tg.drawLine(
-                new TerminalPosition(posX + xWidth, posY),
-                new TerminalPosition(posX, posY + xHeight),
+                new TerminalPosition(posX + widthOfX, posY),
+                new TerminalPosition(posX, posY + heightOfX),
                 'O');
     }
 
     public static void drawXOnBoard(TextGraphics tg, int x, int y) {
-        int posX = paddingLeft + fieldOffset + (x * columnWidth);
-        int posY = paddingTop + (rowHeight * y);
+        int posX = boardPaddingLeft + filedPaddingLeft + (x * boardColumnWidth);
+        int posY = boardPaddingTop + (boardRowHeight * y);
         drawX(tg, posX, posY);
     }
 
@@ -120,7 +100,7 @@ public class Utils {
                 'X');
 
         // Lower horizontal lines
-        posY += xHeight;
+        posY += heightOfX;
         tg.drawLine(
                 new TerminalPosition(posX + 1, posY - 1),
                 new TerminalPosition(posX + 3, posY - 1),
@@ -136,8 +116,8 @@ public class Utils {
     }
 
     public static void drawOOnBoard(TextGraphics tg, int x, int y) {
-        int posX = paddingLeft + fieldOffset + (x * columnWidth);
-        int posY = paddingTop + (y * rowHeight);
+        int posX = boardPaddingLeft + filedPaddingLeft + (x * boardColumnWidth);
+        int posY = boardPaddingTop + (y * boardRowHeight);
 
         drawO(tg, posX, posY);
 
@@ -148,8 +128,8 @@ public class Utils {
         tg.setForegroundColor(foregroundColor);
 
         tg.fillRectangle(
-                new TerminalPosition(windowPaddingLeft + paddingLeft + (x * columnWidth), windowPaddingTop + paddingTop + (y * rowHeight)),
-                new TerminalSize(columnWidth - 1, rowHeight - 1),
+                new TerminalPosition(windowPaddingLeft + boardPaddingLeft + (x * boardColumnWidth), windowPaddingTop + boardPaddingTop + (y * boardRowHeight)),
+                new TerminalSize(boardColumnWidth - 1, boardRowHeight - 1),
                 ' ');
 
         drawXorO(tg, x, y);
@@ -170,19 +150,6 @@ public class Utils {
                 break;
             default:
         }
-    }
-
-    public static void setDimensions() {
-        rows = 24;
-        columns = 80;
-
-        prevRows = rows;
-        prevCols = columns;
-
-        rowHeight = (rows - 1) / 3;
-        columnWidth = ((columns - sidebar - 6) / 3) - 1;
-        paddingLeft = sidebar + paddingLeftSidebar;
-        sidebarPaddingTop = (rows - 20) / 2;
     }
 }
 

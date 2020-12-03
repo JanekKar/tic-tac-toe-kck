@@ -7,11 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public abstract class TicTacToeLogic {
+    protected final TicTacToe game;
     String ai = "O";
     String player = "X";
     String blank;
     Map<String, Integer> score = new HashMap<String, Integer>();
-    protected final TicTacToe game;
 
     public TicTacToeLogic() {
         this.game = TicTacToe.getInstance();

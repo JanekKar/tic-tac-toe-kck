@@ -8,11 +8,10 @@ import com.googlecode.lanterna.input.KeyStroke;
 
 import java.io.IOException;
 
-import static app.Main.submenus;
 import static app.cli.ACSILogo.drawLogo;
+import static app.cli.Config.*;
 import static app.cli.Game.*;
 import static app.cli.Utils.*;
-import static app.cli.Config.*;
 
 
 public class MainMenu {
@@ -63,9 +62,9 @@ public class MainMenu {
             tg.putString(menuPaddingLeft, menuPaddingTop + 2 * i, menuItems[i], SGR.BOLD);
         }
 
-        drawX(tg, 40,15);
-        drawO(tg, 53,15);
-        drawO(tg, 53,9);
+        drawX(tg, 40, 15);
+        drawO(tg, 53, 15);
+        drawO(tg, 53, 9);
 
         menuPos = 0;
         highlightMenuItem(tg, menuPos, menuItems, 12, 12);
@@ -119,8 +118,6 @@ public class MainMenu {
             }
         }
     }
-
-    
 
 
 }
