@@ -183,6 +183,18 @@ public class Submenus {
 
     public void getScoreInfoMenu(TextGraphics tg, boolean noInput) throws IOException {
         bestScoreMenuOpen = true;
+        drawScoreInfoMenu();
+        while (!noInput) {
+            KeyStroke keyStroke = Config.terminal.pollInput();
+            if (keyStroke != null) {
+                if (controls.isEscapeKey(keyStroke)) ;
+                break;
+            }
+        }
+        bestScoreMenuOpen = false;
+    }
+
+    public void drawScoreInfoMenu() throws IOException {
         int totalPaddingLeft = windowPaddingLeft + 19;
         int totalPaddingTop = windowPaddingTop;
         drawWindow(tg, 15, 3);
@@ -193,7 +205,7 @@ public class Submenus {
         tg.putString(totalPaddingLeft - 1, totalPaddingTop + 5, "BEST Players", SGR.BOLD);
         tg.setForegroundColor(current);
         tg.putString(totalPaddingLeft, totalPaddingTop + 7, "Name");
-        List<Player> bestPlayers = BestScoreManager.getInstance().getPlayersList();
+        List<Player> bestPlayers = BestScoreManager.getInstance().getBestScoreList();
         int maxLength = 0;
 
         totalPaddingTop += 10;
@@ -230,27 +242,19 @@ public class Submenus {
             tg.putString(totalPaddingLeft + 5, totalPaddingTop + i * 2, bestPlayers.get(i).getNumberOfTies() + "");
         }
 
-        Config.terminal.flush();
-        Config.screen.refresh();
-        while (!noInput) {
-            KeyStroke keyStroke = Config.terminal.pollInput();
-            if (keyStroke != null) {
-                if (controls.isEscapeKey(keyStroke)) ;
-                break;
-            }
-        }
-        bestScoreMenuOpen = false;
+        terminal.flush();
+        screen.refresh();
     }
 
     public void drawResetScoreboard(TextGraphics tg) throws IOException {
-        drawWindow(tg, 26, 8);
-        tg.drawLine(27, 10, columnHeight-28, 10, Symbols.SINGLE_LINE_HORIZONTAL);
-        tg.setForegroundColor(TextColor.ANSI.RED);
-        tg.putString(28, 9, "Reset ALL score data?", SGR.BOLD);
+        drawWindow(tg, 26, 7);
+        tg.drawLine(windowPaddingLeft+27, windowPaddingTop+10, windowPaddingLeft+columnHeight-28, windowPaddingTop+10, Symbols.SINGLE_LINE_HORIZONTAL);
+        tg.setForegroundColor(colorSchema.getRed());
+        tg.putString(windowPaddingLeft+28, windowPaddingTop+9, "Reset ALL score data?", SGR.BOLD);
 
-        tg.putString(30, 12, "[Y]es", SGR.BOLD);
+        tg.putString(windowPaddingLeft+30, windowPaddingTop+12, "[Y]es", SGR.BOLD);
         tg.setForegroundColor(colorSchema.getMenuForeground());
-        tg.putString(30, 13, "[N]o", SGR.BOLD);
+        tg.putString(windowPaddingLeft+30, windowPaddingTop+14, "[N]o", SGR.BOLD);
 
         terminal.flush();
         screen.refresh();
@@ -266,10 +270,10 @@ public class Submenus {
             if (keyStroke != null) {
                 if(keyStroke.getKeyType() == KeyType.Character){
                     if (keyStroke.getCharacter() == 'y'){
-                        BestScoreManager.getInstance().clearPlayerList();
-                        tg.fillRectangle(new TerminalPosition(30,12), new TerminalSize(2, 1), ' ');
-                        tg.putString(32, 12, "All data deleted", SGR.BLINK);
-                        tg.putString(32, 13, " ESC to go back");
+                        BestScoreManager.getInstance().clearBestScoreList();
+                        tg.fillRectangle(new TerminalPosition(windowPaddingLeft+30,windowPaddingTop+11), new TerminalSize(2, 3), ' ');
+                        tg.putString(windowPaddingLeft+32, windowPaddingTop+11, "All data deleted", SGR.BLINK);
+                        tg.putString(windowPaddingLeft+32, windowPaddingTop+13, " ESC to go back");
                         terminal.flush();
                         screen.refresh();
                     }
@@ -277,12 +281,10 @@ public class Submenus {
                         break;
                     }
                 }
-                if (keyStroke.getKeyType() == KeyType.Escape){
+                if (controls.isEscapeKey(keyStroke)){
                     break;
                 }
-
             }
-
         }
 
         resetScoreBoardOpen = false;

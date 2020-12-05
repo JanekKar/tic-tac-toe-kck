@@ -11,39 +11,42 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static app.cli.Config.*;
 import static app.Main.logic;
-import static app.cli.Game.play;
+import static app.cli.Game.runSession;
 import static app.cli.Game.submenus;
 import static app.cli.Utils.drawWindow;
 
 public class NickMenu {
     private static String nick = "";
 
-    private static int cursorPosition = 0;
+    private static int menuPosition = 0;
+
+    private NickMenu(){};
 
     public static void nickMenu(TextGraphics tg) throws IOException {
         submenus.nickMenuOpen = true;
         drawNickMenu(tg);
 
+        terminal.flush();
+        screen.refresh();
+
         while (true) {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
                 if (controls.isEscapeKey(keyStroke)) {
-                    play = false;
+                    runSession = false;
                     submenus.nickMenuOpen = false;
                     return;
                 }
-
                 if (keyStroke.getKeyType() == KeyType.Character) {
                     if (nick.length() != 10) {
                         nick += keyStroke.getCharacter();
-                        tg.setCharacter(windowPaddingLeft + 29 + 2 * cursorPosition, windowPaddingTop + 8 + 4, keyStroke.getCharacter());
+                        tg.setCharacter(windowPaddingLeft + 29 + 2 * menuPosition, windowPaddingTop + 8 + 4, keyStroke.getCharacter());
                     }
-                    if (cursorPosition != 9) {
-                        cursorPosition++;
+                    if (menuPosition != 9) {
+                        menuPosition++;
                     }
                 }
                 if (keyStroke.getKeyType() == KeyType.Enter && !nick.equals("")) {
@@ -53,17 +56,17 @@ public class NickMenu {
                         TicTacToe.getInstance().setBonus(50);
                     }
                     submenus.nickMenuOpen = false;
-                    play = true;
+                    runSession = true;
                     return;
                 }
-                if (keyStroke.getKeyType() == KeyType.Backspace && cursorPosition > 0) {
-                    if (cursorPosition == 9 && nick.length() == 10)
-                        tg.setCharacter(windowPaddingLeft + 29 + 2 * cursorPosition, windowPaddingTop + 8 + 4, '_');
+                if (keyStroke.getKeyType() == KeyType.Backspace && menuPosition > 0) {
+                    if (menuPosition == 9 && nick.length() == 10)
+                        tg.setCharacter(windowPaddingLeft + 29 + 2 * menuPosition, windowPaddingTop + 8 + 4, '_');
                     else
-                        tg.setCharacter(windowPaddingLeft + 29 + 2 * cursorPosition--, windowPaddingTop + 8 + 4, '_');
+                        tg.setCharacter(windowPaddingLeft + 29 + 2 * menuPosition--, windowPaddingTop + 8 + 4, '_');
                     nick = nick.substring(0, nick.length() - 1);
                 }
-                highlightPosition(tg, cursorPosition);
+                highlightPosition(tg, menuPosition);
 
                 terminal.flush();
                 screen.refresh();
@@ -90,9 +93,7 @@ public class NickMenu {
             }
         }
 
-        highlightPosition(tg, cursorPosition);
-        terminal.flush();
-        screen.refresh();
+        highlightPosition(tg, menuPosition);
     }
 
     private static void highlightPosition(TextGraphics tg, int cursorPosition) {

@@ -46,6 +46,16 @@ public class OceanColors implements ColorSchema {
     }
 
     @Override
+    public TextColor getRed() {
+        return red;
+    }
+
+    @Override
+    public TextColor getGreen() {
+        return green;
+    }
+
+    @Override
     public TextColor[] getLogo() {
         return logo;
     }

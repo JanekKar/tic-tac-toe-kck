@@ -40,6 +40,16 @@ public class DefaultColors implements ColorSchema {
     }
 
     @Override
+    public TextColor getRed() {
+        return TextColor.ANSI.RED;
+    }
+
+    @Override
+    public TextColor getGreen() {
+        return TextColor.ANSI.GREEN;
+    }
+
+    @Override
     public TextColor getMenuBackground() {
         return menuBackground;
     }

@@ -31,7 +31,7 @@ public class Player implements Comparable {
         this.numberOfLostGames++;
     }
 
-    public void increaseNumberOfTiess() {
+    public void increaseNumberOfTies() {
         this.numberOfTies++;
     }
 
@@ -60,9 +60,6 @@ public class Player implements Comparable {
         return numberOfTies;
     }
 
-    public void setNumberOfTies(int numberOfTies) {
-        this.numberOfTies = numberOfTies;
-    }
 
     @Override
     public String toString() {

@@ -28,8 +28,8 @@ public class PauseMenu {
                     break;
                 }
                 if (controls.isQuitKey(keyStroke)) {
-                    play = false;
-                    pauseMenu = false;
+                    runSession = false;
+                    submenus.pauseMenuOpen = false;
                     return true;
                 }
             }
@@ -48,11 +48,11 @@ public class PauseMenu {
         tg.putString(windowPaddingLeft + 9, windowPaddingTop + 4, "Game Paused", SGR.BLINK, SGR.CIRCLED);
         tg.drawLine(windowPaddingLeft + 8, windowPaddingTop + 5, windowPaddingLeft + columnHeight - 9, windowPaddingTop + 5, Symbols.SINGLE_LINE_HORIZONTAL);
         tg.putString(windowPaddingLeft + 12, windowPaddingTop + 8, "Press Q to quit game", SGR.CIRCLED);
-        tg.setForegroundColor(TextColor.ANSI.RED);
+        tg.setForegroundColor(colorSchema.getRed());
         tg.putString(windowPaddingLeft + 12 + "Press ".length(), windowPaddingTop + 8, "Q");
         tg.setForegroundColor(colorSchema.getMenuForeground());
         tg.putString(windowPaddingLeft + 12, windowPaddingTop + 11, "Press ESC to continue", SGR.CIRCLED);
-        tg.setForegroundColor(TextColor.ANSI.GREEN);
+        tg.setForegroundColor(colorSchema.getGreen());
         tg.putString(windowPaddingLeft + 12 + "Press ".length(), windowPaddingTop + 11, "ESC");
 
         tg.setForegroundColor(colorSchema.getLogo()[0]);

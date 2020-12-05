@@ -42,6 +42,16 @@ public class MonokaiColors implements ColorSchema {
     }
 
     @Override
+    public TextColor getRed() {
+        return pink;
+    }
+
+    @Override
+    public TextColor getGreen() {
+        return green;
+    }
+
+    @Override
     public TextColor[] getLogo() {
         return logo;
     }

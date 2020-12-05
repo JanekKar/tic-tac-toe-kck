@@ -13,7 +13,7 @@ public class Main {
     public static TicTacToe game;
     public static TicTacToeLogic logic;
 
-    public static void main(String[] args) throws InterruptedException, IOException {
+    public static void main(String[] args){
 
         BestScoreManager bestScoreManager = BestScoreManager.getInstance();
 
@@ -21,13 +21,23 @@ public class Main {
         logic = null;
 
         Game.setupGameConfig();
-        Game.mainLoop(Config.tg);
+        try {
+            Game.mainLoop(Config.tg);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         bestScoreManager.save();
 
         Config.getInstance().saveConfig();
-        Config.closeGame();
-        
+        try {
+            Config.closeGame();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

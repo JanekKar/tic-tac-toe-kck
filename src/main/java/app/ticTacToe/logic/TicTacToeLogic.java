@@ -13,7 +13,7 @@ public abstract class TicTacToeLogic {
     String blank;
     Map<String, Integer> score = new HashMap<String, Integer>();
 
-    public TicTacToeLogic() {
+    protected TicTacToeLogic() {
         this.game = TicTacToe.getInstance();
         this.blank = game.getBlank();
 
@@ -24,7 +24,7 @@ public abstract class TicTacToeLogic {
 
     public abstract Point makeMove();
 
-    public Point random() {
+    protected Point random() {
         Point temp;
         do {
             temp = new Point((int) (Math.random() * 3), (int) (Math.random() * 3));
@@ -52,7 +52,7 @@ public abstract class TicTacToeLogic {
         return move;
     }
 
-    public int minimax(boolean ai_turn) {
+    protected int minimax(boolean ai_turn) {
 
         String result = game.checkWinner();
         if (result != null)

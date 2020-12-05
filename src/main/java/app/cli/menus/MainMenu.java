@@ -23,7 +23,9 @@ public class MainMenu {
             "Quit"
     };
 
-    private static int menuPos = 0;
+    private MainMenu(){};
+
+    private static int menuPosition = 0;
 
     private static void highlightMenuItem(TextGraphics tg, int menuPos, String[] menuItems, int menuPaddingLeft, int menuPaddingTop) {
         TextColor prevColor = tg.getForegroundColor();
@@ -66,8 +68,8 @@ public class MainMenu {
         drawO(tg, 53, 15);
         drawO(tg, 53, 9);
 
-        menuPos = 0;
-        highlightMenuItem(tg, menuPos, menuItems, 12, 12);
+        menuPosition = 0;
+        highlightMenuItem(tg, menuPosition, menuItems, 12, 12);
     }
 
     public static void mainMenu(TextGraphics tg) throws IOException {
@@ -79,39 +81,36 @@ public class MainMenu {
         while (true) {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
-
-                unhighlightMenuItem(tg, menuPos, menuItems, 12, 12);
-
-                if (controls.isDownKey(keyStroke) && menuPos < menuItems.length - 1) {
-                    menuPos++;
+                unhighlightMenuItem(tg, menuPosition, menuItems, 12, 12);
+                if (controls.isDownKey(keyStroke) && menuPosition < menuItems.length - 1) {
+                    menuPosition++;
                 }
-                if (controls.isUpKey(keyStroke) && menuPos > 0) {
-                    menuPos--;
+                if (controls.isUpKey(keyStroke) && menuPosition > 0) {
+                    menuPosition--;
                 }
                 if (controls.isAssertKey(keyStroke)) {
-                    switch (menuPos) {
+                    switch (menuPosition) {
                         case 0:
                             submenus.getLevelMenu().showMenu();
-                            if (play)
+                            if (runSession)
                                 return;
                             drawMainMenu(tg);
                             break;
                         case 1:
-
                             submenus.getSettingsMenu().showMenu();
                             break;
                         case 2:
                             submenus.getScoreInfoMenu(tg, false);
                             break;
                         case 3:
-                            run = false;
-                            play = false;
+                            runGame = false;
+                            runSession = false;
                             return;
                     }
                     drawMainMenu(tg);
                 }
 
-                highlightMenuItem(tg, menuPos, menuItems, 12, 12);
+                highlightMenuItem(tg, menuPosition, menuItems, 12, 12);
 
                 terminal.flush();
                 screen.refresh();

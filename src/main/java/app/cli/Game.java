@@ -1,9 +1,6 @@
 package app.cli;
 
-import app.Main;
 import app.cli.menus.Submenus;
-import app.ticTacToe.TicTacToe;
-import app.ticTacToe.logic.TicTacToeLogic;
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -22,9 +19,8 @@ import static app.cli.menus.PauseMenu.pauseMenu;
 
 public class Game {
 
-    public static boolean pauseMenu = false;
-    public static boolean run = true;
-    public static boolean play = false;
+    public static boolean runGame = true;
+    public static boolean runSession = false;
     public static Submenus submenus;
     static int highlightX = 1;
     static int highlightY = 1;
@@ -84,8 +80,9 @@ public class Game {
 
     protected static void drawGame(TextGraphics tg) {
         tg.setBackgroundColor(colorSchema.getGameBackground());
-        tg.fill(' ');
-        drawBorder(tg, 0, 0, columnHeight - 1, rowLength - 1);
+//        tg.fill(' ');
+//        drawBorder(tg, 0, 0, columnHeight - 1, rowLength - 1);
+        drawWindow(tg, 0, 0);
         drawSidebar(tg);
         drawBoard(tg);
         drawAllMoves(tg);
@@ -106,14 +103,10 @@ public class Game {
         tg.setForegroundColor(colorSchema.getGameSidebarForeground());
 
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop - 1, "Game No: " + (game.getGameNo() + 1));
-
-
         drawScore(tg);
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 6, "Player:", SGR.BOLD);
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 7, game.getPlayer().getName());
-
         drawCurrentPlayer(tg);
-
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 15, "WIN: " + game.getPlayer().getNumberOfWonGames());
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 16, "LOST: " + game.getPlayer().getNumberOfLostGames());
         tg.putString(windowPaddingLeft + 1, windowPaddingTop + sidebarPaddingTop + 17, "TIES: " + game.getPlayer().getNumberOfTies());
@@ -141,7 +134,7 @@ public class Game {
 
     public static void mainLoop(TextGraphics tg) throws IOException, InterruptedException {
 
-        while (run) {
+        while (runGame) {
             mainMenu(tg);
             tg.setBackgroundColor(colorSchema.getGameBackground());
             tg.setForegroundColor(colorSchema.getGameBoard());
@@ -149,7 +142,7 @@ public class Game {
 
             terminal.flush();
             screen.refresh();
-            while (play) {
+            while (runSession) {
                 drawBorder(tg, 0, 0, columnHeight - 1, rowLength - 1);
                 drawSidebar(tg);
                 drawBoard(tg);
@@ -165,9 +158,8 @@ public class Game {
                 screen.refresh();
 
                 game.nextGame();
-                // TODO check if sidebar is refreshed after winnig the last game
                 if (game.isEndOfSession()) {
-                    play = false;
+                    runSession = false;
                     if (game.isNewBest()) {
                         tg.setBackgroundColor(colorSchema.getMenuBackground());
                         tg.setForegroundColor(colorSchema.getMenuForeground());
@@ -259,12 +251,12 @@ public class Game {
                     drawGame(tg);
                 }
 
+                drawScore(tg);
                 highlightField(tg, highlightX, highlightY, bgColor, fgColor);
                 terminal.flush();
                 screen.refresh();
             }
         }
-        drawScore(tg);
     }
 
     private static void drawTieWindow(TextGraphics tg) throws IOException, InterruptedException {

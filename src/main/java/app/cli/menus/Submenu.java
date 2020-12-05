@@ -17,7 +17,7 @@ public abstract class Submenu {
     private final TextGraphics tg;
     private final int itemPaddingTop = 9;
     private final int itemPaddintLeft = 22;
-    private int menuPos;
+    private int menuPosition;
     private boolean show = true;
 
 
@@ -57,12 +57,12 @@ public abstract class Submenu {
             KeyStroke keyStroke = terminal.pollInput();
             if (keyStroke != null) {
                 unhighlightMenuItem();
-                if (controls.isDownKey(keyStroke) && menuPos < menuItems.length - 1)
-                    menuPos++;
-                else if (controls.isUpKey(keyStroke) && menuPos > 0)
-                    menuPos--;
+                if (controls.isDownKey(keyStroke) && menuPosition < menuItems.length - 1)
+                    menuPosition++;
+                else if (controls.isUpKey(keyStroke) && menuPosition > 0)
+                    menuPosition--;
                 else if (controls.isAssertKey(keyStroke)) {
-                    onEnter(menuPos);
+                    onEnter(menuPosition);
                     drawSubMenu();
                 } else if (controls.isEscapeKey(keyStroke))
                     closeMenu();
@@ -77,26 +77,26 @@ public abstract class Submenu {
 
     private void highlightMenuItem() {
         TextColor prevColor = tg.getForegroundColor();
-        int itemNumber = 2 * menuPos;
+        int itemNumber = 2 * menuPosition;
         int totalPaddingTop = this.itemPaddingTop + windowPaddingTop;
         int totalPaddingLeft = this.itemPaddintLeft + windowPaddingLeft;
 
         tg.setForegroundColor(colorSchema.getMenuHighlight());
         tg.putString(totalPaddingLeft - 2, totalPaddingTop + itemNumber, Symbols.TRIANGLE_RIGHT_POINTING_BLACK + "", SGR.BLINK);
-        tg.putString(totalPaddingLeft, totalPaddingTop + itemNumber, menuItems[menuPos], SGR.UNDERLINE);
-        tg.putString(totalPaddingLeft - 2 + menuItems[menuPos].length() + 3, totalPaddingTop + itemNumber, Symbols.TRIANGLE_LEFT_POINTING_BLACK + "", SGR.BLINK);
+        tg.putString(totalPaddingLeft, totalPaddingTop + itemNumber, menuItems[menuPosition], SGR.UNDERLINE);
+        tg.putString(totalPaddingLeft - 2 + menuItems[menuPosition].length() + 3, totalPaddingTop + itemNumber, Symbols.TRIANGLE_LEFT_POINTING_BLACK + "", SGR.BLINK);
         tg.setForegroundColor(prevColor);
     }
 
     private void unhighlightMenuItem() {
-        int itemNumber = 2 * menuPos;
+        int itemNumber = 2 * menuPosition;
         int totalPaddingTop = this.itemPaddingTop + windowPaddingTop;
         int totalPaddingLeft = this.itemPaddintLeft + windowPaddingLeft;
 
         tg.setForegroundColor(colorSchema.getMenuForeground());
         tg.putString(totalPaddingLeft - 2, totalPaddingTop + itemNumber, " ");
-        tg.putString(totalPaddingLeft, totalPaddingTop + itemNumber, menuItems[menuPos]);
-        tg.putString(totalPaddingLeft - 2 + menuItems[menuPos].length() + 3, totalPaddingTop + 2 * menuPos, " ");
+        tg.putString(totalPaddingLeft, totalPaddingTop + itemNumber, menuItems[menuPosition]);
+        tg.putString(totalPaddingLeft - 2 + menuItems[menuPosition].length() + 3, totalPaddingTop + 2 * menuPosition, " ");
     }
 
     abstract void onEnter(int menuPos) throws IOException;

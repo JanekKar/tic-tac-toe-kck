@@ -7,6 +7,7 @@ public class MatrixColors implements ColorSchema {
     private static ColorSchema instance;
     TextColor black = new TextColor.RGB(0, 0, 0);
     TextColor green = new TextColor.RGB(0, 255, 0);
+    TextColor red = new TextColor.RGB(255, 0, 0);
     TextColor white = new TextColor.RGB(255, 255, 255);
 
     public static ColorSchema getInstance() {
@@ -19,6 +20,16 @@ public class MatrixColors implements ColorSchema {
     @Override
     public String getName() {
         return "matrix";
+    }
+
+    @Override
+    public TextColor getRed() {
+        return red;
+    }
+
+    @Override
+    public TextColor getGreen() {
+        return green;
     }
 
     @Override

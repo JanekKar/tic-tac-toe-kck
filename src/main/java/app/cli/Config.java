@@ -2,7 +2,6 @@ package app.cli;
 
 import app.cli.colors.*;
 import app.cli.controls.*;
-import app.cli.menus.NickMenu;
 import app.cli.menus.Submenus;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
@@ -123,7 +122,7 @@ public class Config {
         try {
             calculatePadding();
 
-            if (Game.play)
+            if (Game.runSession)
                 Game.drawGame(tg);
             else {
                 drawMainMenu(tg);
@@ -149,7 +148,7 @@ public class Config {
 
             }
 
-            if (Game.pauseMenu) {
+            if (Submenus.pauseMenuOpen) {
                 drawPausedMenu(tg);
                 if (Submenus.bestScoreMenuOpen) {
                     submenus.getScoreInfoMenu(tg, true);

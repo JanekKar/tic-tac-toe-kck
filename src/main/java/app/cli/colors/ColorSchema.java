@@ -6,6 +6,10 @@ public interface ColorSchema {
 
     String getName();
 
+    TextColor getRed();
+
+    TextColor getGreen();
+
     TextColor getMenuBackground();
 
     TextColor getMenuForeground();
@@ -35,5 +39,6 @@ public interface ColorSchema {
     TextColor[] getHighlightLoosing();
 
     char[] getLogoSymbols();
+
 }
 

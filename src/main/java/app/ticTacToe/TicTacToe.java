@@ -109,7 +109,7 @@ public class TicTacToe {
             else
                 player.increaseNumberOfLostGames();
         else
-            player.increaseNumberOfTiess();
+            player.increaseNumberOfTies();
 
         available = 0;
 
@@ -128,7 +128,6 @@ public class TicTacToe {
     public boolean isEndOfSession() {
         return gameNumber == 10;
     }
-
 
     private int calcScore() {
         int score = player.getScore();
