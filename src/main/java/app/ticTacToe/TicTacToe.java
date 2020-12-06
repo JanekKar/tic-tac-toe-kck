@@ -197,4 +197,8 @@ public class TicTacToe {
     public int getGameNo() {
         return gameNumber;
     }
+
+    public void endSession() {
+        gameNumber = 0;
+    }
 }

@@ -161,6 +161,7 @@ public class Game {
                 if (game.isEndOfSession()) {
                     runSession = false;
                     if (game.isNewBest()) {
+                        drawScore(tg);
                         tg.setBackgroundColor(colorSchema.getMenuBackground());
                         tg.setForegroundColor(colorSchema.getMenuForeground());
                         drawWindow(tg, 14, 1);
@@ -171,6 +172,7 @@ public class Game {
                         terminal.flush();
                         screen.refresh();
                     }
+                    game.endSession();
                 } else {
                     Thread.sleep(500);
                 }

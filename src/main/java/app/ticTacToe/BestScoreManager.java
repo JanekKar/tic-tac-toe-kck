@@ -65,7 +65,7 @@ public class BestScoreManager {
 
     public void save() {
         try {
-            bestScoreFile = new File(".players.jk");
+            bestScoreFile = new File(".score.jk");
             if (!bestScoreFile.createNewFile()) {
                 PrintWriter fileWriter = new PrintWriter(bestScoreFile);
                 fileWriter.println(totalPlayedGames);
