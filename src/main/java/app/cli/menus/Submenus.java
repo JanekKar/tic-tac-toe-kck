@@ -271,9 +271,9 @@ public class Submenus {
                 if(keyStroke.getKeyType() == KeyType.Character){
                     if (keyStroke.getCharacter() == 'y'){
                         BestScoreManager.getInstance().clearBestScoreList();
-                        tg.fillRectangle(new TerminalPosition(windowPaddingLeft+30,windowPaddingTop+11), new TerminalSize(2, 3), ' ');
-                        tg.putString(windowPaddingLeft+32, windowPaddingTop+11, "All data deleted", SGR.BLINK);
-                        tg.putString(windowPaddingLeft+32, windowPaddingTop+13, " ESC to go back");
+                        tg.fillRectangle(new TerminalPosition(windowPaddingLeft+30,windowPaddingTop+12), new TerminalSize(3, 3), ' ');
+                        tg.putString(windowPaddingLeft+32, windowPaddingTop+12, "All data deleted", SGR.BLINK);
+                        tg.putString(windowPaddingLeft+32, windowPaddingTop+14, " ESC to go back");
                         terminal.flush();
                         screen.refresh();
                     }
