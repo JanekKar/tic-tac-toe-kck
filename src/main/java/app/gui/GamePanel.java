@@ -13,7 +13,7 @@ import java.awt.event.KeyEvent;
 public class GamePanel extends JPanel{
 
     private JLabel gameBoard;
-    private SiebarPanel sideBar;
+    private SiedbarPanel sideBar;
 
     protected GameField[][] board = new GameField[3][3];
 
@@ -50,7 +50,7 @@ public class GamePanel extends JPanel{
         }
 
 
-        sideBar = new SiebarPanel();
+        sideBar = new SiedbarPanel();
 
         this.add(sideBar);
         this.add(gameBoard);
@@ -113,5 +113,9 @@ public class GamePanel extends JPanel{
             else
                 board[point.x][point.y].markLooser();
         }
+    }
+
+    public SiedbarPanel getSidebar() {
+        return sideBar;
     }
 }

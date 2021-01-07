@@ -36,7 +36,7 @@ public class MainMenuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                cl.show(Window.rootPanel, "GAME");
+                cl.show(Window.rootPanel, "DIFFICULTY");
             }
         });
 

@@ -18,9 +18,6 @@ public class Window {
 
         menuButtonDimensions = new Dimension(400, 50);
 
-        //TODO setup player name
-        Main.game.setPlayer(new Player("Janek"));
-
         frame = new JFrame("TicTacToe");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -32,6 +29,7 @@ public class Window {
         rootPanel.add(new PauseMenuWindow(), "PAUSE");
         rootPanel.add(new MainMenuPanel(), "MAINMENU");
         rootPanel.add(new BestScorePanel(), "BESTSCORE");
+        rootPanel.add(new NickDifficultyPanel(), "DIFFICULTY");
 
         ((CardLayout)rootPanel.getLayout()).show(rootPanel, "MAINMENU");
         frame.add(rootPanel);
