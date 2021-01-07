@@ -27,10 +27,8 @@ public class PauseMenuWindow extends JPanel {
         resumeGame = new JButton("Resume game");
         quitGame = new JButton("Exit to main menu");
 
-        Dimension buttonDim = new Dimension(200, 50);
-
-        resumeGame.setPreferredSize(buttonDim);
-        quitGame.setPreferredSize(buttonDim);
+        resumeGame.setPreferredSize( Window.menuButtonDimensions);
+        quitGame.setPreferredSize(Window.menuButtonDimensions);
 
         resumeGame.addActionListener(new ActionListener() {
             @Override

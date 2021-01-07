@@ -2,9 +2,6 @@ package app.gui;
 
 import app.Main;
 import app.ticTacToe.Player;
-import app.ticTacToe.TicTacToe;
-import app.ticTacToe.logic.EasyLogic;
-import app.ticTacToe.logic.TicTacToeLogic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,11 +12,11 @@ public class Window {
     protected static JFrame frame;
     public static JPanel rootPanel;
 
-
-    static GameField[][] board = new GameField[3][3];
-
+    protected static Dimension menuButtonDimensions;
 
     public static void runWindowMode(){
+
+        menuButtonDimensions = new Dimension(400, 50);
 
         //TODO setup player name
         Main.game.setPlayer(new Player("Janek"));
@@ -34,7 +31,7 @@ public class Window {
         rootPanel.add(gameView, "GAME");
         rootPanel.add(new PauseMenuWindow(), "PAUSE");
         rootPanel.add(new MainMenuPanel(), "MAINMENU");
-        rootPanel.add(new MainMenuPanel(), "MAINMENU");
+        rootPanel.add(new BestScorePanel(), "BESTSCORE");
 
         ((CardLayout)rootPanel.getLayout()).show(rootPanel, "MAINMENU");
         frame.add(rootPanel);

@@ -13,7 +13,6 @@ public class MainMenuPanel extends JPanel {
     private JButton bestScore;
     private JButton quitGame;
 
-    private Dimension buttonDim = new Dimension(300, 50);
 
     public MainMenuPanel() {
         LayoutManager mainLayout = new FlowLayout();
@@ -43,6 +42,14 @@ public class MainMenuPanel extends JPanel {
             }
         });
 
+        bestScore.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
+                cl.show(Window.rootPanel, "BESTSCORE");
+            }
+        });
+
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -61,7 +68,7 @@ public class MainMenuPanel extends JPanel {
 
     private JButton prepareButton(String text){
         JButton temp = new JButton(text);
-        temp.setPreferredSize(buttonDim);
+        temp.setPreferredSize(Window.menuButtonDimensions);
         return temp;
     }
 }
