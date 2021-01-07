@@ -12,7 +12,7 @@ import java.awt.event.KeyEvent;
 
 public class GamePanel extends JPanel{
 
-    private JPanel gameBoard;
+    private JLabel gameBoard;
     private SiebarPanel sideBar;
 
     protected GameField[][] board = new GameField[3][3];
@@ -37,7 +37,8 @@ public class GamePanel extends JPanel{
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
 
-        gameBoard = new JPanel();
+        gameBoard = new JLabel();
+        gameBoard.setIcon(new ImageIcon(getClass().getResource("/img/board.png")));
         gameBoard.setBorder(new EmptyBorder(0,0,0,0));
         gameBoard.setLayout(boardLayoutManager);
 

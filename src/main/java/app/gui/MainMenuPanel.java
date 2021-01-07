@@ -9,14 +9,13 @@ import java.awt.event.ActionListener;
 public class MainMenuPanel extends JPanel {
 
     private JButton startGame;
-    private JButton settings;
     private JButton bestScore;
     private JButton quitGame;
 
 
     public MainMenuPanel() {
         LayoutManager mainLayout = new FlowLayout();
-        LayoutManager buttonLayout = new GridLayout(4, 1, 20, 20);
+        LayoutManager buttonLayout = new GridLayout(3, 1, 20, 20);
 
         this.setLayout(mainLayout);
         Color backGroundColor = new Color(100, 100, 100);
@@ -30,7 +29,6 @@ public class MainMenuPanel extends JPanel {
 
 
         startGame = prepareButton("Start new game");
-        settings = prepareButton("Settings");
         bestScore = prepareButton("Best Score");
         quitGame = prepareButton("Quit");
 
@@ -60,7 +58,6 @@ public class MainMenuPanel extends JPanel {
 
         buttonContainer.add(startGame);
         buttonContainer.add(bestScore);
-        buttonContainer.add(settings);
         buttonContainer.add(quitGame);
 
         this.add(buttonContainer);
