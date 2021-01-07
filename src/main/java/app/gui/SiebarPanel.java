@@ -1,5 +1,6 @@
 package app.gui;
 
+import app.Main;
 import app.ticTacToe.Player;
 
 import javax.swing.*;
@@ -27,7 +28,7 @@ public class SiebarPanel extends JPanel {
         this.setPreferredSize(new Dimension(200, 622));
 
         playerName = prepLabel();
-        playerName.setText("Player: "+ Window.game.getPlayer().getName());
+        playerName.setText("Player: "+ Main.game.getPlayer().getName());
 
         numberOfGames = prepLabel();
         numberOfGames.setText("No. "+ noOfGames);
@@ -58,8 +59,8 @@ public class SiebarPanel extends JPanel {
     }
 
     public void updateSidebarData(){
-        Player player = Window.game.getPlayer();
-        numberOfGames.setText("No. "+ Window.game.getGameNo());
+        Player player = Main.game.getPlayer();
+        numberOfGames.setText("No. "+ Main.game.getGameNo());
 
         gamesWon.setText("WON: "+ player.getNumberOfWonGames());
 

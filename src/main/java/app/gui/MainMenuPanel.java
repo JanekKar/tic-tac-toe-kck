@@ -6,14 +6,18 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PauseMenuWindow extends JPanel {
+public class MainMenuPanel extends JPanel {
 
-    private JButton resumeGame;
+    private JButton startGame;
+    private JButton settings;
+    private JButton bestScore;
     private JButton quitGame;
 
-    public PauseMenuWindow() {
+    private Dimension buttonDim = new Dimension(300, 50);
+
+    public MainMenuPanel() {
         LayoutManager mainLayout = new FlowLayout();
-        LayoutManager buttonLayout = new GridLayout(2, 1, 20, 20);
+        LayoutManager buttonLayout = new GridLayout(4, 1, 20, 20);
 
         this.setLayout(mainLayout);
         Color backGroundColor = new Color(100, 100, 100);
@@ -24,15 +28,14 @@ public class PauseMenuWindow extends JPanel {
         buttonContainer.setLayout(buttonLayout);
         buttonContainer.setBackground(backGroundColor);
 
-        resumeGame = new JButton("Resume game");
-        quitGame = new JButton("Exit to main menu");
 
-        Dimension buttonDim = new Dimension(200, 50);
 
-        resumeGame.setPreferredSize(buttonDim);
-        quitGame.setPreferredSize(buttonDim);
+        startGame = prepareButton("Start new game");
+        settings = prepareButton("Settings");
+        bestScore = prepareButton("Best Score");
+        quitGame = prepareButton("Quit");
 
-        resumeGame.addActionListener(new ActionListener() {
+        startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
@@ -43,14 +46,22 @@ public class PauseMenuWindow extends JPanel {
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                cl.show(Window.rootPanel, "MAINMENU");
+                //TODO save data to file
+                System.exit(0);
             }
         });
 
-        buttonContainer.add(resumeGame);
+        buttonContainer.add(startGame);
+        buttonContainer.add(bestScore);
+        buttonContainer.add(settings);
         buttonContainer.add(quitGame);
 
         this.add(buttonContainer);
+    }
+
+    private JButton prepareButton(String text){
+        JButton temp = new JButton(text);
+        temp.setPreferredSize(buttonDim);
+        return temp;
     }
 }

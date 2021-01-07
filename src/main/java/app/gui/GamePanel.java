@@ -1,9 +1,6 @@
 package app.gui;
 
-import app.ticTacToe.Player;
-import app.ticTacToe.TicTacToe;
-import app.ticTacToe.logic.EasyLogic;
-import app.ticTacToe.logic.TicTacToeLogic;
+import app.Main;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -13,15 +10,16 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 
-public class GameWindow extends JPanel{
+public class GamePanel extends JPanel{
 
     private JPanel gameBoard;
     private SiebarPanel sideBar;
 
-
     protected GameField[][] board = new GameField[3][3];
 
-    public GameWindow(){
+    public static boolean disableMoving = false;
+
+    public GamePanel(){
 
         LayoutManager boardLayoutManager = new GridLayout(3,3 ,10, 10);
         LayoutManager gameLayoutManager = new FlowLayout();
@@ -62,5 +60,57 @@ public class GameWindow extends JPanel{
             ((GameField) component).reset();
         }
         sideBar.updateSidebarData();
+    }
+
+
+    public void AIMove(){
+        disableMoving = true;
+
+        Timer timer = new Timer(500, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                Point point = Main.logic.makeMove();
+                Main.game.makeMove(point);
+                board[point.x][point.y].markAsO();
+
+                String result = Main.game.checkWinner();
+                if (result != null) {
+                    if (!result.equals("TIE"))
+                        highlightWinner(false);
+                    else
+                        System.out.println("TIE");
+                    nextRound();
+                }
+                disableMoving = false;
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    public void nextRound(){
+
+        Timer timer = new Timer(500, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent arg0) {
+                disableMoving = true;
+                Main.game.nextGame();
+                resetBoard();
+                disableMoving = false;
+            }
+        });
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    public void highlightWinner(boolean winner){
+        for(Point point : Main.game.getWinningPositions()){
+            if(winner)
+                board[point.x][point.y].markWinner();
+            else
+                board[point.x][point.y].markLooser();
+        }
     }
 }
