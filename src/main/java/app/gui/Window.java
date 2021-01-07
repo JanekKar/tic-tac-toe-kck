@@ -34,8 +34,8 @@ public class Window {
         rootPanel.setLayout(new CardLayout());
         gameView = new GameWindow();
 
-        rootPanel.add(gameView, "GAMEPANEL");
-        rootPanel.add(new JPanel().add(new JLabel("Test")), "PAUSE");
+        rootPanel.add(gameView, "GAME");
+        rootPanel.add(new PauseMenuWindow(), "PAUSE");
         frame.add(rootPanel);
 
         frame.pack();
