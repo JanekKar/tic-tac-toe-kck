@@ -45,7 +45,6 @@ public class BestScorePanel extends JPanel {
 
 
         quitGame = new JButton("Go Back");
-        quitGame.setPreferredSize(Window.menuButtonDimensions);
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

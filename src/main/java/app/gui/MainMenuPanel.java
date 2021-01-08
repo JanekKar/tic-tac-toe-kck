@@ -1,10 +1,8 @@
 package app.gui;
 
-import app.Main;
 import app.ticTacToe.BestScoreManager;
 
 import javax.swing.*;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -19,7 +17,7 @@ public class MainMenuPanel extends JPanel {
     private BestScorePanel bestScorePanel = null;
 
     public MainMenuPanel() {
-        LayoutManager mainLayout = new FlowLayout();
+        LayoutManager mainLayout = new GridLayout(2, 1, 20, 20);
         LayoutManager buttonLayout = new GridLayout(3, 1, 20, 20);
 
         this.setLayout(mainLayout);
@@ -31,9 +29,13 @@ public class MainMenuPanel extends JPanel {
         buttonContainer.setLayout(buttonLayout);
         buttonContainer.setBackground(backGroundColor);
 
-        startGame = prepareButton("Start new game");
-        bestScore = prepareButton("Best Score");
-        quitGame = prepareButton("Quit");
+        JPanel buttonContainerWrapper = new JPanel();
+        buttonContainerWrapper.setLayout(new FlowLayout());
+        buttonContainerWrapper.setBackground(backGroundColor);
+
+        startGame = new MenuButton("Start new game");
+        bestScore = new MenuButton("Best Score");
+        quitGame = new MenuButton("Quit");
 
         startGame.addActionListener(new ActionListener() {
             @Override
@@ -70,22 +72,9 @@ public class MainMenuPanel extends JPanel {
         buttonContainer.add(bestScore);
         buttonContainer.add(quitGame);
 
-        this.add(buttonContainer);
-    }
+        buttonContainerWrapper.add(buttonContainer);
 
-    private JButton prepareButton(String text){
-        JButton temp = new JButton(text);
-        temp.setPreferredSize(Window.menuButtonDimensions);
-        temp.setBackground(new Color(100, 150, 150));
-        temp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                temp.setBackground(Color.GREEN);
-            }
-
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                temp.setBackground(new Color(100, 150, 150));
-            }
-        });
-        return temp;
+        this.add(new LogoPanel());
+        this.add(buttonContainerWrapper);
     }
 }

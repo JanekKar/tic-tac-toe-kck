@@ -29,7 +29,7 @@ public class SiedbarPanel extends JPanel {
 
         LayoutManager lm = new GridLayout(7, 1, 5, 15);
         this.setLayout(lm);
-        this.setBackground(new Color(0, 255, 255));
+        this.setBackground(GamePanel.gameBacgroundColor);
         this.setBorder(new EmptyBorder(0, 15, 0, 15));
         this.setPreferredSize(new Dimension(200, 622));
 

@@ -12,7 +12,7 @@ public class PauseMenuWindow extends JPanel {
     private JButton quitGame;
 
     public PauseMenuWindow() {
-        LayoutManager mainLayout = new FlowLayout();
+        LayoutManager mainLayout = new GridLayout(2, 1, 20, 20);
         LayoutManager buttonLayout = new GridLayout(2, 1, 20, 20);
 
         this.setLayout(mainLayout);
@@ -24,11 +24,13 @@ public class PauseMenuWindow extends JPanel {
         buttonContainer.setLayout(buttonLayout);
         buttonContainer.setBackground(backGroundColor);
 
-        resumeGame = new JButton("Resume game");
-        quitGame = new JButton("Exit to main menu");
+        JPanel buttonContainerWrapper = new JPanel();
+        buttonContainerWrapper.setLayout(new FlowLayout());
+        buttonContainerWrapper.add(buttonContainer);
+        buttonContainerWrapper.setBackground(backGroundColor);
 
-        resumeGame.setPreferredSize( Window.menuButtonDimensions);
-        quitGame.setPreferredSize(Window.menuButtonDimensions);
+        resumeGame = new MenuButton("Resume game");
+        quitGame = new MenuButton("Exit to main menu");
 
         resumeGame.addActionListener(new ActionListener() {
             @Override
@@ -49,6 +51,7 @@ public class PauseMenuWindow extends JPanel {
         buttonContainer.add(resumeGame);
         buttonContainer.add(quitGame);
 
-        this.add(buttonContainer);
+        this.add(new LogoPanel());
+        this.add(buttonContainerWrapper);
     }
 }

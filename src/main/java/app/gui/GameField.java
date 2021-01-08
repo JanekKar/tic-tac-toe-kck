@@ -9,14 +9,20 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class GameField extends JLabel {
+    private final JLabel lable;
     int x, y;
 
     private ImageIcon xField;
     private ImageIcon oField;
     private ImageIcon emptyField;
 
+    private Color highlighted = new Color(345213);
+
+
     public GameField(int x, int y) {
         super();
+
+        this.lable = this;
 
         this.xField = new ImageIcon(getClass().getResource("/img/x_field.png"));
         this.oField = new ImageIcon(getClass().getResource("/img/o_field.png"));
@@ -25,10 +31,10 @@ public class GameField extends JLabel {
         this.x = x;
         this.y = y;
 
-        this.setOpaque(false);
+        this.setOpaque(true);
         this.setSize(new Dimension(200, 200));
         this.setPreferredSize(new Dimension(200, 200));
-        this.setBackground(new Color(255, 200, 255));
+        this.setBackground(Color.white);
 
         this.addMouseListener(new MouseAdapter() {
             @SneakyThrows
@@ -52,6 +58,20 @@ public class GameField extends JLabel {
                     Window.gameView.AIMove();
                 }
 
+            }
+        });
+
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                setBackground(highlighted);
+                super.mouseEntered(e);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                setBackground(Color.white);
+                super.mouseExited(e);
             }
         });
 

@@ -24,12 +24,15 @@ public class GamePanel extends JPanel{
 
     public static boolean disableMoving = false;
 
+
+    public static Color gameBacgroundColor = new Color(100, 100, 120);
+
     public GamePanel(){
 
         LayoutManager boardLayoutManager = new GridLayout(3,3 ,10, 10);
         LayoutManager gameLayoutManager = new FlowLayout();
 
-        this.setBackground(new Color(0, 255, 255));
+        this.setBackground(gameBacgroundColor);
         this.setBorder(new EmptyBorder(15, 0, 15, 15));
         this.setLayout(gameLayoutManager);
 
@@ -43,9 +46,12 @@ public class GamePanel extends JPanel{
 
 
         gameBoard = new JLabel();
-        gameBoard.setIcon(new ImageIcon(getClass().getResource("/img/board.png")));
+//        gameBoard.setIcon(new ImageIcon(getClass().getResource("/img/board.png")));
+        gameBoard.setPreferredSize(new Dimension(620, 620));
         gameBoard.setBorder(new EmptyBorder(0,0,0,0));
         gameBoard.setLayout(boardLayoutManager);
+        gameBoard.setBackground(Color.black);
+        gameBoard.setOpaque(true);
 
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){

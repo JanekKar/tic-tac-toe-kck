@@ -17,11 +17,9 @@ public class Window {
     public static JPanel rootPanel;
     public static NickDifficultyPanel difficultyPanel;
 
-    protected static Dimension menuButtonDimensions;
 
     public static void runWindowMode(){
 
-        menuButtonDimensions = new Dimension(400, 50);
 
         frame = new JFrame("TicTacToe");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
