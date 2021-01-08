@@ -36,7 +36,6 @@ public class Main {
         logic = null;
 
         if(guiMode){
-            logic = new EasyLogic(); //TODO
             Window.runWindowMode();
         }else{
             Game.setupGameConfig();

@@ -1,6 +1,7 @@
 package app.gui;
 
 import app.Main;
+import com.googlecode.lanterna.SGR;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -8,6 +9,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+
+import static app.Main.game;
+import static app.cli.Config.*;
+import static app.cli.Utils.drawWindow;
 
 
 public class GamePanel extends JPanel{
@@ -63,7 +68,6 @@ public class GamePanel extends JPanel{
         sideBar.updateSidebarData();
     }
 
-
     public void AIMove(){
         disableMoving = true;
 
@@ -92,19 +96,30 @@ public class GamePanel extends JPanel{
 
     public void nextRound(){
 
+        disableMoving = true;
         Timer timer = new Timer(500, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                disableMoving = true;
                 Main.game.nextGame();
-                resetBoard();
+                if(!Main.game.isEndOfSession()){
+                    resetBoard();
+                }else{
+                    if (game.isNewBest()) {
+                        //TODO info about best score
+                    }
+                    game.endSession();
+                    resetBoard();
+                    CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
+                    cl.show(Window.rootPanel, "MAINMENU");
+                }
                 disableMoving = false;
             }
         });
         timer.setRepeats(false);
         timer.start();
     }
+
 
     public void highlightWinner(boolean winner){
         for(Point point : Main.game.getWinningPositions()){

@@ -9,8 +9,6 @@ import app.ticTacToe.logic.MediumLogic;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -28,6 +26,8 @@ public class NickDifficultyPanel extends JPanel {
 
     private JTextField nickField;
 
+    private ButtonGroup buttonGroup;
+
 
     public NickDifficultyPanel(){
         LayoutManager mainLayout = new FlowLayout();
@@ -42,7 +42,7 @@ public class NickDifficultyPanel extends JPanel {
         hard = prepareButton("Hard");
         impossible = prepareButton("Impossible");
 
-        ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup = new ButtonGroup();
         buttonGroup.add(easy);
         buttonGroup.add(medium);
         buttonGroup.add(hard);
@@ -89,8 +89,8 @@ public class NickDifficultyPanel extends JPanel {
 
                     ((JTextArea)Window.gameView.getSidebar().getComponent(0)).setText("Mode:\n" + buttonGroup.getSelection().getActionCommand());
 
-                    Main.game.setPlayer(new Player(nickField.getName()));
-                    (Window.gameView.getSidebar()).setPlayerName();
+                    Main.game.setPlayer(new Player(nickField.getText()));
+                    (Window.gameView.getSidebar()).setupPanel();
 
                 }
             }
@@ -107,6 +107,11 @@ public class NickDifficultyPanel extends JPanel {
 
         this.add(startButton);
 
+    }
+
+    public void clear(){
+        buttonGroup.clearSelection();
+        nickField.setText("");
     }
 
     private JRadioButton prepareButton(String text){

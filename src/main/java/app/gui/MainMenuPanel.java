@@ -1,6 +1,10 @@
 package app.gui;
 
+import app.Main;
+import app.ticTacToe.BestScoreManager;
+
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -12,6 +16,7 @@ public class MainMenuPanel extends JPanel {
     private JButton bestScore;
     private JButton quitGame;
 
+    private BestScorePanel bestScorePanel = null;
 
     public MainMenuPanel() {
         LayoutManager mainLayout = new FlowLayout();
@@ -26,8 +31,6 @@ public class MainMenuPanel extends JPanel {
         buttonContainer.setLayout(buttonLayout);
         buttonContainer.setBackground(backGroundColor);
 
-
-
         startGame = prepareButton("Start new game");
         bestScore = prepareButton("Best Score");
         quitGame = prepareButton("Quit");
@@ -35,6 +38,7 @@ public class MainMenuPanel extends JPanel {
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                Window.difficultyPanel.clear();
                 CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
                 cl.show(Window.rootPanel, "DIFFICULTY");
             }
@@ -44,6 +48,12 @@ public class MainMenuPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
+
+                if(bestScorePanel != null){
+                    Window.rootPanel.remove(bestScorePanel);
+                }
+                bestScorePanel = new BestScorePanel();
+                Window.rootPanel.add(bestScorePanel, "BESTSCORE");
                 cl.show(Window.rootPanel, "BESTSCORE");
             }
         });
@@ -51,7 +61,7 @@ public class MainMenuPanel extends JPanel {
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //TODO save data to file
+                BestScoreManager.getInstance().save();
                 System.exit(0);
             }
         });
@@ -66,6 +76,16 @@ public class MainMenuPanel extends JPanel {
     private JButton prepareButton(String text){
         JButton temp = new JButton(text);
         temp.setPreferredSize(Window.menuButtonDimensions);
+        temp.setBackground(new Color(100, 150, 150));
+        temp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                temp.setBackground(Color.GREEN);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                temp.setBackground(new Color(100, 150, 150));
+            }
+        });
         return temp;
     }
 }

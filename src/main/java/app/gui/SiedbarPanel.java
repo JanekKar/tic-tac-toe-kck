@@ -16,32 +16,30 @@ public class SiedbarPanel extends JPanel {
     JTextArea score;
     JTextArea difficulty;
 
+    String scoreText = "Score:\n";
+    String gameNumberText = "Game number: ";
+    String nickText = "Player:\n";
+    String wonText = "Won: ";
+    String lostText = "Lost: ";
+    String tieText = "Tie: ";
+    String diffText = "Difficulty: ";
+
     public SiedbarPanel() {
         super();
 
-        LayoutManager lm = new GridLayout(7,1, 5, 15);
+        LayoutManager lm = new GridLayout(7, 1, 5, 15);
         this.setLayout(lm);
-        this.setBackground(new Color(0, 255,255));
+        this.setBackground(new Color(0, 255, 255));
         this.setBorder(new EmptyBorder(0, 15, 0, 15));
         this.setPreferredSize(new Dimension(200, 622));
 
         difficulty = prepLabel();
-
         score = prepLabel();
-
         playerName = prepLabel();
-
         numberOfGames = prepLabel();
-        numberOfGames.setText("No. "+ 0);
-
         gamesWon = prepLabel();
-        gamesWon.setText("WON: "+ 0);
-
         gamesLost = prepLabel();
-        gamesLost.setText("Lost: "+ 0);
-
         gamesTied = prepLabel();
-        gamesTied.setText("TIE: " + 0);
 
         this.add(difficulty);
         this.add(numberOfGames);
@@ -52,7 +50,7 @@ public class SiedbarPanel extends JPanel {
         this.add(gamesTied);
     }
 
-    private JTextArea prepLabel(){
+    private JTextArea prepLabel() {
         JTextArea temp = new JTextArea();
         temp.setOpaque(true);
         temp.setFont(new Font(temp.getFont().getName(), Font.BOLD, 20));
@@ -66,27 +64,31 @@ public class SiedbarPanel extends JPanel {
         return temp;
     }
 
-    public void setPlayerName(){
-        //TODO not setting name
-        score.setText("Score: " + Main.game.getPlayer().getScore());
+    public void setupPanel() {
+        playerName.setText(nickText + Main.game.getPlayer().getName());
+        score.setText(scoreText + 0);
+        gamesTied.setText(tieText + 0);
+        gamesLost.setText(lostText + 0);
+        gamesWon.setText(wonText + 0);
+        numberOfGames.setText(gameNumberText + 0);
         repaint();
     }
 
-    public void updateSidebarData(){
+    public void updateSidebarData() {
         Player player = Main.game.getPlayer();
 
-        score.setText("Score: " + Main.game.getPlayer().getScore());
+        score.setText(scoreText + Main.game.getPlayer().getScore());
 
-        numberOfGames.setText("No. "+ Main.game.getGameNo());
+        numberOfGames.setText(gameNumberText + Main.game.getGameNo());
 
-        gamesWon.setText("WON: "+ player.getNumberOfWonGames());
+        gamesWon.setText(wonText + player.getNumberOfWonGames());
 
-        gamesLost.setText("Lost: "+ player.getNumberOfLostGames());
+        gamesLost.setText(lostText + player.getNumberOfLostGames());
 
-        gamesTied.setText("TIE: " + player.getNumberOfTies());
+        gamesTied.setText(tieText + player.getNumberOfTies());
 
         repaint();
 
     }
-
 }
+
