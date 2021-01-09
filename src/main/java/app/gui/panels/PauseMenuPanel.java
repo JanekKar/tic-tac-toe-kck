@@ -1,4 +1,8 @@
-package app.gui;
+package app.gui.panels;
+
+import app.gui.buttons.MenuButton;
+import app.gui.MainPanel;
+import app.gui.labels.LogoPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -6,12 +10,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PauseMenuWindow extends JPanel {
+public class PauseMenuPanel extends JPanel {
 
     private JButton resumeGame;
     private JButton quitGame;
 
-    public PauseMenuWindow() {
+    public PauseMenuPanel() {
         LayoutManager mainLayout = new GridLayout(2, 1, 20, 20);
         LayoutManager buttonLayout = new GridLayout(2, 1, 20, 20);
 
@@ -35,16 +39,16 @@ public class PauseMenuWindow extends JPanel {
         resumeGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                cl.show(Window.rootPanel, "GAME");
+                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
+                cl.show(MainPanel.rootPanel, "GAME");
             }
         });
 
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                cl.show(Window.rootPanel, "MAINMENU");
+                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
+                cl.show(MainPanel.rootPanel, "MAINMENU");
             }
         });
 

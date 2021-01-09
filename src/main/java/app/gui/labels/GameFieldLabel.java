@@ -1,6 +1,7 @@
-package app.gui;
+package app.gui.labels;
 
 import app.Main;
+import app.gui.MainPanel;
 import lombok.SneakyThrows;
 
 import javax.swing.*;
@@ -8,7 +9,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class GameField extends JLabel {
+public class GameFieldLabel extends JLabel {
     private final JLabel lable;
     int x, y;
 
@@ -19,7 +20,7 @@ public class GameField extends JLabel {
     private Color highlighted = new Color(345213);
 
 
-    public GameField(int x, int y) {
+    public GameFieldLabel(int x, int y) {
         super();
 
         this.lable = this;
@@ -41,7 +42,7 @@ public class GameField extends JLabel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(Main.game.checkIfFree(new Point(x,y)) && !Window.gameView.disableMoving){
+                if(Main.game.checkIfFree(new Point(x,y)) && !MainPanel.gameView.disableMoving){
                     markAsX();
                     Main.game.makeMove(new Point(x, y));
                     Main.game.debugPrintBoard();
@@ -49,13 +50,13 @@ public class GameField extends JLabel {
                     String result = Main.game.checkWinner();
                     if (result != null) {
                         if (!result.equals("TIE"))
-                            Window.gameView.highlightWinner(true);
+                            MainPanel.gameView.highlightWinner(true);
                         else
                             System.out.println("TIE");
-                        Window.gameView.nextRound();
+                        MainPanel.gameView.nextRound();
                         return;
                     }
-                    Window.gameView.AIMove();
+                    MainPanel.gameView.AIMove();
                 }
 
             }

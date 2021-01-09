@@ -1,7 +1,8 @@
-package app.gui;
+package app.gui.panels;
 
 import app.Main;
-import com.googlecode.lanterna.SGR;
+import app.gui.labels.GameFieldLabel;
+import app.gui.MainPanel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -11,7 +12,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 import static app.Main.game;
-import static app.cli.Config.*;
 import static app.cli.Utils.drawWindow;
 
 
@@ -20,7 +20,7 @@ public class GamePanel extends JPanel{
     private JLabel gameBoard;
     private SiedbarPanel sideBar;
 
-    protected GameField[][] board = new GameField[3][3];
+    protected GameFieldLabel[][] board = new GameFieldLabel[3][3];
 
     public static boolean disableMoving = false;
 
@@ -39,8 +39,8 @@ public class GamePanel extends JPanel{
         this.registerKeyboardAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                cl.show(Window.rootPanel, "PAUSE");
+                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
+                cl.show(MainPanel.rootPanel, "PAUSE");
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
@@ -55,7 +55,7 @@ public class GamePanel extends JPanel{
 
         for(int i=0; i<3; i++){
             for(int j=0; j<3; j++){
-                board[i][j] = new GameField(i, j);
+                board[i][j] = new GameFieldLabel(i, j);
                 gameBoard.add(board[i][j]);
             }
         }
@@ -69,7 +69,7 @@ public class GamePanel extends JPanel{
 
     public void resetBoard(){
         for(Component component : gameBoard.getComponents()){
-            ((GameField) component).reset();
+            ((GameFieldLabel) component).reset();
         }
         sideBar.updateSidebarData();
     }
@@ -116,8 +116,8 @@ public class GamePanel extends JPanel{
                     }
                     game.endSession();
                     resetBoard();
-                    CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                    cl.show(Window.rootPanel, "MAINMENU");
+                    CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
+                    cl.show(MainPanel.rootPanel, "MAINMENU");
                 }
                 disableMoving = false;
             }

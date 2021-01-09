@@ -1,16 +1,17 @@
 package app.gui;
 
-import app.Main;
+import app.gui.panels.GamePanel;
+import app.gui.panels.MainMenuPanel;
+import app.gui.panels.NickDifficultyPanel;
+import app.gui.panels.PauseMenuPanel;
 import app.ticTacToe.BestScoreManager;
-import app.ticTacToe.Player;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
-public class Window {
+public class MainPanel {
 
     public static GamePanel gameView;
     protected static JFrame frame;
@@ -38,7 +39,7 @@ public class Window {
         difficultyPanel = new NickDifficultyPanel();
 
         rootPanel.add(gameView, "GAME");
-        rootPanel.add(new PauseMenuWindow(), "PAUSE");
+        rootPanel.add(new PauseMenuPanel(), "PAUSE");
         rootPanel.add(new MainMenuPanel(), "MAINMENU");
         rootPanel.add(difficultyPanel, "DIFFICULTY");
 

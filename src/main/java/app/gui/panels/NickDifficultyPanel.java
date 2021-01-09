@@ -1,6 +1,8 @@
-package app.gui;
+package app.gui.panels;
 
 import app.Main;
+import app.gui.buttons.MenuButton;
+import app.gui.MainPanel;
 import app.ticTacToe.Player;
 import app.ticTacToe.logic.EasyLogic;
 import app.ticTacToe.logic.HardLogic;
@@ -9,8 +11,6 @@ import app.ticTacToe.logic.MediumLogic;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -19,7 +19,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 import java.util.Enumeration;
 
 public class NickDifficultyPanel extends JPanel {
@@ -99,13 +98,13 @@ public class NickDifficultyPanel extends JPanel {
                             break;
                     }
 
-                    CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                    cl.show(Window.rootPanel, "GAME");
+                    CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
+                    cl.show(MainPanel.rootPanel, "GAME");
 
-                    ((JTextArea)Window.gameView.getSidebar().getComponent(0)).setText("Mode:\n" + buttonGroup.getSelection().getActionCommand());
+                    ((JTextPane) MainPanel.gameView.getSidebar().getComponent(0)).setText("Mode:\n" + buttonGroup.getSelection().getActionCommand());
 
                     Main.game.setPlayer(new Player(nickField.getText()));
-                    (Window.gameView.getSidebar()).setupPanel();
+                    (MainPanel.gameView.getSidebar()).setupPanel();
 
                 }else{
                     messageBox.setText("Set desired difficulty level and enter your nick.");
@@ -118,8 +117,8 @@ public class NickDifficultyPanel extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                cl.show(Window.rootPanel, "MAINMENU");
+                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
+                cl.show(MainPanel.rootPanel, "MAINMENU");
 
             }
         });

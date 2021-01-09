@@ -2,10 +2,9 @@ package app;
 
 import app.cli.Config;
 import app.cli.Game;
-import app.gui.Window;
+import app.gui.MainPanel;
 import app.ticTacToe.BestScoreManager;
 import app.ticTacToe.TicTacToe;
-import app.ticTacToe.logic.EasyLogic;
 import app.ticTacToe.logic.TicTacToeLogic;
 
 import java.io.IOException;
@@ -36,7 +35,7 @@ public class Main {
         logic = null;
 
         if(guiMode){
-            Window.runWindowMode();
+            MainPanel.runWindowMode();
         }else{
             Game.setupGameConfig();
             try {

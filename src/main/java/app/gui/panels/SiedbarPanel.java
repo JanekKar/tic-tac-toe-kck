@@ -1,20 +1,23 @@
-package app.gui;
+package app.gui.panels;
 
 import app.Main;
 import app.ticTacToe.Player;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 
 public class SiedbarPanel extends JPanel {
-    JTextArea playerName;
-    JTextArea numberOfGames;
-    JTextArea gamesWon;
-    JTextArea gamesLost;
-    JTextArea gamesTied;
-    JTextArea score;
-    JTextArea difficulty;
+    JTextPane playerName;
+    JTextPane numberOfGames;
+    JTextPane gamesWon;
+    JTextPane gamesLost;
+    JTextPane gamesTied;
+    JTextPane score;
+    JTextPane difficulty;
 
     String scoreText = "Score:\n";
     String gameNumberText = "Game number: ";
@@ -50,17 +53,17 @@ public class SiedbarPanel extends JPanel {
         this.add(gamesTied);
     }
 
-    private JTextArea prepLabel() {
-        JTextArea temp = new JTextArea();
+    private JTextPane prepLabel() {
+        JTextPane temp = new JTextPane();
         temp.setOpaque(true);
         temp.setFont(new Font(temp.getFont().getName(), Font.BOLD, 20));
         temp.setBackground(new Color(255, 255, 255));
-        temp.setLineWrap(true);
-        temp.setWrapStyleWord(true);
         temp.setFocusable(false);
         temp.setEditable(false);
-        temp.setAlignmentY(CENTER_ALIGNMENT);
-        temp.setAlignmentX(CENTER_ALIGNMENT);
+        StyledDocument doc = temp.getStyledDocument();
+        SimpleAttributeSet center = new SimpleAttributeSet();
+        StyleConstants.setAlignment(center, StyleConstants.ALIGN_CENTER);
+        doc.setParagraphAttributes(0, doc.getLength(), center, false);
         return temp;
     }
 

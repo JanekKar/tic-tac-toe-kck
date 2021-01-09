@@ -1,4 +1,4 @@
-package app.gui;
+package app.gui.buttons;
 
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;

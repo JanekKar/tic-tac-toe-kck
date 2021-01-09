@@ -1,5 +1,8 @@
-package app.gui;
+package app.gui.panels;
 
+import app.gui.buttons.MenuButton;
+import app.gui.MainPanel;
+import app.gui.labels.LogoPanel;
 import app.ticTacToe.BestScoreManager;
 
 import javax.swing.*;
@@ -40,23 +43,23 @@ public class MainMenuPanel extends JPanel {
         startGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                Window.difficultyPanel.clear();
-                CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
-                cl.show(Window.rootPanel, "DIFFICULTY");
+                MainPanel.difficultyPanel.clear();
+                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
+                cl.show(MainPanel.rootPanel, "DIFFICULTY");
             }
         });
 
         bestScore.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) Window.rootPanel.getLayout();
+                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
 
                 if(bestScorePanel != null){
-                    Window.rootPanel.remove(bestScorePanel);
+                    MainPanel.rootPanel.remove(bestScorePanel);
                 }
                 bestScorePanel = new BestScorePanel();
-                Window.rootPanel.add(bestScorePanel, "BESTSCORE");
-                cl.show(Window.rootPanel, "BESTSCORE");
+                MainPanel.rootPanel.add(bestScorePanel, "BESTSCORE");
+                cl.show(MainPanel.rootPanel, "BESTSCORE");
             }
         });
 
