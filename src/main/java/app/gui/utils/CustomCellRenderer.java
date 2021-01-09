@@ -11,7 +11,7 @@ public class CustomCellRenderer extends DefaultTableCellRenderer {
         c.setFocusable(false);
         c.setFont(new Font(c.getFont().getName(), Font.BOLD, 15));
         c.setPreferredSize(new Dimension(30, 20));
-        c.setBackground(new Color(255, 10, 220));
+        c.setBackground(GameStyle.tableCellBackground);
         return c;
     }
 }

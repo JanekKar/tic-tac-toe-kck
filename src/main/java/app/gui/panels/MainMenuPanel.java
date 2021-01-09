@@ -3,6 +3,7 @@ package app.gui.panels;
 import app.gui.buttons.MenuButton;
 import app.gui.MainPanel;
 import app.gui.labels.LogoPanel;
+import app.gui.utils.GameStyle;
 import app.ticTacToe.BestScoreManager;
 
 import javax.swing.*;
@@ -24,17 +25,16 @@ public class MainMenuPanel extends JPanel {
         LayoutManager buttonLayout = new GridLayout(3, 1, 20, 20);
 
         this.setLayout(mainLayout);
-        Color backGroundColor = new Color(100, 100, 100);
-        this.setBackground(backGroundColor);
+        this.setBackground(GameStyle.menuBackground);
         this.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         JPanel buttonContainer = new JPanel();
         buttonContainer.setLayout(buttonLayout);
-        buttonContainer.setBackground(backGroundColor);
+        buttonContainer.setBackground(GameStyle.menuBackground);
 
         JPanel buttonContainerWrapper = new JPanel();
         buttonContainerWrapper.setLayout(new FlowLayout());
-        buttonContainerWrapper.setBackground(backGroundColor);
+        buttonContainerWrapper.setBackground(GameStyle.menuBackground);
 
         startGame = new MenuButton("Start new game");
         bestScore = new MenuButton("Best Score");

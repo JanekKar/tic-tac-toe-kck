@@ -3,6 +3,7 @@ package app.gui.panels;
 import app.Main;
 import app.gui.labels.GameFieldLabel;
 import app.gui.MainPanel;
+import app.gui.utils.GameStyle;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -24,15 +25,12 @@ public class GamePanel extends JPanel{
 
     public static boolean disableMoving = false;
 
-
-    public static Color gameBacgroundColor = new Color(100, 100, 120);
-
     public GamePanel(){
 
         LayoutManager boardLayoutManager = new GridLayout(3,3 ,10, 10);
         LayoutManager gameLayoutManager = new FlowLayout();
 
-        this.setBackground(gameBacgroundColor);
+        this.setBackground(GameStyle.gameBackground);
         this.setBorder(new EmptyBorder(15, 0, 15, 15));
         this.setLayout(gameLayoutManager);
 
@@ -50,7 +48,7 @@ public class GamePanel extends JPanel{
         gameBoard.setPreferredSize(new Dimension(620, 620));
         gameBoard.setBorder(new EmptyBorder(0,0,0,0));
         gameBoard.setLayout(boardLayoutManager);
-        gameBoard.setBackground(Color.black);
+        gameBoard.setBackground(GameStyle.gameBoard);
         gameBoard.setOpaque(true);
 
         for(int i=0; i<3; i++){

@@ -3,6 +3,7 @@ package app.gui.panels;
 import app.Main;
 import app.gui.buttons.MenuButton;
 import app.gui.MainPanel;
+import app.gui.utils.GameStyle;
 import app.ticTacToe.Player;
 import app.ticTacToe.logic.EasyLogic;
 import app.ticTacToe.logic.HardLogic;
@@ -35,16 +36,11 @@ public class NickDifficultyPanel extends JPanel {
 
     private ButtonGroup buttonGroup;
 
-    private Color selected = new Color(119, 181, 181);
-
-    private Color backGroundColor = new Color(100, 100, 100);
-    private Color lighterBackground = new Color(130, 130, 130);
-
     public NickDifficultyPanel(){
         LayoutManager mainLayout = new GridLayout(2, 1, 10, 10);
 
         this.setLayout(mainLayout);
-        this.setBackground(backGroundColor);
+        this.setBackground(GameStyle.menuBackground);
         this.setBorder(new EmptyBorder(80, 20, 20, 20));
 
         easy = prepareButton("Easy");
@@ -62,7 +58,7 @@ public class NickDifficultyPanel extends JPanel {
         nickField = new JTextField();
         nickField.setPreferredSize(new Dimension(200, 30));
         nickField.setFont(new Font(nickField.getFont().getName(), Font.BOLD, 18));
-        nickField.setBackground(lighterBackground);
+        nickField.setBackground(GameStyle.menuBackgroundLighter);
         nickField.setForeground(Color.WHITE);
         nickField.setBorder(new EmptyBorder(2, 2, 2, 2));
         nickField.setHorizontalAlignment(0);
@@ -124,21 +120,21 @@ public class NickDifficultyPanel extends JPanel {
         });
 
         messageBox = new JLabel("", SwingConstants.CENTER);
-        messageBox.setForeground(new Color(255, 50, 50));
+        messageBox.setForeground(GameStyle.menuAlert);
         messageBox.setFont(new Font(messageBox.getFont().getName(), Font.BOLD, 15));
-        messageBox.setBackground(lighterBackground);
+        messageBox.setBackground(GameStyle.menuBackgroundLighter);
 
 
 
         JPanel difficultyPanel = new JPanel();
         difficultyPanel.setLayout(new GridLayout(5,1,5, 5));
         difficultyPanel.setBorder(new EmptyBorder(0, 20, 20, 20));
-        difficultyPanel.setBackground(backGroundColor);
+        difficultyPanel.setBackground(GameStyle.menuBackground);
 
 
         JLabel difficultyLabel = new JLabel("Choose Difficulty: ");
         difficultyLabel.setFont(new Font(difficultyLabel.getFont().getName(), Font.BOLD, 20));
-        difficultyLabel.setForeground(new Color(119, 181, 181));
+        difficultyLabel.setForeground(GameStyle.buttonBackground);
 
 
         difficultyPanel.add(difficultyLabel);
@@ -151,30 +147,30 @@ public class NickDifficultyPanel extends JPanel {
         JPanel nickPanel = new JPanel();
         nickPanel.setLayout(new GridLayout(2,1,5,5));
         nickPanel.setBorder(new EmptyBorder(0, 20, 20, 20));
-        nickPanel.setBackground(backGroundColor);
+        nickPanel.setBackground(GameStyle.menuBackground);
 
         JLabel nickLabel = new JLabel("Enter Nick:");
         nickLabel.setFont(new Font(nickLabel.getFont().getName(), Font.BOLD, 20));
-        nickLabel.setForeground(new Color(119, 181, 181));
+        nickLabel.setForeground(GameStyle.buttonBackground);
         nickPanel.add(nickLabel);
         nickPanel.add(nickField);
 
         JPanel innerPanel = new JPanel();
-        innerPanel.setBackground(backGroundColor);
+        innerPanel.setBackground(GameStyle.menuBackground);
         innerPanel.setLayout(new FlowLayout());
         innerPanel.add(difficultyPanel);
         innerPanel.add(nickPanel);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(3, 1, 10, 10));
-        buttonPanel.setBackground(backGroundColor);
+        buttonPanel.setBackground(GameStyle.menuBackground);
         buttonPanel.add(startButton);
         buttonPanel.add(backButton);
         buttonPanel.add(messageBox);
 
         JPanel buttonPanelWrapper = new JPanel();
         buttonPanelWrapper.setLayout(new FlowLayout());
-        buttonPanelWrapper.setBackground(backGroundColor);
+        buttonPanelWrapper.setBackground(GameStyle.menuBackground);
         buttonPanelWrapper.add(buttonPanel);
 
         this.add(innerPanel);
@@ -191,7 +187,7 @@ public class NickDifficultyPanel extends JPanel {
         JRadioButton temp = new JRadioButton(text);
         temp.setFont(new Font(temp.getFont().getName(), Font.BOLD, 18));
         temp.setActionCommand(text.toUpperCase());
-        temp.setBackground(lighterBackground);
+        temp.setBackground(GameStyle.menuBackgroundLighter);
         temp.setIcon(new ImageIcon());
         Color foreground = temp.getForeground();
 
@@ -199,7 +195,7 @@ public class NickDifficultyPanel extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 if(!temp.isSelected())
-                    temp.setForeground(Color.WHITE);
+                    temp.setForeground(GameStyle.menuForeground);
                 super.mouseEntered(e);
             }
 
@@ -219,7 +215,7 @@ public class NickDifficultyPanel extends JPanel {
                 while(buttons.hasMoreElements()){
                     JRadioButton button = (JRadioButton)buttons.nextElement();
                     if(button.isSelected())
-                        button.setForeground(selected);
+                        button.setForeground(GameStyle.selctedButton);
                     else
                         button.setForeground(foreground);
 

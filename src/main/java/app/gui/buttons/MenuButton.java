@@ -1,12 +1,12 @@
 package app.gui.buttons;
 
+import app.gui.utils.GameStyle;
+
 import javax.swing.*;
 import javax.swing.border.EtchedBorder;
 import java.awt.*;
 
 public class MenuButton extends JButton {
-    private Color defaultColor = new Color(119, 181, 181);
-    private Color hoverColor = new Color(100, 150, 150);
 
     JButton butoton;
 
@@ -15,14 +15,14 @@ public class MenuButton extends JButton {
         butoton = this;
         this.setFont(new Font("Courier", Font.BOLD, 20));
         this.setPreferredSize(new Dimension(400, 50));
-        this.setBackground(defaultColor);
+        this.setBackground(GameStyle.buttonBackground);
         this.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                butoton.setBackground(hoverColor);
+                butoton.setBackground(GameStyle.buttonHover);
             }
 
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                butoton.setBackground(defaultColor);
+                butoton.setBackground(GameStyle.buttonBackground);
             }
         });
         this.setBorder(BorderFactory.createRaisedSoftBevelBorder());

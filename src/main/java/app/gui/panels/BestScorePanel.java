@@ -2,6 +2,7 @@ package app.gui.panels;
 
 import app.gui.utils.CustomCellRenderer;
 import app.gui.MainPanel;
+import app.gui.utils.GameStyle;
 import app.ticTacToe.BestScoreManager;
 import app.ticTacToe.Player;
 
@@ -20,16 +21,14 @@ public class BestScorePanel extends JPanel {
     public BestScorePanel() {
         LayoutManager mainLayout = new FlowLayout();
 
-        Color backGroundColor = new Color(100, 100, 100);
-
         this.setLayout(mainLayout);
-        this.setBackground(backGroundColor);
+        this.setBackground(GameStyle.menuBackground);
         this.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         JPanel buttonContainer = new JPanel();
         LayoutManager buttonLayout = new GridLayout(2, 1, 20, 20);
         buttonContainer.setLayout(buttonLayout);
-        buttonContainer.setBackground(backGroundColor);
+        buttonContainer.setBackground(GameStyle.menuBackground);
 
         LayoutManager l1 = new FlowLayout();
         LayoutManager l2 = new FlowLayout();
@@ -40,8 +39,8 @@ public class BestScorePanel extends JPanel {
         pane1.setLayout(l1);
         pane2.setLayout(l2);
 
-        pane1.setBackground(backGroundColor);
-        pane2.setBackground(backGroundColor);
+        pane1.setBackground(GameStyle.menuBackground);
+        pane2.setBackground(GameStyle.menuBackground);
 
 
 
@@ -68,7 +67,7 @@ public class BestScorePanel extends JPanel {
         String[] headers = {"Name", "Score", "Won", "Lost", "Tie"};
 
         scoreTable = new JTable(data, headers);
-        scoreTable.setBackground(backGroundColor);
+        scoreTable.setBackground(GameStyle.menuBackground);
         scoreTable.setDefaultEditor(Object.class, null);
         scoreTable.setCellSelectionEnabled(false);
         scoreTable.setDefaultRenderer(Object.class, new CustomCellRenderer());
@@ -76,7 +75,7 @@ public class BestScorePanel extends JPanel {
 
         JScrollPane temp = new JScrollPane(scoreTable);
         temp.setPreferredSize(new Dimension(500, 200));
-        temp.setBackground(backGroundColor);
+        temp.setBackground(GameStyle.menuBackground);
         pane1.add(temp);
         pane2.add(quitGame);
 

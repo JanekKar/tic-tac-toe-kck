@@ -1,7 +1,9 @@
 package app.gui.panels;
 
 import app.Main;
+import app.gui.utils.GameStyle;
 import app.ticTacToe.Player;
+import org.ietf.jgss.GSSManager;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -32,7 +34,7 @@ public class SiedbarPanel extends JPanel {
 
         LayoutManager lm = new GridLayout(7, 1, 5, 15);
         this.setLayout(lm);
-        this.setBackground(GamePanel.gameBacgroundColor);
+        this.setBackground(GameStyle.menuBackground);
         this.setBorder(new EmptyBorder(0, 15, 0, 15));
         this.setPreferredSize(new Dimension(200, 622));
 
@@ -57,7 +59,7 @@ public class SiedbarPanel extends JPanel {
         JTextPane temp = new JTextPane();
         temp.setOpaque(true);
         temp.setFont(new Font(temp.getFont().getName(), Font.BOLD, 20));
-        temp.setBackground(new Color(255, 255, 255));
+        temp.setBackground(GameStyle.sidebarFields);
         temp.setFocusable(false);
         temp.setEditable(false);
         StyledDocument doc = temp.getStyledDocument();

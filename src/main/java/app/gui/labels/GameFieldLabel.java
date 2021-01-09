@@ -2,6 +2,7 @@ package app.gui.labels;
 
 import app.Main;
 import app.gui.MainPanel;
+import app.gui.utils.GameStyle;
 import lombok.SneakyThrows;
 
 import javax.swing.*;
@@ -16,8 +17,6 @@ public class GameFieldLabel extends JLabel {
     private ImageIcon xField;
     private ImageIcon oField;
     private ImageIcon emptyField;
-
-    private Color highlighted = new Color(345213);
 
 
     public GameFieldLabel(int x, int y) {
@@ -35,7 +34,7 @@ public class GameFieldLabel extends JLabel {
         this.setOpaque(true);
         this.setSize(new Dimension(200, 200));
         this.setPreferredSize(new Dimension(200, 200));
-        this.setBackground(Color.white);
+        this.setBackground(GameStyle.sidebarFields);
 
         this.addMouseListener(new MouseAdapter() {
             @SneakyThrows
@@ -65,13 +64,13 @@ public class GameFieldLabel extends JLabel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(highlighted);
+                setBackground(GameStyle.fieldHighlight);
                 super.mouseEntered(e);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(Color.white);
+                setBackground(GameStyle.sidebarFields);
                 super.mouseExited(e);
             }
         });
@@ -80,31 +79,28 @@ public class GameFieldLabel extends JLabel {
 
 
     public void reset(){
-        this.setBackground(new Color(255, 200, 255));
         this.setIcon(emptyField);
         repaint();
         revalidate();
     }
 
     public void markAsX(){
-        this.setBackground(new Color(180, 180, 120));
         this.setIcon(xField);
         repaint();
     }
 
     public void markAsO(){
-        this.setBackground(new Color( 255,0, 120));
         this.setIcon(oField);
         repaint();
     }
 
     public void markWinner(){
         this.setOpaque(true);
-        this.setBackground(new Color( 100,255, 100));
+        this.setBackground(GameStyle.winnerFiledHighlight);
     }
 
     public void markLooser(){
         this.setOpaque(true);
-        this.setBackground(new Color( 255,40, 20));
+        this.setBackground(GameStyle.looserFieldHIghlight);
     }
 }
