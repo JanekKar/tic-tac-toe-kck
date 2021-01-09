@@ -15,6 +15,7 @@ public class GameStyle {
 
     public static Color gameBackground = new Color(100,150,150);
     public static Color gameBoard = new Color(0,0,0);
+    public static Color emptyField = new Color(255, 255, 255);
     public static Color fieldHighlight = new Color(129,181,181);
     public static Color winnerFiledHighlight = new Color(100,255,100);
     public static Color looserFieldHIghlight = new Color(255,40,20);

@@ -2,7 +2,7 @@ package app.gui.panels;
 
 import app.Main;
 import app.gui.labels.GameFieldLabel;
-import app.gui.MainPanel;
+import app.gui.GUIManager;
 import app.gui.utils.GameStyle;
 
 import javax.swing.*;
@@ -18,6 +18,7 @@ import static app.cli.Utils.drawWindow;
 
 public class GamePanel extends JPanel{
 
+    public static boolean highlightLocked;
     private JLabel gameBoard;
     private SiedbarPanel sideBar;
 
@@ -37,8 +38,8 @@ public class GamePanel extends JPanel{
         this.registerKeyboardAction(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
-                cl.show(MainPanel.rootPanel, "PAUSE");
+                CardLayout cl = (CardLayout) GUIManager.rootPanel.getLayout();
+                cl.show(GUIManager.rootPanel, "PAUSE");
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_IN_FOCUSED_WINDOW);
 
@@ -114,10 +115,12 @@ public class GamePanel extends JPanel{
                     }
                     game.endSession();
                     resetBoard();
-                    CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
-                    cl.show(MainPanel.rootPanel, "MAINMENU");
+                    CardLayout cl = (CardLayout) GUIManager.rootPanel.getLayout();
+                    cl.show(GUIManager.rootPanel, "MAINMENU");
                 }
                 disableMoving = false;
+                highlightLocked = false;
+
             }
         });
         timer.setRepeats(false);
@@ -126,6 +129,7 @@ public class GamePanel extends JPanel{
 
 
     public void highlightWinner(boolean winner){
+        highlightLocked = true;
         for(Point point : Main.game.getWinningPositions()){
             if(winner)
                 board[point.x][point.y].markWinner();

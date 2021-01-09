@@ -2,7 +2,7 @@ package app.gui.panels;
 
 import app.Main;
 import app.gui.buttons.MenuButton;
-import app.gui.MainPanel;
+import app.gui.GUIManager;
 import app.gui.utils.GameStyle;
 import app.ticTacToe.Player;
 import app.ticTacToe.logic.EasyLogic;
@@ -94,13 +94,13 @@ public class NickDifficultyPanel extends JPanel {
                             break;
                     }
 
-                    CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
-                    cl.show(MainPanel.rootPanel, "GAME");
+                    CardLayout cl = (CardLayout) GUIManager.rootPanel.getLayout();
+                    cl.show(GUIManager.rootPanel, "GAME");
 
-                    ((JTextPane) MainPanel.gameView.getSidebar().getComponent(0)).setText("Mode:\n" + buttonGroup.getSelection().getActionCommand());
+                    ((JTextPane) GUIManager.gameView.getSidebar().getComponent(0)).setText("Mode:\n" + buttonGroup.getSelection().getActionCommand());
 
                     Main.game.setPlayer(new Player(nickField.getText()));
-                    (MainPanel.gameView.getSidebar()).setupPanel();
+                    (GUIManager.gameView.getSidebar()).setupPanel();
 
                 }else{
                     messageBox.setText("Set desired difficulty level and enter your nick.");
@@ -113,8 +113,8 @@ public class NickDifficultyPanel extends JPanel {
         backButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
-                cl.show(MainPanel.rootPanel, "MAINMENU");
+                CardLayout cl = (CardLayout) GUIManager.rootPanel.getLayout();
+                cl.show(GUIManager.rootPanel, "MAINMENU");
 
             }
         });

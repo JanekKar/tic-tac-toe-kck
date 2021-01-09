@@ -2,7 +2,7 @@ package app;
 
 import app.cli.Config;
 import app.cli.Game;
-import app.gui.MainPanel;
+import app.gui.GUIManager;
 import app.ticTacToe.BestScoreManager;
 import app.ticTacToe.TicTacToe;
 import app.ticTacToe.logic.TicTacToeLogic;
@@ -35,7 +35,7 @@ public class Main {
         logic = null;
 
         if(guiMode){
-            MainPanel.runWindowMode();
+            GUIManager.runWindowMode();
         }else{
             Game.setupGameConfig();
             try {

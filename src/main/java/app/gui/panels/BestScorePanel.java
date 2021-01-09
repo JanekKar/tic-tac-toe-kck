@@ -1,7 +1,7 @@
 package app.gui.panels;
 
 import app.gui.utils.CustomCellRenderer;
-import app.gui.MainPanel;
+import app.gui.GUIManager;
 import app.gui.utils.GameStyle;
 import app.ticTacToe.BestScoreManager;
 import app.ticTacToe.Player;
@@ -48,8 +48,8 @@ public class BestScorePanel extends JPanel {
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
-                cl.show(MainPanel.rootPanel, "MAINMENU");
+                CardLayout cl = (CardLayout) GUIManager.rootPanel.getLayout();
+                cl.show(GUIManager.rootPanel, "MAINMENU");
             }
         });
 

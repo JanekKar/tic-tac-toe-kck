@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class MainPanel {
+public class GUIManager {
 
     public static GamePanel gameView;
     protected static JFrame frame;

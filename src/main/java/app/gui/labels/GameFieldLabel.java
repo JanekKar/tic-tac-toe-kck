@@ -1,7 +1,8 @@
 package app.gui.labels;
 
 import app.Main;
-import app.gui.MainPanel;
+import app.gui.GUIManager;
+import app.gui.panels.GamePanel;
 import app.gui.utils.GameStyle;
 import lombok.SneakyThrows;
 
@@ -16,7 +17,6 @@ public class GameFieldLabel extends JLabel {
 
     private ImageIcon xField;
     private ImageIcon oField;
-    private ImageIcon emptyField;
 
 
     public GameFieldLabel(int x, int y) {
@@ -26,7 +26,6 @@ public class GameFieldLabel extends JLabel {
 
         this.xField = new ImageIcon(getClass().getResource("/img/x_field.png"));
         this.oField = new ImageIcon(getClass().getResource("/img/o_field.png"));
-        this.emptyField = new ImageIcon(getClass().getResource("/img/empty_field.png"));
 
         this.x = x;
         this.y = y;
@@ -34,14 +33,14 @@ public class GameFieldLabel extends JLabel {
         this.setOpaque(true);
         this.setSize(new Dimension(200, 200));
         this.setPreferredSize(new Dimension(200, 200));
-        this.setBackground(GameStyle.sidebarFields);
+        this.setBackground(GameStyle.emptyField);
 
         this.addMouseListener(new MouseAdapter() {
             @SneakyThrows
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(Main.game.checkIfFree(new Point(x,y)) && !MainPanel.gameView.disableMoving){
+                if(Main.game.checkIfFree(new Point(x,y)) && !GUIManager.gameView.disableMoving){
                     markAsX();
                     Main.game.makeMove(new Point(x, y));
                     Main.game.debugPrintBoard();
@@ -49,13 +48,13 @@ public class GameFieldLabel extends JLabel {
                     String result = Main.game.checkWinner();
                     if (result != null) {
                         if (!result.equals("TIE"))
-                            MainPanel.gameView.highlightWinner(true);
+                            GUIManager.gameView.highlightWinner(true);
                         else
                             System.out.println("TIE");
-                        MainPanel.gameView.nextRound();
+                        GUIManager.gameView.nextRound();
                         return;
                     }
-                    MainPanel.gameView.AIMove();
+                    GUIManager.gameView.AIMove();
                 }
 
             }
@@ -64,13 +63,15 @@ public class GameFieldLabel extends JLabel {
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
-                setBackground(GameStyle.fieldHighlight);
+                if(!GamePanel.highlightLocked)
+                    setBackground(GameStyle.fieldHighlight);
                 super.mouseEntered(e);
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                setBackground(GameStyle.sidebarFields);
+                if(!GamePanel.highlightLocked)
+                    setBackground(GameStyle.sidebarFields);
                 super.mouseExited(e);
             }
         });
@@ -79,7 +80,8 @@ public class GameFieldLabel extends JLabel {
 
 
     public void reset(){
-        this.setIcon(emptyField);
+        setBackground(GameStyle.emptyField);
+        setIcon(null);
         repaint();
         revalidate();
     }

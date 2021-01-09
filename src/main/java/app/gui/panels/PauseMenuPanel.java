@@ -1,7 +1,7 @@
 package app.gui.panels;
 
 import app.gui.buttons.MenuButton;
-import app.gui.MainPanel;
+import app.gui.GUIManager;
 import app.gui.labels.LogoPanel;
 import app.gui.utils.GameStyle;
 
@@ -39,16 +39,16 @@ public class PauseMenuPanel extends JPanel {
         resumeGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
-                cl.show(MainPanel.rootPanel, "GAME");
+                CardLayout cl = (CardLayout) GUIManager.rootPanel.getLayout();
+                cl.show(GUIManager.rootPanel, "GAME");
             }
         });
 
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                CardLayout cl = (CardLayout) MainPanel.rootPanel.getLayout();
-                cl.show(MainPanel.rootPanel, "MAINMENU");
+                CardLayout cl = (CardLayout) GUIManager.rootPanel.getLayout();
+                cl.show(GUIManager.rootPanel, "MAINMENU");
             }
         });
 
