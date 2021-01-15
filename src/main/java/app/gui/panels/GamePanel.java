@@ -88,8 +88,6 @@ public class GamePanel extends JPanel{
                 if (result != null) {
                     if (!result.equals("TIE"))
                         highlightWinner(false);
-                    else
-                        System.out.println("TIE");
                     nextRound();
                 }
                 disableMoving = false;

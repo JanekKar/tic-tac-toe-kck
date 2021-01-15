@@ -43,14 +43,11 @@ public class GameFieldLabel extends JLabel {
                 if(Main.game.checkIfFree(new Point(x,y)) && !GUIManager.gameView.disableMoving){
                     markAsX();
                     Main.game.makeMove(new Point(x, y));
-                    Main.game.debugPrintBoard();
 
                     String result = Main.game.checkWinner();
                     if (result != null) {
                         if (!result.equals("TIE"))
                             GUIManager.gameView.highlightWinner(true);
-                        else
-                            System.out.println("TIE");
                         GUIManager.gameView.nextRound();
                         return;
                     }

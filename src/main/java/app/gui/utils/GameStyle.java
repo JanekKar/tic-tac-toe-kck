@@ -23,4 +23,7 @@ public class GameStyle {
     public static Color sidebarFields = new Color(255, 255, 255);
 
     public static Color tableCellBackground = menuBackgroundLighter;
+    public static Color tableCellBackgroundLighter = new Color(140,140,140);
+
+    public static String fontName = "Anonymous Pro, Bold";
 }

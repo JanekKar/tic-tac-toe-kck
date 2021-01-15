@@ -37,9 +37,7 @@ public class NickDifficultyPanel extends JPanel {
     private ButtonGroup buttonGroup;
 
     public NickDifficultyPanel(){
-        LayoutManager mainLayout = new GridLayout(2, 1, 10, 10);
-
-        this.setLayout(mainLayout);
+        this.setLayout(new GridLayout(2, 1, 10, 0));
         this.setBackground(GameStyle.menuBackground);
         this.setBorder(new EmptyBorder(80, 20, 20, 20));
 
@@ -57,7 +55,7 @@ public class NickDifficultyPanel extends JPanel {
 
         nickField = new JTextField();
         nickField.setPreferredSize(new Dimension(200, 30));
-        nickField.setFont(new Font(nickField.getFont().getName(), Font.BOLD, 18));
+        nickField.setFont(new Font(GameStyle.fontName, Font.BOLD, 18));
         nickField.setBackground(GameStyle.menuBackgroundLighter);
         nickField.setForeground(Color.WHITE);
         nickField.setBorder(new EmptyBorder(2, 2, 2, 2));
@@ -121,7 +119,7 @@ public class NickDifficultyPanel extends JPanel {
 
         messageBox = new JLabel("", SwingConstants.CENTER);
         messageBox.setForeground(GameStyle.menuAlert);
-        messageBox.setFont(new Font(messageBox.getFont().getName(), Font.BOLD, 15));
+        messageBox.setFont(new Font(GameStyle.fontName, Font.BOLD, 15));
         messageBox.setBackground(GameStyle.menuBackgroundLighter);
 
 
@@ -133,7 +131,7 @@ public class NickDifficultyPanel extends JPanel {
 
 
         JLabel difficultyLabel = new JLabel("Choose Difficulty: ");
-        difficultyLabel.setFont(new Font(difficultyLabel.getFont().getName(), Font.BOLD, 20));
+        difficultyLabel.setFont(new Font(GameStyle.fontName, Font.BOLD, 20));
         difficultyLabel.setForeground(GameStyle.buttonBackground);
 
 
@@ -150,7 +148,7 @@ public class NickDifficultyPanel extends JPanel {
         nickPanel.setBackground(GameStyle.menuBackground);
 
         JLabel nickLabel = new JLabel("Enter Nick:");
-        nickLabel.setFont(new Font(nickLabel.getFont().getName(), Font.BOLD, 20));
+        nickLabel.setFont(new Font(GameStyle.fontName, Font.BOLD, 20));
         nickLabel.setForeground(GameStyle.buttonBackground);
         nickPanel.add(nickLabel);
         nickPanel.add(nickField);
@@ -185,7 +183,7 @@ public class NickDifficultyPanel extends JPanel {
 
     private JRadioButton prepareButton(String text){
         JRadioButton temp = new JRadioButton(text);
-        temp.setFont(new Font(temp.getFont().getName(), Font.BOLD, 18));
+        temp.setFont(new Font(GameStyle.fontName, Font.BOLD, 18));
         temp.setActionCommand(text.toUpperCase());
         temp.setBackground(GameStyle.menuBackgroundLighter);
         temp.setIcon(new ImageIcon());

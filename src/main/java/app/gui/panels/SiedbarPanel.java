@@ -58,7 +58,7 @@ public class SiedbarPanel extends JPanel {
     private JTextPane prepLabel() {
         JTextPane temp = new JTextPane();
         temp.setOpaque(true);
-        temp.setFont(new Font(temp.getFont().getName(), Font.BOLD, 20));
+        temp.setFont(new Font(GameStyle.fontName, Font.BOLD, 20));
         temp.setBackground(GameStyle.sidebarFields);
         temp.setFocusable(false);
         temp.setEditable(false);

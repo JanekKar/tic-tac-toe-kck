@@ -7,7 +7,6 @@
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/ACSILogo.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/menus/MainMenu.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/Utils.java
-/home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/gui/MainPanel.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/gui/labels/GameFieldLabel.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/gui/panels/PauseMenuPanel.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/colors/MatrixColors.java
@@ -16,6 +15,7 @@
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/gui/buttons/MenuButton.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/controls/WASDControls.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/Main.java
+/home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/gui/GUIManager.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/gui/panels/SiedbarPanel.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/ticTacToe/logic/HardLogic.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/ticTacToe/Player.java

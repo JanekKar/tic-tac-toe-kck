@@ -13,7 +13,7 @@ public class MenuButton extends JButton {
     public MenuButton(String text) {
         super(text);
         butoton = this;
-        this.setFont(new Font("Courier", Font.BOLD, 20));
+        this.setFont(new Font(GameStyle.fontName, Font.BOLD, 20));
         this.setPreferredSize(new Dimension(400, 50));
         this.setBackground(GameStyle.buttonBackground);
         this.addMouseListener(new java.awt.event.MouseAdapter() {

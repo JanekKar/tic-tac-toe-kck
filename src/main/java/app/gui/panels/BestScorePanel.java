@@ -1,16 +1,23 @@
 package app.gui.panels;
 
+import app.cli.Game;
+import app.gui.buttons.MenuButton;
 import app.gui.utils.CustomCellRenderer;
 import app.gui.GUIManager;
 import app.gui.utils.GameStyle;
+import app.gui.utils.HeaderRenderer;
 import app.ticTacToe.BestScoreManager;
 import app.ticTacToe.Player;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Enumeration;
 import java.util.List;
 
 public class BestScorePanel extends JPanel {
@@ -19,32 +26,24 @@ public class BestScorePanel extends JPanel {
     private JButton quitGame;
 
     public BestScorePanel() {
-        LayoutManager mainLayout = new FlowLayout();
-
-        this.setLayout(mainLayout);
         this.setBackground(GameStyle.menuBackground);
-        this.setBorder(new EmptyBorder(20, 20, 20, 20));
+        this.setBorder(new EmptyBorder(100, 20, 20, 20));
 
         JPanel buttonContainer = new JPanel();
-        LayoutManager buttonLayout = new GridLayout(2, 1, 20, 20);
+        LayoutManager buttonLayout = new GridLayout(2, 1, 20, 30);
         buttonContainer.setLayout(buttonLayout);
         buttonContainer.setBackground(GameStyle.menuBackground);
 
-        LayoutManager l1 = new FlowLayout();
-        LayoutManager l2 = new FlowLayout();
-
         JPanel pane1 = new JPanel();
         JPanel pane2 = new JPanel();
-
-        pane1.setLayout(l1);
-        pane2.setLayout(l2);
+        pane1.setLayout(new FlowLayout());
+        pane2.setLayout(new FlowLayout());
 
         pane1.setBackground(GameStyle.menuBackground);
         pane2.setBackground(GameStyle.menuBackground);
 
 
-
-        quitGame = new JButton("Go Back");
+        quitGame = new MenuButton("Go Back");
         quitGame.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -71,11 +70,35 @@ public class BestScorePanel extends JPanel {
         scoreTable.setDefaultEditor(Object.class, null);
         scoreTable.setCellSelectionEnabled(false);
         scoreTable.setDefaultRenderer(Object.class, new CustomCellRenderer());
+        scoreTable.setBorder(null);
+        scoreTable.setGridColor(GameStyle.menuBackground);
+        scoreTable.setShowGrid(false);
+        scoreTable.setShowVerticalLines(true);
+        scoreTable.setIntercellSpacing(new Dimension(0, 0));
+
+        scoreTable.getTableHeader().setOpaque(false);
+        scoreTable.getTableHeader().setPreferredSize(new Dimension(20,40));
+        scoreTable.getTableHeader().setBackground(GameStyle.menuBackground);
+        scoreTable.getTableHeader().setDefaultRenderer(new HeaderRenderer());
+
+        scoreTable.setRowHeight(30);
+        TableColumnModel cm = scoreTable.getColumnModel();
+        cm.getColumn(0).setPreferredWidth(100);
+        cm.getColumn(2).setPreferredWidth(25);
+        cm.getColumn(3).setPreferredWidth(25);
+        cm.getColumn(4).setPreferredWidth(25);
+        Enumeration<TableColumn> cols = cm.getColumns();
+        while(cols.hasMoreElements()){
+            TableColumn el = cols.nextElement();
+            el.setResizable(false);
+        }
 
 
         JScrollPane temp = new JScrollPane(scoreTable);
         temp.setPreferredSize(new Dimension(500, 200));
+        temp.setBorder(null);
         temp.setBackground(GameStyle.menuBackground);
+        temp.setBorder(new LineBorder(GameStyle.menuBackground, 5));
         pane1.add(temp);
         pane2.add(quitGame);
 
