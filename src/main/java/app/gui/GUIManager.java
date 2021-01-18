@@ -24,6 +24,10 @@ public class GUIManager {
 
         frame = new JFrame("TicTacToe");
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+        ImageIcon icon = new ImageIcon("./resources/img/x_field.png");
+        frame.setIconImage(icon.getImage());
+
         frame.addWindowListener(new WindowAdapter(){
             @Override
             public void windowClosing(WindowEvent e) {
