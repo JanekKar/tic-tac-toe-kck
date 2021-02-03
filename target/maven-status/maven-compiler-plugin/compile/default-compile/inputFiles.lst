@@ -2,6 +2,7 @@
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/menus/PauseMenu.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/Config.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/Game.java
+/home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/gui/utils/HeaderRenderer.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/ticTacToe/logic/EasyLogic.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/controls/DefaultControls.java
 /home/janek/dev/kck/tic-tac-toe-kck/src/main/java/app/cli/ACSILogo.java
