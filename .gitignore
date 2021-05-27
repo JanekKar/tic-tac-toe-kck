@@ -147,4 +147,4 @@ hs_err_pid*
 .ttt_config.cfg
 .vscode
 
-target
+target/
