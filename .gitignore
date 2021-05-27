@@ -145,3 +145,6 @@ hs_err_pid*
 
 .score.jk
 .ttt_config.cfg
+.vscode
+
+target
